@@ -12,7 +12,6 @@
             --text-main: #f0f6fc;
             --text-muted: #8b949e;
             
-            /* DYNAMISCHE ROLLENFARBEN */
             --color-pl: #ffb703;
             --color-stellv: #2196f3;
             --color-admin: #ff4d4d;
@@ -59,7 +58,6 @@
         .card-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 10px; margin-bottom: 15px; }
         .role-badge { font-size: 1.25rem; font-weight: 700; }
         
-        /* DYNAMISCHE FARBSTYLE-REGELN */
         .card-pl { border-color: var(--color-pl); box-shadow: 0 0 15px rgba(255, 183, 3, 0.15); }
         .card-pl .role-badge, .card-pl .member-name { color: var(--color-pl); }
         .card-pl .tag { background: rgba(255, 183, 3, 0.15); color: var(--color-pl); border: 1px solid var(--color-pl); }
@@ -100,7 +98,6 @@
         .card-praktikant .tag { background: rgba(255, 159, 28, 0.15); color: var(--color-praktikant); border: 1px solid var(--color-praktikant); }
         .card-praktikant .tasks-list li::before { color: var(--color-praktikant); }
 
-        /* TAGS & TEXTS */
         .tag { font-size: 0.75rem; padding: 4px 10px; border-radius: 6px; font-weight: 700; text-transform: uppercase; }
         .member-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 6px; }
         .tasks-list { list-style: none; }
@@ -108,7 +105,6 @@
         .tasks-list li::before { content: "•"; position: absolute; left: 0; font-size: 1.4rem; top: -3px; }
         .note-box { margin-top: 15px; padding: 10px 12px; border-radius: 6px; font-size: 0.85rem; color: var(--text-muted); background: rgba(0,0,0,0.2); border-left: 3px solid var(--card-border); }
 
-        /* ESKALATIONSWEG & TABELLE */
         .flow-chart { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; margin-top: 10px; }
         .flow-step { background: rgba(0,0,0,0.4); border: 1px solid var(--card-border); padding: 10px 14px; border-radius: 8px; text-align: center; flex: 1; font-weight: 600; font-size: 0.85rem; }
         .flow-arrow { color: var(--color-tl); font-weight: bold; }
@@ -117,7 +113,6 @@
         .custom-table th, .custom-table td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); font-size: 0.9rem; }
         .custom-table th { color: var(--color-tl); font-size: 0.8rem; text-transform: uppercase; }
 
-        /* CHAT & SUGGESTIONS */
         .chat-box { height: 220px; overflow-y: auto; background: rgba(0,0,0,0.3); border: 1px solid var(--card-border); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
         .chat-msg { background: var(--card-bg); padding: 8px 12px; border-radius: 6px; font-size: 0.88rem; border-left: 3px solid var(--color-stellv); display: flex; justify-content: space-between; align-items: center; }
         .btn-delete { background: transparent; border: none; color: var(--color-admin); cursor: pointer; font-size: 0.9rem; opacity: 0.8; padding: 2px 5px; }
@@ -142,7 +137,7 @@
 
         <div class="login-bar">
             <div class="login-controls" id="loginForm">
-                <select id="userSelect"><option value="">-- User auswählen --</option></select>
+                <select id="userSelect"><option value="">-- Lädt User... --</option></select>
                 <input type="password" id="passwordInput" placeholder="Passwort">
                 <button class="btn btn-primary" id="btnLogin">Anmelden</button>
             </div>
@@ -152,7 +147,6 @@
             </div>
 
             <div class="dropdown-menu" id="dropdownMenu">
-                <!-- BENUTZER ANLEGEN (TEAMLEITUNG & HIGHTEAM) -->
                 <div class="dropdown-section" id="adminUserManagement" style="display: none;">
                     <div class="dropdown-title">➕ Neuen User anlegen</div>
                     <input type="text" id="newUsername" class="custom-input" placeholder="Name (z.B. GC|Name)" style="width: 100%; margin-bottom: 5px;">
@@ -167,7 +161,6 @@
                     <button class="btn btn-primary" id="btnCreateUser" style="width: 100%; font-size: 0.8rem;">User Speichern</button>
                 </div>
 
-                <!-- FARBANPASSUNGSMENÜ -->
                 <div class="dropdown-section">
                     <div class="dropdown-title">🎨 Design & Farben anpassen</div>
                     <div class="color-picker-grid">
@@ -196,7 +189,6 @@
     </header>
 
     <div class="container" id="mainContainer">
-
         <!-- PROJEKTLEITUNG -->
         <div class="card card-pl">
             <div class="card-header">
@@ -214,9 +206,6 @@
                 <li>Entscheidung über Beförderungen und Degradierungen</li>
                 <li>Freigabe größerer Änderungen am Server</li>
             </ul>
-            <div class="note-box">
-                <strong>Grundsatz:</strong> Hat den Überblick über sämtliche Bereiche und greift ein, wenn Entscheidungen mehrere Abteilungen betreffen.
-            </div>
         </div>
 
         <!-- STELLV. PROJEKTLEITUNG -->
@@ -235,9 +224,6 @@
                 <li>Vertretung der Projektleitung bei Abwesenheit</li>
                 <li>Ansprechpartner für Administration und Support</li>
             </ul>
-            <div class="note-box">
-                <strong>Wichtig:</strong> Arbeitet eng mit Jonny zusammen und stimmt größere Entscheidungen ab.
-            </div>
         </div>
 
         <!-- ADMINISTRATION -->
@@ -252,14 +238,10 @@
                 <li>Unterstützung des Support-Teams</li>
                 <li>Prüfung von Regelverstößen</li>
                 <li>Administrative Maßnahmen & Einreiseprobleme</li>
-                <li>Weitergabe größerer Fälle an die Teamleitung/PL</li>
             </ul>
-            <div class="note-box">
-                <strong>Wichtig:</strong> Support versucht Probleme zuerst selbstständig zu lösen, bevor die Administration übernimmt.
-            </div>
         </div>
 
-        <!-- TEAMLEITUNG & ADMIN -->
+        <!-- TEAMLEITUNG -->
         <div class="card card-tl">
             <div class="card-header">
                 <div class="role-badge">🛡️ Teamleitung & Admin</div>
@@ -271,13 +253,10 @@
                 <li>Einarbeitung & Überwachung von Praktikanten</li>
                 <li>Ansprechpartner für Supporter und Praktikanten</li>
                 <li>Durchführung/Unterstützung bei Teamgesprächen</li>
-                <li>Bearbeitung schwieriger Tickets & Beschwerden</li>
-                <li>Sanktionen bei Regelverstößen</li>
-                <li>Eskalierte Supportfälle übernehmen</li>
             </ul>
         </div>
 
-        <!-- TECHNISCHER BEREICH -->
+        <!-- TECHNIK -->
         <div class="card card-tech">
             <div class="card-header">
                 <div class="role-badge">💻 Technischer Bereich</div>
@@ -287,12 +266,10 @@
             <ul class="tasks-list">
                 <li>Unterstützung bei Scriptarbeiten & Überarbeitung</li>
                 <li>Fehleranalyse und Bug-Reporting</li>
-                <li>Testen neuer Funktionen auf dem Testserver</li>
-                <li>Dokumentation von technischen Änderungen</li>
             </ul>
         </div>
 
-        <!-- REGELWERK-MANAGEMENT -->
+        <!-- REGELWERK -->
         <div class="card card-rules">
             <div class="card-header">
                 <div class="role-badge">📜 Regelwerk-Management</div>
@@ -302,8 +279,6 @@
             <ul class="tasks-list">
                 <li>Überprüfung und Aktualisierung des Regelwerks</li>
                 <li>Sammeln von Verbesserungsvorschlägen</li>
-                <li>Ausarbeitung neuer Regelungen</li>
-                <li>Einholen von Team-Feedback</li>
             </ul>
         </div>
 
@@ -317,8 +292,6 @@
             <ul class="tasks-list">
                 <li>Erster Ansprechpartner für die Community</li>
                 <li>Bearbeitung von Supporttickets & Spielerfragen</li>
-                <li>Hilfe bei technischen/Einreisen-Problemen</li>
-                <li>Aufnahme von Bugs & Weiterleitung an Admin</li>
             </ul>
         </div>
 
@@ -332,56 +305,8 @@
             <ul class="tasks-list">
                 <li>Einarbeitung & Lernen der Serverregeln</li>
                 <li>Teilnahme am Support & Begleitung erfahrener Supporter</li>
-                <li>Durchführung von Einreisen unter Anleitung</li>
-                <li>Aufnahme einfacher Fragen und Bugs</li>
             </ul>
         </div>
-
-        <!-- ESKALATIONSWEG -->
-        <div class="card full-width" style="border-color: var(--color-tl);">
-            <div class="card-header">
-                <div class="role-badge" style="color: var(--color-tl);">🔄 Eskalationsweg</div>
-            </div>
-            <div class="flow-chart">
-                <div class="flow-step">👤 Spieler</div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step">🎓 Praktikant / Support</div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step">🛡️ Teamleitung</div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step">⚖️ Administration</div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step">⭐ Stellv. Projektleitung</div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step">👑 Projektleitung / Highteam</div>
-            </div>
-        </div>
-
-        <!-- INTERNE ZUSTÄNDIGKEITEN TABELLE -->
-        <div class="card full-width" style="border-color: var(--color-stellv);">
-            <div class="card-header">
-                <div class="role-badge" style="color: var(--color-stellv);">🧩 Interne Zuständigkeiten</div>
-            </div>
-            <table class="custom-table">
-                <thead>
-                    <tr>
-                        <th>Bereich</th>
-                        <th>Hauptverantwortung</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Projektleitung</td><td>GC|unclJonny</td></tr>
-                    <tr><td>Stellv. Projektleitung</td><td>GC|Amy</td></tr>
-                    <tr><td>Administration</td><td>GC|Russo & GC|Kleinchen</td></tr>
-                    <tr><td>Teamleitung</td><td>GC|Kleinchen</td></tr>
-                    <tr><td>Support</td><td>GC|Jan Schmahn, GC|Latrell, GC|Vladimir Volkov</td></tr>
-                    <tr><td>Regelwerk-Management</td><td>GC|Vladimir Volkov</td></tr>
-                    <tr><td>Script-Unterstützung</td><td>GC|BOB</td></tr>
-                    <tr><td>Praktikanten</td><td>GC|BOB, GC|Wolfi, GC|Tuncay</td></tr>
-                </tbody>
-            </table>
-        </div>
-
     </div>
 
     <!-- LIVE CHAT & VORSCHLÄGE SECTION -->
@@ -410,7 +335,6 @@
     </div>
 
     <script>
-        /* LIVE-UHR */
         function updateClock() {
             const now = new Date();
             document.getElementById("clockTime").textContent = now.toLocaleTimeString('de-DE');
@@ -419,7 +343,6 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        /* MENÜ TOGGLE */
         const btnToggleMenu = document.getElementById("btnToggleMenu");
         const dropdownMenu = document.getElementById("dropdownMenu");
         if(btnToggleMenu) {
@@ -431,7 +354,6 @@
         document.addEventListener("click", () => dropdownMenu.classList.remove("show"));
         dropdownMenu.addEventListener("click", (e) => e.stopPropagation());
 
-        /* COLOR PICKER LOGIK */
         const colorPickers = {
             '--color-pl': 'pick-pl',
             '--color-stellv': 'pick-stellv',
@@ -447,13 +369,11 @@
         Object.keys(colorPickers).forEach(varName => {
             const picker = document.getElementById(colorPickers[varName]);
             if(picker) {
-                // Gespeicherte Farben laden
                 const savedColor = localStorage.getItem(varName);
                 if(savedColor) {
                     document.documentElement.style.setProperty(varName, savedColor);
                     picker.value = savedColor;
                 }
-                // Live ändern beim Auswählen
                 picker.addEventListener('input', (e) => {
                     const colorVal = e.target.value;
                     document.documentElement.style.setProperty(varName, colorVal);
@@ -486,7 +406,7 @@
         let registeredUsers = {};
         let currentUser = null;
 
-        /* ALLE TEAMLER IN DIE ANMELDUNG EINFÜGEN */
+        /* ALLE DIESE BENUTZER WERDEN ERZWUNGEN NEU GESPEICHERT */
         const defaultUsers = {
             "GC|unclJonny": { pass: "1234", role: "Highteam" },
             "GC|Amy": { pass: "1234", role: "Highteam" },
@@ -503,7 +423,9 @@
         function populateUserDropdown() {
             const select = document.getElementById("userSelect");
             select.innerHTML = '<option value="">-- User auswählen --</option>';
-            Object.keys(registeredUsers).forEach(u => {
+            
+            // Sortierte Liste anzeigen
+            Object.keys(registeredUsers).sort().forEach(u => {
                 const opt = document.createElement("option");
                 opt.value = u;
                 opt.textContent = `${u} (${registeredUsers[u].role})`;
@@ -521,7 +443,6 @@
             document.getElementById("sec-chat").style.display = "grid";
             document.getElementById("currentUsername").textContent = `${user} (${userObj.role})`;
 
-            // SOWOHL Highteam ALS AUCH Teamleitung dürfen neue User anlegen!
             if (userObj.role === "Highteam" || userObj.role === "Teamleitung") {
                 document.getElementById("adminUserManagement").style.display = "block";
             } else {
@@ -530,22 +451,30 @@
         }
 
         onSnapshot(usersRef, (snapshot) => {
-            if (snapshot.exists() && snapshot.data()) {
-                registeredUsers = snapshot.data();
-            } else {
-                registeredUsers = defaultUsers;
-                setDoc(usersRef, defaultUsers);
+            let existingUsers = snapshot.exists() ? snapshot.data() : {};
+            
+            // HIER DIE KORREKTUR: Fehlende Nutzer automatisch in Firebase hinzufügen!
+            let needsUpdate = false;
+            Object.keys(defaultUsers).forEach(username => {
+                if (!existingUsers[username]) {
+                    existingUsers[username] = defaultUsers[username];
+                    needsUpdate = true;
+                }
+            });
+
+            if (needsUpdate || !snapshot.exists()) {
+                setDoc(usersRef, existingUsers, { merge: true });
             }
+
+            registeredUsers = existingUsers;
             populateUserDropdown();
 
-            // Automatische Wieder-Anmeldung nach Seiten-Aktualisierung
             const savedUser = localStorage.getItem("loggedInUser");
             if (savedUser && registeredUsers[savedUser]) {
                 applyLoginState(savedUser);
             }
         });
 
-        /* USER ANLEGEN */
         document.getElementById("btnCreateUser").addEventListener("click", async () => {
             const name = document.getElementById("newUsername").value.trim();
             const pass = document.getElementById("newUserPass").value.trim();
@@ -554,13 +483,12 @@
             if(!name || !pass) return alert("Bitte Name und Passwort eingeben!");
 
             registeredUsers[name] = { pass: pass, role: role };
-            await setDoc(usersRef, registeredUsers);
+            await setDoc(usersRef, registeredUsers, { merge: true });
             alert(`✅ User ${name} erfolgreich als ${role} erstellt!`);
             document.getElementById("newUsername").value = "";
             document.getElementById("newUserPass").value = "";
         });
 
-        /* LOGIN & LOGOUT */
         document.getElementById("btnLogin").addEventListener("click", () => {
             const user = document.getElementById("userSelect").value;
             const pass = document.getElementById("passwordInput").value;
@@ -580,7 +508,6 @@
             location.reload();
         });
 
-        /* LIVE CHAT MIT LÖSCHFUNKTION */
         onSnapshot(chatRef, (snapshot) => {
             const chatBox = document.getElementById("chatBox");
             chatBox.innerHTML = "";
@@ -617,7 +544,6 @@
             input.value = "";
         });
 
-        /* VORSCHLÄGE */
         onSnapshot(suggestionsRef, (snapshot) => {
             const listDiv = document.getElementById("suggestionList");
             listDiv.innerHTML = "";
@@ -656,5 +582,3 @@
     </script>
 </body>
 </html>
-
-```
