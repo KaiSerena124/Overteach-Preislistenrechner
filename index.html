@@ -19,26 +19,57 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding: 20px; min-height: 100vh; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding: 20px; min-height: 100vh; transition: background-color 0.3s, color 0.3s; }
 
-        /* Login Banner */
-        .login-bar {
+        /* HEADER BAR & LIVE CLOCK */
+        .top-bar {
             max-width: 1200px;
             margin: 0 auto 20px auto;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 15px 20px;
-            border-radius: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 15px;
             flex-wrap: wrap;
-            gap: 10px;
         }
 
-        .login-controls { display: flex; gap: 10px; align-items: center; }
+        .live-clock-container {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--accent-purple);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
+            padding: 8px 18px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .clock-time {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #f8fafc;
+            text-shadow: 0 0 8px var(--accent-purple);
+        }
+        .clock-date { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* LOGIN BAR & USER MENU */
+        .login-bar {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 12px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
         .login-controls select, .login-controls input, .custom-input {
-            background: #0f172a;
+            background: rgba(0,0,0,0.2);
             color: var(--text-main);
             border: 1px solid var(--card-border);
             padding: 8px 12px;
@@ -46,19 +77,59 @@
             outline: none;
         }
 
-        .user-status { font-weight: 600; color: #10b981; display: none; align-items: center; gap: 10px; }
+        .user-menu-btn {
+            background: var(--accent-purple);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+        }
+
+        /* DROPDOWN MENU */
+        .dropdown-menu {
+            position: absolute;
+            top: 115%;
+            right: 0;
+            width: 280px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 15px;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        .dropdown-menu.show { display: flex; }
+        .dropdown-section { border-bottom: 1px solid var(--card-border); padding-bottom: 10px; margin-bottom: 5px; }
+        .dropdown-section:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+        .dropdown-title { font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 8px; }
+
+        .nav-select { width: 100%; padding: 8px; background: rgba(0,0,0,0.2); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 6px; }
+        
+        .color-picker-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .color-item { display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; }
+        .color-item input[type="color"] { border: none; width: 25px; height: 25px; cursor: pointer; background: transparent; }
 
         header {
             max-width: 1200px;
             margin: 0 auto 30px auto;
             text-align: center;
             padding: 30px 20px;
-            background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%);
             border: 1px solid var(--card-border);
             border-radius: 16px;
         }
 
-        h1 { font-size: 2.2rem; background: linear-gradient(90deg, #a855f7, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h1 { font-size: 2.2rem; background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .subtitle { color: var(--text-muted); font-size: 1rem; }
 
         .action-bar {
@@ -80,9 +151,9 @@
             font-weight: 600;
             transition: all 0.2s;
         }
-        .btn:hover { background: #334155; }
-        .btn-primary { background: #6366f1; border-color: #6366f1; }
-        .btn-primary:hover { background: #4f46e5; }
+        .btn:hover { filter: brightness(1.2); }
+        .btn-primary { background: #6366f1; border-color: #6366f1; color: white; }
+        .btn-danger { background: var(--accent-red); border-color: var(--accent-red); color: white; width: 100%; margin-top: 5px; }
 
         .container {
             max-width: 1200px;
@@ -93,7 +164,7 @@
         }
 
         .full-width { grid-column: 1 / -1; }
-        .card { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 24px; }
+        .card { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 24px; transition: background-color 0.3s, border-color 0.3s; }
         .card-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 12px; margin-bottom: 16px; }
         .role-badge { font-size: 1.25rem; font-weight: 700; }
         .tag { font-size: 0.75rem; padding: 4px 10px; border-radius: 12px; font-weight: 600; text-transform: uppercase; }
@@ -106,28 +177,26 @@
 
         .member-name { font-size: 1.1rem; font-weight: 600; color: #e2e8f0; margin-bottom: 12px; }
         .tasks-list { list-style: none; }
-        .tasks-list li { position: relative; padding-left: 20px; margin-bottom: 8px; color: #cbd5e1; }
+        .tasks-list li { position: relative; padding-left: 20px; margin-bottom: 8px; color: var(--text-main); }
         .tasks-list li::before { content: "•"; position: absolute; left: 4px; color: var(--accent-purple); font-size: 1.2rem; }
-        .note-box { margin-top: 15px; padding: 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border-left: 3px solid var(--accent-purple); font-size: 0.88rem; color: #94a3b8; }
+        .note-box { margin-top: 15px; padding: 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border-left: 3px solid var(--accent-purple); font-size: 0.88rem; color: var(--text-muted); }
 
-        /* Schreibschutz Standard */
         [contenteditable="true"], [contenteditable="false"] { outline: none; }
         .edit-active [contenteditable="true"]:hover { background: rgba(255, 255, 255, 0.05); cursor: pointer; }
         .edit-active [contenteditable="true"]:focus { background: rgba(255, 255, 255, 0.1); box-shadow: 0 0 0 2px var(--accent-purple); }
 
         .flow-chart { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-top: 20px; }
-        .flow-step { background: #0f172a; border: 1px solid var(--card-border); padding: 12px 18px; border-radius: 10px; text-align: center; flex: 1; font-weight: 600; }
+        .flow-step { background: rgba(0,0,0,0.2); border: 1px solid var(--card-border); padding: 12px 18px; border-radius: 10px; text-align: center; flex: 1; font-weight: 600; }
         .flow-arrow { color: var(--text-muted); font-size: 1.2rem; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--card-border); }
         th { background: rgba(0, 0, 0, 0.2); color: var(--text-muted); }
 
-        /* Chat & Vorschläge Style */
         .chat-box {
             height: 250px;
             overflow-y: auto;
-            background: #0f172a;
+            background: rgba(0,0,0,0.2);
             border: 1px solid var(--card-border);
             border-radius: 8px;
             padding: 12px;
@@ -137,13 +206,13 @@
             margin-bottom: 12px;
         }
         .chat-msg {
-            background: #1e293b;
+            background: var(--card-bg);
             padding: 8px 12px;
             border-radius: 8px;
             font-size: 0.9rem;
             border-left: 3px solid var(--accent-blue);
         }
-        .chat-msg .author { font-weight: 700; color: #a855f7; margin-right: 8px; font-size: 0.85rem; }
+        .chat-msg .author { font-weight: 700; color: var(--accent-purple); margin-right: 8px; font-size: 0.85rem; }
         .chat-msg .time { color: var(--text-muted); font-size: 0.75rem; float: right; }
         .chat-input-container { display: flex; gap: 8px; }
         .chat-input-container input { flex: 1; }
@@ -157,7 +226,7 @@
             gap: 8px;
         }
         .suggestion-item {
-            background: #0f172a;
+            background: rgba(0,0,0,0.2);
             padding: 10px 14px;
             border-radius: 8px;
             border: 1px solid var(--card-border);
@@ -167,29 +236,78 @@
 </head>
 <body>
 
-    <!-- LOGIN AREA -->
-    <div class="login-bar">
-        <div>🔒 <strong>Status:</strong> <span id="lockStatus">Nicht angemeldet</span></div>
-        <div class="login-controls" id="loginForm">
-            <select id="userSelect">
-                <option value="">-- Name auswählen --</option>
-                <option value="GC|unclJonny">GC|unclJonny (Projektleitung)</option>
-                <option value="GC|Amy">GC|Amy (Stellv. Projektleitung)</option>
-                <option value="GC|Kleinchen">GC|Kleinchen (Teamleitung & Admin)</option>
-                <option value="GC|Russo">GC|Russo (Administration)</option>
-                <option value="GC|BOB">GC|BOB (Scripting / Praktikant)</option>
-                <option value="GC|Vladimir Volkov">GC|Vladimir Volkov (Regelwerk)</option>
-                <option value="GC|Jan Schmahn">GC|Jan Schmahn (Support)</option>
-                <option value="GC|Latrell">GC|Latrell (Praktikant)</option>
-                <option value="GC|Wolfi">GC|Wolfi (Praktikant)</option>
-                <option value="GC|Tuncay">GC|Tuncay (Praktikant)</option>
-            </select>
-            <input type="password" id="passwordInput" placeholder="Passwort eingeben">
-            <button class="btn btn-primary" id="btnLogin">Anmelden</button>
+    <!-- TOP CONTROL BAR WITH LIVE CLOCK & MENU -->
+    <div class="top-bar">
+        <!-- LIVE CLOCK -->
+        <div class="live-clock-container">
+            <div>
+                <div class="clock-time" id="clockTime">00:00:00</div>
+                <div class="clock-date" id="clockDate">Montag, 01. Jan</div>
+            </div>
         </div>
-        <div class="user-status" id="loggedInView">
-            <span>Angemeldet als: <strong id="currentUsername"></strong></span>
-            <button class="btn" id="btnLogout">Abmelden</button>
+
+        <!-- LOGIN / MENU AREA -->
+        <div class="login-bar">
+            <!-- LOGIN FORM -->
+            <div class="login-controls" id="loginForm">
+                <select id="userSelect">
+                    <option value="">-- Name auswählen --</option>
+                    <option value="GC|unclJonny">GC|unclJonny (Projektleitung)</option>
+                    <option value="GC|Amy">GC|Amy (Stellv. Projektleitung)</option>
+                    <option value="GC|Kleinchen">GC|Kleinchen (Teamleitung & Admin)</option>
+                    <option value="GC|Russo">GC|Russo (Administration)</option>
+                    <option value="GC|BOB">GC|BOB (Scripting / Praktikant)</option>
+                    <option value="GC|Vladimir Volkov">GC|Vladimir Volkov (Regelwerk)</option>
+                    <option value="GC|Jan Schmahn">GC|Jan Schmahn (Support)</option>
+                    <option value="GC|Latrell">GC|Latrell (Praktikant)</option>
+                    <option value="GC|Wolfi">GC|Wolfi (Praktikant)</option>
+                    <option value="GC|Tuncay">GC|Tuncay (Praktikant)</option>
+                </select>
+                <input type="password" id="passwordInput" placeholder="Passwort eingeben">
+                <button class="btn btn-primary" id="btnLogin">Anmelden</button>
+            </div>
+
+            <!-- LOGGED IN VIEW & DROPDOWN TRIGGER -->
+            <div id="loggedInView" style="display: none; align-items: center; gap: 10px;">
+                <button class="user-menu-btn" id="btnToggleMenu">
+                    👤 <span id="currentUsername">User</span> ⚙️
+                </button>
+            </div>
+
+            <!-- DROPDOWN DASHBOARD -->
+            <div class="dropdown-menu" id="dropdownMenu">
+                <div class="dropdown-section">
+                    <div class="dropdown-title">Schnell-Navigation</div>
+                    <select class="nav-select" id="quickNav">
+                        <option value="">-- Bereich anspringen --</option>
+                        <option value="sec-leitung">👑 Projektleitung</option>
+                        <option value="sec-stellv">⭐ Stellv. Projektleitung</option>
+                        <option value="sec-tl">🛡️ Teamleitung & Admin</option>
+                        <option value="sec-admin">⚖️ Administration</option>
+                        <option value="sec-tech">💻 Technischer Bereich</option>
+                        <option value="sec-rules">📜 Regelwerk</option>
+                        <option value="sec-support">🎧 Support</option>
+                        <option value="sec-praktikant">🎓 Praktikanten</option>
+                        <option value="sec-chat">💬 Live Chat & Vorschläge</option>
+                    </select>
+                </div>
+
+                <div class="dropdown-section">
+                    <div class="dropdown-title">🎨 Theme Farben (Custom)</div>
+                    <div class="color-picker-grid">
+                        <div class="color-item">Hintergrund <input type="color" id="pickerBg" value="#0f172a"></div>
+                        <div class="color-item">Karten <input type="color" id="pickerCard" value="#1e293b"></div>
+                        <div class="color-item">Rahmen <input type="color" id="pickerBorder" value="#334155"></div>
+                        <div class="color-item">Akzent <input type="color" id="pickerAccent" value="#a855f7"></div>
+                    </div>
+                    <button class="btn" id="btnResetTheme" style="width: 100%; margin-top: 8px; font-size: 0.75rem;">Farben Zurücksetzen</button>
+                </div>
+
+                <div class="dropdown-section">
+                    <button class="btn btn-danger" id="btnLogout">Abmelden</button>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -207,7 +325,7 @@
     <div class="container" id="mainContainer">
 
         <!-- PROJEKTLEITUNG -->
-        <div class="card">
+        <div class="card" id="sec-leitung">
             <div class="card-header">
                 <div class="role-badge" contenteditable="false">👑 Projektleitung</div>
                 <span class="tag tag-leitung">Leitung</span>
@@ -230,7 +348,7 @@
         </div>
 
         <!-- STELLV. PROJEKTLEITUNG -->
-        <div class="card">
+        <div class="card" id="sec-stellv">
             <div class="card-header">
                 <div class="role-badge" contenteditable="false">⭐ Stellv. Projektleitung</div>
                 <span class="tag tag-stellv">Stellvertretung</span>
@@ -251,7 +369,7 @@
         </div>
 
         <!-- TEAMLEITUNG & ADMIN -->
-        <div class="card">
+        <div class="card" id="sec-tl">
             <div class="card-header">
                 <div class="role-badge" contenteditable="false">🛡️ Teamleitung & Admin</div>
                 <span class="tag tag-admin">Management</span>
@@ -269,7 +387,7 @@
         </div>
 
         <!-- ADMINISTRATION -->
-        <div class="card">
+        <div class="card" id="sec-admin">
             <div class="card-header">
                 <div class="role-badge" contenteditable="false">⚖️ Administration</div>
                 <span class="tag tag-admin">Admin</span>
@@ -288,7 +406,7 @@
         </div>
 
         <!-- TECHNIK / SCRIPTS -->
-        <div class="card">
+        <div class="card" id="sec-tech">
             <div class="card-header">
                 <div class="role-badge" contenteditable="false">💻 Technischer Bereich</div>
                 <span class="tag tag-tech">Development</span>
@@ -306,7 +424,7 @@
         </div>
 
         <!-- REGELWERK-MANAGEMENT -->
-        <div class="card">
+        <div class="card" id="sec-rules">
             <div class="card-header">
                 <div class="role-badge" contenteditable="false">📜 Regelwerk-Management</div>
                 <span class="tag tag-rules">Regelwerk</span>
@@ -324,7 +442,7 @@
         </div>
 
         <!-- SUPPORT -->
-        <div class="card">
+        <div class="card" id="sec-support">
             <div class="card-header">
                 <div class="role-badge" contenteditable="false">🎧 Support</div>
                 <span class="tag tag-support">Support</span>
@@ -342,7 +460,7 @@
         </div>
 
         <!-- PRAKTIKANTEN -->
-        <div class="card">
+        <div class="card" id="sec-praktikant">
             <div class="card-header">
                 <div class="role-badge" contenteditable="false">🎓 Praktikanten</div>
                 <span class="tag tag-support">Ausbildung</span>
@@ -379,35 +497,10 @@
             </div>
         </div>
 
-        <!-- ZUSAMMENARBEIT MATRIX -->
-        <div class="card full-width">
-            <div class="card-header">
-                <div class="role-badge" contenteditable="false">🧩 Interne Zuständigkeiten</div>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th contenteditable="false">Bereich</th>
-                        <th contenteditable="false">Hauptverantwortung</th>
-                    </tr>
-                </thead>
-                <tbody contenteditable="false">
-                    <tr><td>Projektleitung</td><td>GC|unclJonny</td></tr>
-                    <tr><td>Stellv. Projektleitung</td><td>GC|Amy</td></tr>
-                    <tr><td>Teamleitung</td><td>GC|Kleinchen</td></tr>
-                    <tr><td>Administration</td><td>GC|Kleinchen & GC|Russo</td></tr>
-                    <tr><td>Support</td><td>GC|Jan Schmahn</td></tr>
-                    <tr><td>Regelwerk-Management</td><td>GC|Vladimir Volkov</td></tr>
-                    <tr><td>Script-Unterstützung</td><td>GC|BOB</td></tr>
-                    <tr><td>Praktikanten</td><td>GC|BOB, GC|Latrell, GC|Wolfi, GC|Tuncay</td></tr>
-                </tbody>
-            </table>
-        </div>
-
     </div>
 
     <!-- INTERAKTIVE BEREICHE IM ANGEMELDETEN ZUSTAND -->
-    <div class="container full-width" id="userFeatures" style="margin-top: 25px; display: none;">
+    <div class="container full-width" id="sec-chat" style="margin-top: 25px; display: none;">
         
         <!-- LIVE CHAT -->
         <div class="card">
@@ -416,7 +509,7 @@
             </div>
             <div class="chat-box" id="chatBox"></div>
             <div class="chat-input-container">
-                <input type="text" id="chatMsgInput" class="custom-input" placeholder="Nachricht an das Team schreiben...">
+                <input type="text" id="chatMsgInput" class="custom-input" placeholder="Nachrichten schreiben...">
                 <button class="btn btn-primary" id="btnSendChat">Senden</button>
             </div>
         </div>
@@ -427,15 +520,15 @@
                 <div class="role-badge">💡 Vorschläge & Anmerkungen einreichen</div>
             </div>
             <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-                <input type="text" id="suggestionInput" class="custom-input" style="flex: 1;" placeholder="Deinen Vorschlag oder Änderungswunsch hier eingeben...">
-                <button class="btn btn-primary" id="btnSendSuggestion">Vorschlag Absenden</button>
+                <input type="text" id="suggestionInput" class="custom-input" style="flex: 1;" placeholder="Deinen Vorschlag eingeben...">
+                <button class="btn btn-primary" id="btnSendSuggestion">Absenden</button>
             </div>
             <div class="suggestion-list" id="suggestionList"></div>
         </div>
 
     </div>
 
-    <!-- FIREBASE SYNCHRONISATION & AUTH -->
+    <!-- FIREBASE SYNCHRONISATION & LOGIK -->
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
       import { getFirestore, doc, onSnapshot, setDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -463,7 +556,90 @@
       let currentUser = "";
       let canEditDashboard = false;
 
-      // Status anwenden
+      /* --- LIVE CLOCK --- */
+      function updateClock() {
+        const now = new Date();
+        const time = now.toLocaleTimeString('de-DE');
+        const date = now.toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: 'short' });
+        document.getElementById("clockTime").textContent = time;
+        document.getElementById("clockDate").textContent = date;
+      }
+      setInterval(updateClock, 1000);
+      updateClock();
+
+      /* --- THEME CUSTOMIZER --- */
+      const pickerBg = document.getElementById("pickerBg");
+      const pickerCard = document.getElementById("pickerCard");
+      const pickerBorder = document.getElementById("pickerBorder");
+      const pickerAccent = document.getElementById("pickerAccent");
+
+      function applyCustomTheme(bg, card, border, accent) {
+        if(bg) document.documentElement.style.setProperty('--bg-color', bg);
+        if(card) document.documentElement.style.setProperty('--card-bg', card);
+        if(border) document.documentElement.style.setProperty('--card-border', border);
+        if(accent) document.documentElement.style.setProperty('--accent-purple', accent);
+      }
+
+      function loadTheme() {
+        const savedTheme = JSON.parse(localStorage.getItem("team_theme_colors") || "{}");
+        if (savedTheme.bg) {
+            applyCustomTheme(savedTheme.bg, savedTheme.card, savedTheme.border, savedTheme.accent);
+            pickerBg.value = savedTheme.bg;
+            pickerCard.value = savedTheme.card;
+            pickerBorder.value = savedTheme.border;
+            pickerAccent.value = savedTheme.accent;
+        }
+      }
+
+      function saveTheme() {
+        const theme = {
+            bg: pickerBg.value,
+            card: pickerCard.value,
+            border: pickerBorder.value,
+            accent: pickerAccent.value
+        };
+        localStorage.setItem("team_theme_colors", JSON.stringify(theme));
+        applyCustomTheme(theme.bg, theme.card, theme.border, theme.accent);
+      }
+
+      [pickerBg, pickerCard, pickerBorder, pickerAccent].forEach(p => p.addEventListener("input", saveTheme));
+
+      document.getElementById("btnResetTheme").addEventListener("click", () => {
+        localStorage.removeItem("team_theme_colors");
+        document.documentElement.style.removeProperty('--bg-color');
+        document.documentElement.style.removeProperty('--card-bg');
+        document.documentElement.style.removeProperty('--card-border');
+        document.documentElement.style.removeProperty('--accent-purple');
+        pickerBg.value = "#0f172a";
+        pickerCard.value = "#1e293b";
+        pickerBorder.value = "#334155";
+        pickerAccent.value = "#a855f7";
+      });
+
+      /* --- DROPDOWN & SCHNELL-NAVIGATION --- */
+      const btnToggleMenu = document.getElementById("btnToggleMenu");
+      const dropdownMenu = document.getElementById("dropdownMenu");
+
+      btnToggleMenu.addEventListener("click", (e) => {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle("show");
+      });
+
+      document.addEventListener("click", () => dropdownMenu.classList.remove("show"));
+      dropdownMenu.addEventListener("click", (e) => e.stopPropagation());
+
+      document.getElementById("quickNav").addEventListener("change", (e) => {
+        const targetId = e.target.value;
+        if(targetId) {
+            const el = document.getElementById(targetId);
+            if(el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+                dropdownMenu.classList.remove("show");
+            }
+        }
+      });
+
+      /* --- AUTH & FIREBASE --- */
       function applyLoginState(user) {
         isLoggedIn = true;
         currentUser = user;
@@ -471,31 +647,23 @@
 
         document.getElementById("loginForm").style.display = "none";
         document.getElementById("loggedInView").style.display = "flex";
-        document.getElementById("userFeatures").style.display = "grid";
+        document.getElementById("sec-chat").style.display = "grid";
         document.getElementById("currentUsername").textContent = user;
 
         if (canEditDashboard) {
-            document.getElementById("lockStatus").textContent = "Freigeschaltet (Vollzugriff: Bearbeitung aktiv)";
-            document.getElementById("lockStatus").style.color = "#10b981";
             document.getElementById("editActions").style.display = "flex";
             document.body.classList.add("edit-active");
-        } else {
-            document.getElementById("lockStatus").textContent = "Angemeldet (Teamzugriff: Chat & Vorschläge)";
-            document.getElementById("lockStatus").style.color = "#3b82f6";
         }
 
         updateEditableState();
       }
 
-      // Beim Start gespeicherte Anmeldung laden
       window.addEventListener("DOMContentLoaded", () => {
+        loadTheme();
         const savedUser = localStorage.getItem("team_session_user");
-        if (savedUser) {
-            applyLoginState(savedUser);
-        }
+        if (savedUser) applyLoginState(savedUser);
       });
 
-      // Hauptstruktur synchen
       onSnapshot(docRef, (snapshot) => {
         if (snapshot.exists() && snapshot.data() && snapshot.data().content) {
           document.getElementById("mainContainer").innerHTML = snapshot.data().content;
@@ -503,30 +671,23 @@
         }
       });
 
-      // Chat synchen
       onSnapshot(chatRef, (snapshot) => {
         if (snapshot.exists() && snapshot.data() && snapshot.data().messages) {
           renderChat(snapshot.data().messages);
         }
       });
 
-      // Vorschläge synchen
       onSnapshot(suggestionsRef, (snapshot) => {
         if (snapshot.exists() && snapshot.data() && snapshot.data().list) {
           renderSuggestions(snapshot.data().list);
         }
       });
 
-      // Login Logik
       document.getElementById("btnLogin").addEventListener("click", () => {
         const user = document.getElementById("userSelect").value;
         const pass = document.getElementById("passwordInput").value;
 
-        if (!user) {
-            alert("Bitte wähle deinen Namen aus!");
-            return;
-        }
-
+        if (!user) return alert("Bitte wähle deinen Namen aus!");
         if (pass === "1234") {
             localStorage.setItem("team_session_user", user);
             applyLoginState(user);
@@ -535,22 +696,9 @@
         }
       });
 
-      // Logout Logik
       document.getElementById("btnLogout").addEventListener("click", () => {
         localStorage.removeItem("team_session_user");
-        isLoggedIn = false;
-        currentUser = "";
-        canEditDashboard = false;
-
-        document.getElementById("loginForm").style.display = "flex";
-        document.getElementById("loggedInView").style.display = "none";
-        document.getElementById("userFeatures").style.display = "none";
-        document.getElementById("passwordInput").value = "";
-        document.getElementById("lockStatus").textContent = "Nicht angemeldet";
-        document.getElementById("lockStatus").style.color = "#94a3b8";
-        document.getElementById("editActions").style.display = "none";
-        document.body.classList.remove("edit-active");
-        updateEditableState();
+        location.reload();
       });
 
       function updateEditableState() {
@@ -560,20 +708,17 @@
         });
       }
 
-      // Live Speichern (Nur Leitung/Admin)
       document.getElementById("btnSave").addEventListener("click", async () => {
         if (!isLoggedIn || !canEditDashboard) return;
         const containerContent = document.getElementById("mainContainer").innerHTML;
         try {
           await setDoc(docRef, { content: containerContent });
-          alert("✅ Stand ERFOLGREICH LIVE für alle Nutzer gespeichert!");
+          alert("✅ Stand ERFOLGREICH LIVE für alle gespeichert!");
         } catch (e) {
-          console.error("Fehler beim Speichern:", e);
           alert("❌ Fehler beim Speichern!");
         }
       });
 
-      // Chat Funktion
       async function sendChatMessage() {
         const input = document.getElementById("chatMsgInput");
         const text = input.value.trim();
@@ -587,8 +732,7 @@
             await setDoc(chatRef, { messages: arrayUnion(newMsg) }, { merge: true });
             input.value = "";
         } catch(e) {
-            console.error("Chat-Fehler:", e);
-            alert("Fehler beim Senden der Nachricht!");
+            alert("Fehler beim Senden!");
         }
       }
 
@@ -609,7 +753,6 @@
         chatBox.scrollTop = chatBox.scrollHeight;
       }
 
-      // Vorschlag Funktion
       async function sendSuggestion() {
         const input = document.getElementById("suggestionInput");
         const text = input.value.trim();
@@ -624,8 +767,7 @@
             input.value = "";
             alert("✅ Vorschlag eingereicht!");
         } catch(e) {
-            console.error("Vorschlags-Fehler:", e);
-            alert("Fehler beim Speichern des Vorschlags!");
+            alert("Fehler beim Speichern!");
         }
       }
 
@@ -645,7 +787,6 @@
         });
       }
 
-      // Bereich hinzufügen
       document.getElementById("btnAdd").addEventListener("click", () => {
         if (!isLoggedIn || !canEditDashboard) return;
         const container = document.getElementById("mainContainer");
@@ -667,7 +808,6 @@
         container.appendChild(newCard);
       });
 
-      // Export
       document.getElementById("btnExport").addEventListener("click", () => {
         const pageHtml = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
         const blob = new Blob([pageHtml], { type: "text/html" });
