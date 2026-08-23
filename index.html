@@ -143,7 +143,7 @@
             font-size: 0.9rem;
             border-left: 3px solid var(--accent-blue);
         }
-        .chat-msg .author { font-weight: 700; color: #a855f7; margin-right: 8px; font-size: 0.8rem; }
+        .chat-msg .author { font-weight: 700; color: #a855f7; margin-right: 8px; font-size: 0.85rem; }
         .chat-msg .time { color: var(--text-muted); font-size: 0.75rem; float: right; }
         .chat-input-container { display: flex; gap: 8px; }
         .chat-input-container input { flex: 1; }
@@ -438,7 +438,7 @@
     <!-- FIREBASE SYNCHRONISATION & AUTH -->
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-      import { getFirestore, doc, onSnapshot, setDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+      import { getFirestore, doc, onSnapshot, setDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
       const firebaseConfig = {
         apiKey: "AIzaSyAybMLYFKySc0j5QgQMXuwRWir5F2im0QY",
@@ -457,7 +457,6 @@
       const chatRef = doc(db, "teamstructure", "chat");
       const suggestionsRef = doc(db, "teamstructure", "suggestions");
 
-      // Liste der Editoren mit vollen Rechten
       const editors = ["GC|unclJonny", "GC|Amy", "GC|Kleinchen", "GC|Russo"];
 
       let isLoggedIn = false;
@@ -559,20 +558,28 @@
         }
       });
 
-      // Chat Nachricht senden
-      document.getElementById("btnSendChat").addEventListener("click", async () => {
-        const text = document.getElementById("chatMsgInput").value.trim();
+      // Chat Funktion
+      async function sendChatMessage() {
+        const input = document.getElementById("chatMsgInput");
+        const text = input.value.trim();
         if (!text || !isLoggedIn) return;
 
-        const time = new Date().toLocaleTimeString([], { hour: '2-2:2', minute: '2-2' });
-        const newMsg = { user: currentUser, text: text, time: time };
+        const now = new Date();
+        const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+        const newMsg = { user: currentUser, text: text, time: timeStr };
 
         try {
             await setDoc(chatRef, { messages: arrayUnion(newMsg) }, { merge: true });
-            document.getElementById("chatMsgInput").value = "";
+            input.value = "";
         } catch(e) {
             console.error("Chat-Fehler:", e);
+            alert("Fehler beim Senden der Nachricht!");
         }
+      }
+
+      document.getElementById("btnSendChat").addEventListener("click", sendChatMessage);
+      document.getElementById("chatMsgInput").addEventListener("keypress", (e) => {
+        if (e.key === "Enter") sendChatMessage();
       });
 
       function renderChat(messages) {
@@ -587,21 +594,29 @@
         chatBox.scrollTop = chatBox.scrollHeight;
       }
 
-      // Vorschlag absenden
-      document.getElementById("btnSendSuggestion").addEventListener("click", async () => {
-        const text = document.getElementById("suggestionInput").value.trim();
+      // Vorschlag Funktion
+      async function sendSuggestion() {
+        const input = document.getElementById("suggestionInput");
+        const text = input.value.trim();
         if (!text || !isLoggedIn) return;
 
-        const date = new Date().toLocaleDateString([], { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
-        const newSug = { user: currentUser, text: text, date: date };
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('de-DE') + ' ' + now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+        const newSug = { user: currentUser, text: text, date: dateStr };
 
         try {
             await setDoc(suggestionsRef, { list: arrayUnion(newSug) }, { merge: true });
-            document.getElementById("suggestionInput").value = "";
+            input.value = "";
             alert("✅ Vorschlag eingereicht!");
         } catch(e) {
             console.error("Vorschlags-Fehler:", e);
+            alert("Fehler beim Speichern des Vorschlags!");
         }
+      }
+
+      document.getElementById("btnSendSuggestion").addEventListener("click", sendSuggestion);
+      document.getElementById("suggestionInput").addEventListener("keypress", (e) => {
+        if (e.key === "Enter") sendSuggestion();
       });
 
       function renderSuggestions(list) {
