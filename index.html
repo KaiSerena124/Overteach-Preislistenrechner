@@ -463,6 +463,38 @@
       let currentUser = "";
       let canEditDashboard = false;
 
+      // Status anwenden
+      function applyLoginState(user) {
+        isLoggedIn = true;
+        currentUser = user;
+        canEditDashboard = editors.includes(user);
+
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("loggedInView").style.display = "flex";
+        document.getElementById("userFeatures").style.display = "grid";
+        document.getElementById("currentUsername").textContent = user;
+
+        if (canEditDashboard) {
+            document.getElementById("lockStatus").textContent = "Freigeschaltet (Vollzugriff: Bearbeitung aktiv)";
+            document.getElementById("lockStatus").style.color = "#10b981";
+            document.getElementById("editActions").style.display = "flex";
+            document.body.classList.add("edit-active");
+        } else {
+            document.getElementById("lockStatus").textContent = "Angemeldet (Teamzugriff: Chat & Vorschläge)";
+            document.getElementById("lockStatus").style.color = "#3b82f6";
+        }
+
+        updateEditableState();
+      }
+
+      // Beim Start gespeicherte Anmeldung laden
+      window.addEventListener("DOMContentLoaded", () => {
+        const savedUser = localStorage.getItem("team_session_user");
+        if (savedUser) {
+            applyLoginState(savedUser);
+        }
+      });
+
       // Hauptstruktur synchen
       onSnapshot(docRef, (snapshot) => {
         if (snapshot.exists() && snapshot.data() && snapshot.data().content) {
@@ -496,26 +528,8 @@
         }
 
         if (pass === "1234") {
-            isLoggedIn = true;
-            currentUser = user;
-            canEditDashboard = editors.includes(user);
-
-            document.getElementById("loginForm").style.display = "none";
-            document.getElementById("loggedInView").style.display = "flex";
-            document.getElementById("userFeatures").style.display = "grid";
-            document.getElementById("currentUsername").textContent = user;
-            
-            if (canEditDashboard) {
-                document.getElementById("lockStatus").textContent = "Freigeschaltet (Vollzugriff: Bearbeitung aktiv)";
-                document.getElementById("lockStatus").style.color = "#10b981";
-                document.getElementById("editActions").style.display = "flex";
-                document.body.classList.add("edit-active");
-            } else {
-                document.getElementById("lockStatus").textContent = "Angemeldet (Teamzugriff: Chat & Vorschläge)";
-                document.getElementById("lockStatus").style.color = "#3b82f6";
-            }
-
-            updateEditableState();
+            localStorage.setItem("team_session_user", user);
+            applyLoginState(user);
         } else {
             alert("Falsches Passwort!");
         }
@@ -523,6 +537,7 @@
 
       // Logout Logik
       document.getElementById("btnLogout").addEventListener("click", () => {
+        localStorage.removeItem("team_session_user");
         isLoggedIn = false;
         currentUser = "";
         canEditDashboard = false;
