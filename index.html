@@ -96,8 +96,8 @@
         .card-praktikant .tasks-list li::before { color: var(--color-praktikant); }
 
         .tag { font-size: 0.75rem; padding: 4px 10px; border-radius: 6px; font-weight: 700; text-transform: uppercase; }
-        .member-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 6px; }
-        .tasks-list { list-style: none; }
+        .member-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 6px; outline: none; }
+        .tasks-list { list-style: none; outline: none; }
         .tasks-list li { position: relative; padding-left: 20px; margin-bottom: 6px; font-size: 0.95rem; }
         .tasks-list li::before { content: "•"; position: absolute; left: 0; font-size: 1.4rem; top: -3px; }
 
@@ -140,7 +140,6 @@
             </div>
 
             <div class="dropdown-menu" id="dropdownMenu">
-                <!-- USER ANLEGEN & VERWALTEN (NUR FÜR BENANNTE KÖPFE) -->
                 <div class="dropdown-section" id="adminUserManagement" style="display: none;">
                     <div class="dropdown-title">➕ Neuen User anlegen</div>
                     <input type="text" id="newUsername" class="custom-input" placeholder="Name (z.B. GC|Name)" style="width: 100%; margin-bottom: 5px;">
@@ -158,7 +157,6 @@
                     <div id="userManagementList"></div>
                 </div>
 
-                <!-- FARBANPASSUNG -->
                 <div class="dropdown-section">
                     <div class="dropdown-title">🎨 Design & Farben anpassen</div>
                     <div class="color-picker-grid">
@@ -422,6 +420,7 @@
         const db = getFirestore(app);
 
         const usersRef = doc(db, "teamstructure", "users");
+        const cardsRef = doc(db, "teamstructure", "cards");
         const chatRef = doc(db, "teamstructure", "chat");
         const suggestionsRef = doc(db, "teamstructure", "suggestions");
 
@@ -442,6 +441,55 @@
             "GC|Wolfi": { pass: "1234", role: "Praktikant", canEdit: false, isBlocked: false },
             "GC|Tuncay": { pass: "1234", role: "Praktikant", canEdit: false, isBlocked: false }
         };
+
+        /* LIVE SYNC DER KARTEN-INHALTE FÜR ALLE USER (AUCH UNANGEMELDETE) */
+        onSnapshot(cardsRef, (snapshot) => {
+            if (snapshot.exists()) {
+                const cardsData = snapshot.data();
+                Object.keys(cardsData).forEach(cardId => {
+                    const card = document.getElementById(cardId);
+                    if (card) {
+                        const nameEl = card.querySelector(".member-name");
+                        const listEl = card.querySelector(".tasks-list");
+                        if (nameEl && cardsData[cardId].name && !nameEl.isContentEditable) {
+                            nameEl.innerHTML = cardsData[cardId].name;
+                        }
+                        if (listEl && cardsData[cardId].tasks && !listEl.isContentEditable) {
+                            listEl.innerHTML = cardsData[cardId].tasks;
+                        }
+                    }
+                });
+            }
+        });
+
+        /* EDIT CARD & SAVE TO FIREBASE */
+        document.querySelectorAll(".edit-card-btn").forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                const cardId = e.currentTarget.dataset.card;
+                const card = document.getElementById(cardId);
+                const title = card.querySelector(".member-name");
+                const list = card.querySelector(".tasks-list");
+
+                const isEditing = title.isContentEditable;
+                title.contentEditable = !isEditing;
+                list.contentEditable = !isEditing;
+
+                if (!isEditing) {
+                    e.currentTarget.textContent = "💾 Speichern";
+                    title.focus();
+                } else {
+                    e.currentTarget.textContent = "✏️";
+                    // In Firebase speichern für alle!
+                    await setDoc(cardsRef, {
+                        [cardId]: {
+                            name: title.innerHTML,
+                            tasks: list.innerHTML
+                        }
+                    }, { merge: true });
+                    alert("✅ Änderungen für alle Besucher erfolgreich gespeichert!");
+                }
+            });
+        });
 
         function populateUserDropdown() {
             const select = document.getElementById("userSelect");
@@ -488,7 +536,6 @@
                 listDiv.appendChild(item);
             });
 
-            // Action-Buttons binden
             document.querySelectorAll(".toggle-edit-btn").forEach(btn => {
                 btn.addEventListener("click", async (e) => {
                     const u = e.currentTarget.dataset.user;
@@ -567,25 +614,6 @@
             if (savedUser && registeredUsers[savedUser]) {
                 applyLoginState(savedUser);
             }
-        });
-
-        // Edit Card Functionality
-        document.querySelectorAll(".edit-card-btn").forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                const cardId = e.currentTarget.dataset.card;
-                const card = document.getElementById(cardId);
-                const title = card.querySelector(".member-name");
-                const list = card.querySelector(".tasks-list");
-
-                const isEditing = title.isContentEditable;
-                title.contentEditable = !isEditing;
-                list.contentEditable = !isEditing;
-
-                e.currentTarget.textContent = !isEditing ? "💾 Speichern" : "✏️";
-                if(isEditing) {
-                    alert("Änderungen lokal übernommen.");
-                }
-            });
         });
 
         document.getElementById("btnCreateUser").addEventListener("click", async () => {
