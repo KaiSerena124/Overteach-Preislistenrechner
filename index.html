@@ -211,11 +211,27 @@
             border-radius: 8px;
             font-size: 0.9rem;
             border-left: 3px solid var(--accent-blue);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
+        .chat-msg-content { flex: 1; }
         .chat-msg .author { font-weight: 700; color: var(--accent-purple); margin-right: 8px; font-size: 0.85rem; }
-        .chat-msg .time { color: var(--text-muted); font-size: 0.75rem; float: right; }
-        .chat-input-container { display: flex; gap: 8px; }
-        .chat-input-container input { flex: 1; }
+        .chat-msg .time { color: var(--text-muted); font-size: 0.75rem; margin-left: 8px; }
+
+        .btn-delete {
+            background: transparent;
+            border: none;
+            color: var(--accent-red);
+            cursor: pointer;
+            font-size: 0.9rem;
+            opacity: 0.6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: opacity 0.2s, background 0.2s;
+            margin-left: 8px;
+        }
+        .btn-delete:hover { opacity: 1; background: rgba(239, 68, 68, 0.15); }
 
         .suggestion-list {
             max-height: 200px;
@@ -231,14 +247,15 @@
             border-radius: 8px;
             border: 1px solid var(--card-border);
             font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
     </style>
 </head>
 <body>
 
-    <!-- TOP CONTROL BAR WITH LIVE CLOCK & MENU -->
     <div class="top-bar">
-        <!-- LIVE CLOCK -->
         <div class="live-clock-container">
             <div>
                 <div class="clock-time" id="clockTime">00:00:00</div>
@@ -246,9 +263,7 @@
             </div>
         </div>
 
-        <!-- LOGIN / MENU AREA -->
         <div class="login-bar">
-            <!-- LOGIN FORM -->
             <div class="login-controls" id="loginForm">
                 <select id="userSelect">
                     <option value="">-- Name auswählen --</option>
@@ -267,14 +282,12 @@
                 <button class="btn btn-primary" id="btnLogin">Anmelden</button>
             </div>
 
-            <!-- LOGGED IN VIEW & DROPDOWN TRIGGER -->
             <div id="loggedInView" style="display: none; align-items: center; gap: 10px;">
                 <button class="user-menu-btn" id="btnToggleMenu">
                     👤 <span id="currentUsername">User</span> ⚙️
                 </button>
             </div>
 
-            <!-- DROPDOWN DASHBOARD -->
             <div class="dropdown-menu" id="dropdownMenu">
                 <div class="dropdown-section">
                     <div class="dropdown-title">Schnell-Navigation</div>
@@ -324,7 +337,6 @@
 
     <div class="container" id="mainContainer">
 
-        <!-- PROJEKTLEITUNG -->
         <div class="card" id="sec-leitung">
             <div class="card-header">
                 <div class="role-badge" contenteditable="false">👑 Projektleitung</div>
@@ -347,7 +359,6 @@
             </div>
         </div>
 
-        <!-- STELLV. PROJEKTLEITUNG -->
         <div class="card" id="sec-stellv">
             <div class="card-header">
                 <div class="role-badge" contenteditable="false">⭐ Stellv. Projektleitung</div>
@@ -368,7 +379,6 @@
             </div>
         </div>
 
-        <!-- TEAMLEITUNG & ADMIN -->
         <div class="card" id="sec-tl">
             <div class="card-header">
                 <div class="role-badge" contenteditable="false">🛡️ Teamleitung & Admin</div>
@@ -386,7 +396,6 @@
             </ul>
         </div>
 
-        <!-- ADMINISTRATION -->
         <div class="card" id="sec-admin">
             <div class="card-header">
                 <div class="role-badge" contenteditable="false">⚖️ Administration</div>
@@ -405,7 +414,6 @@
             </div>
         </div>
 
-        <!-- TECHNIK / SCRIPTS -->
         <div class="card" id="sec-tech">
             <div class="card-header">
                 <div class="role-badge" contenteditable="false">💻 Technischer Bereich</div>
@@ -413,409 +421,3 @@
             </div>
             <div class="member-name" contenteditable="false">GC|BOB — Script-Unterstützung</div>
             <ul class="tasks-list" contenteditable="false">
-                <li>Unterstützung bei Scriptarbeiten & Überarbeitung</li>
-                <li>Fehleranalyse und Bug-Reporting</li>
-                <li>Testen neuer Funktionen auf dem Testserver</li>
-                <li>Dokumentation von technischen Änderungen</li>
-            </ul>
-            <div class="note-box" contenteditable="false">
-                <strong>Wichtig:</strong> Scriptänderungen werden vor dem Live-Gang mit der zuständigen Leitung abgesprochen.
-            </div>
-        </div>
-
-        <!-- REGELWERK-MANAGEMENT -->
-        <div class="card" id="sec-rules">
-            <div class="card-header">
-                <div class="role-badge" contenteditable="false">📜 Regelwerk-Management</div>
-                <span class="tag tag-rules">Regelwerk</span>
-            </div>
-            <div class="member-name" contenteditable="false">GC|Vladimir Volkov — Management</div>
-            <ul class="tasks-list" contenteditable="false">
-                <li>Überprüfung und Aktualisierung des Regelwerks</li>
-                <li>Sammeln von Verbesserungsvorschlägen</li>
-                <li>Ausarbeitung neuer Regelungen</li>
-                <li>Einholen von Team-Feedback</li>
-            </ul>
-            <div class="note-box" contenteditable="false">
-                <strong>Wichtig:</strong> Regeländerungen werden im Highteam abgesprochen und freigegeben.
-            </div>
-        </div>
-
-        <!-- SUPPORT -->
-        <div class="card" id="sec-support">
-            <div class="card-header">
-                <div class="role-badge" contenteditable="false">🎧 Support</div>
-                <span class="tag tag-support">Support</span>
-            </div>
-            <div class="member-name" contenteditable="false">GC|Jan Schmahn — Support</div>
-            <ul class="tasks-list" contenteditable="false">
-                <li>Erster Ansprechpartner für die Community</li>
-                <li>Bearbeitung von Supporttickets & Spielerfragen</li>
-                <li>Hilfe bei technischen/Einreisen-Problemen</li>
-                <li>Aufnahme von Bugs & Weiterleitung an Admin</li>
-            </ul>
-            <div class="note-box" contenteditable="false">
-                <strong>Grenzen:</strong> Entscheidet nicht über Permaban, Teamangelegenheiten oder Regeländerungen.
-            </div>
-        </div>
-
-        <!-- PRAKTIKANTEN -->
-        <div class="card" id="sec-praktikant">
-            <div class="card-header">
-                <div class="role-badge" contenteditable="false">🎓 Praktikanten</div>
-                <span class="tag tag-support">Ausbildung</span>
-            </div>
-            <div class="member-name" contenteditable="false">GC|BOB, GC|Latrell, GC|Wolfi, GC|Tuncay</div>
-            <ul class="tasks-list" contenteditable="false">
-                <li>Einarbeitung & Lernen der Serverregeln</li>
-                <li>Teilnahme am Support & Begleitung erfahrener Supporter</li>
-                <li>Durchführung von Einreisen unter Anleitung</li>
-                <li>Aufnahme einfacher Fragen und Bugs</li>
-            </ul>
-            <div class="note-box" contenteditable="false">
-                <strong>Prinzip:</strong> Erst lernen → dann unter Anleitung durchführen → anschließend selbstständig arbeiten.
-            </div>
-        </div>
-
-        <!-- ESKALATIONSWEG -->
-        <div class="card full-width">
-            <div class="card-header">
-                <div class="role-badge" contenteditable="false">🔄 Eskalationsweg</div>
-            </div>
-            <div class="flow-chart">
-                <div class="flow-step" contenteditable="false">👤 Spieler</div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step" contenteditable="false">🎓 Praktikant / Support</div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step" contenteditable="false">⚖️ Administration</div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step" contenteditable="false">🛡️ Teamleitung</div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step" contenteditable="false">⭐ Stellv. Projektleitung</div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step" contenteditable="false">👑 Projektleitung / Highteam</div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- INTERAKTIVE BEREICHE IM ANGEMELDETEN ZUSTAND -->
-    <div class="container full-width" id="sec-chat" style="margin-top: 25px; display: none;">
-        
-        <!-- LIVE CHAT -->
-        <div class="card">
-            <div class="card-header">
-                <div class="role-badge">💬 Team-Chat (Live)</div>
-            </div>
-            <div class="chat-box" id="chatBox"></div>
-            <div class="chat-input-container">
-                <input type="text" id="chatMsgInput" class="custom-input" placeholder="Nachrichten schreiben...">
-                <button class="btn btn-primary" id="btnSendChat">Senden</button>
-            </div>
-        </div>
-
-        <!-- VORSCHLÄGE FIELD -->
-        <div class="card">
-            <div class="card-header">
-                <div class="role-badge">💡 Vorschläge & Anmerkungen einreichen</div>
-            </div>
-            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-                <input type="text" id="suggestionInput" class="custom-input" style="flex: 1;" placeholder="Deinen Vorschlag eingeben...">
-                <button class="btn btn-primary" id="btnSendSuggestion">Absenden</button>
-            </div>
-            <div class="suggestion-list" id="suggestionList"></div>
-        </div>
-
-    </div>
-
-    <!-- FIREBASE SYNCHRONISATION & LOGIK -->
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-      import { getFirestore, doc, onSnapshot, setDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyAybMLYFKySc0j5QgQMXuwRWir5F2im0QY",
-        authDomain: "grande-city.firebaseapp.com",
-        projectId: "grande-city",
-        storageBucket: "grande-city.firebasestorage.app",
-        messagingSenderId: "1019115646964",
-        appId: "1:1019115646964:web:3a03427356238eadd013a1",
-        measurementId: "G-M5347F150B"
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-      
-      const docRef = doc(db, "teamstructure", "main");
-      const chatRef = doc(db, "teamstructure", "chat");
-      const suggestionsRef = doc(db, "teamstructure", "suggestions");
-
-      const editors = ["GC|unclJonny", "GC|Amy", "GC|Kleinchen", "GC|Russo"];
-
-      let isLoggedIn = false;
-      let currentUser = "";
-      let canEditDashboard = false;
-
-      /* --- LIVE CLOCK --- */
-      function updateClock() {
-        const now = new Date();
-        const time = now.toLocaleTimeString('de-DE');
-        const date = now.toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: 'short' });
-        document.getElementById("clockTime").textContent = time;
-        document.getElementById("clockDate").textContent = date;
-      }
-      setInterval(updateClock, 1000);
-      updateClock();
-
-      /* --- THEME CUSTOMIZER --- */
-      const pickerBg = document.getElementById("pickerBg");
-      const pickerCard = document.getElementById("pickerCard");
-      const pickerBorder = document.getElementById("pickerBorder");
-      const pickerAccent = document.getElementById("pickerAccent");
-
-      function applyCustomTheme(bg, card, border, accent) {
-        if(bg) document.documentElement.style.setProperty('--bg-color', bg);
-        if(card) document.documentElement.style.setProperty('--card-bg', card);
-        if(border) document.documentElement.style.setProperty('--card-border', border);
-        if(accent) document.documentElement.style.setProperty('--accent-purple', accent);
-      }
-
-      function loadTheme() {
-        const savedTheme = JSON.parse(localStorage.getItem("team_theme_colors") || "{}");
-        if (savedTheme.bg) {
-            applyCustomTheme(savedTheme.bg, savedTheme.card, savedTheme.border, savedTheme.accent);
-            pickerBg.value = savedTheme.bg;
-            pickerCard.value = savedTheme.card;
-            pickerBorder.value = savedTheme.border;
-            pickerAccent.value = savedTheme.accent;
-        }
-      }
-
-      function saveTheme() {
-        const theme = {
-            bg: pickerBg.value,
-            card: pickerCard.value,
-            border: pickerBorder.value,
-            accent: pickerAccent.value
-        };
-        localStorage.setItem("team_theme_colors", JSON.stringify(theme));
-        applyCustomTheme(theme.bg, theme.card, theme.border, theme.accent);
-      }
-
-      [pickerBg, pickerCard, pickerBorder, pickerAccent].forEach(p => p.addEventListener("input", saveTheme));
-
-      document.getElementById("btnResetTheme").addEventListener("click", () => {
-        localStorage.removeItem("team_theme_colors");
-        document.documentElement.style.removeProperty('--bg-color');
-        document.documentElement.style.removeProperty('--card-bg');
-        document.documentElement.style.removeProperty('--card-border');
-        document.documentElement.style.removeProperty('--accent-purple');
-        pickerBg.value = "#0f172a";
-        pickerCard.value = "#1e293b";
-        pickerBorder.value = "#334155";
-        pickerAccent.value = "#a855f7";
-      });
-
-      /* --- DROPDOWN & SCHNELL-NAVIGATION --- */
-      const btnToggleMenu = document.getElementById("btnToggleMenu");
-      const dropdownMenu = document.getElementById("dropdownMenu");
-
-      btnToggleMenu.addEventListener("click", (e) => {
-        e.stopPropagation();
-        dropdownMenu.classList.toggle("show");
-      });
-
-      document.addEventListener("click", () => dropdownMenu.classList.remove("show"));
-      dropdownMenu.addEventListener("click", (e) => e.stopPropagation());
-
-      document.getElementById("quickNav").addEventListener("change", (e) => {
-        const targetId = e.target.value;
-        if(targetId) {
-            const el = document.getElementById(targetId);
-            if(el) {
-                el.scrollIntoView({ behavior: 'smooth' });
-                dropdownMenu.classList.remove("show");
-            }
-        }
-      });
-
-      /* --- AUTH & FIREBASE --- */
-      function applyLoginState(user) {
-        isLoggedIn = true;
-        currentUser = user;
-        canEditDashboard = editors.includes(user);
-
-        document.getElementById("loginForm").style.display = "none";
-        document.getElementById("loggedInView").style.display = "flex";
-        document.getElementById("sec-chat").style.display = "grid";
-        document.getElementById("currentUsername").textContent = user;
-
-        if (canEditDashboard) {
-            document.getElementById("editActions").style.display = "flex";
-            document.body.classList.add("edit-active");
-        }
-
-        updateEditableState();
-      }
-
-      window.addEventListener("DOMContentLoaded", () => {
-        loadTheme();
-        const savedUser = localStorage.getItem("team_session_user");
-        if (savedUser) applyLoginState(savedUser);
-      });
-
-      onSnapshot(docRef, (snapshot) => {
-        if (snapshot.exists() && snapshot.data() && snapshot.data().content) {
-          document.getElementById("mainContainer").innerHTML = snapshot.data().content;
-          updateEditableState();
-        }
-      });
-
-      onSnapshot(chatRef, (snapshot) => {
-        if (snapshot.exists() && snapshot.data() && snapshot.data().messages) {
-          renderChat(snapshot.data().messages);
-        }
-      });
-
-      onSnapshot(suggestionsRef, (snapshot) => {
-        if (snapshot.exists() && snapshot.data() && snapshot.data().list) {
-          renderSuggestions(snapshot.data().list);
-        }
-      });
-
-      document.getElementById("btnLogin").addEventListener("click", () => {
-        const user = document.getElementById("userSelect").value;
-        const pass = document.getElementById("passwordInput").value;
-
-        if (!user) return alert("Bitte wähle deinen Namen aus!");
-        if (pass === "1234") {
-            localStorage.setItem("team_session_user", user);
-            applyLoginState(user);
-        } else {
-            alert("Falsches Passwort!");
-        }
-      });
-
-      document.getElementById("btnLogout").addEventListener("click", () => {
-        localStorage.removeItem("team_session_user");
-        location.reload();
-      });
-
-      function updateEditableState() {
-        const editables = document.querySelectorAll("#mainContainer [contenteditable], header [contenteditable]");
-        editables.forEach(el => {
-            el.setAttribute("contenteditable", (isLoggedIn && canEditDashboard) ? "true" : "false");
-        });
-      }
-
-      document.getElementById("btnSave").addEventListener("click", async () => {
-        if (!isLoggedIn || !canEditDashboard) return;
-        const containerContent = document.getElementById("mainContainer").innerHTML;
-        try {
-          await setDoc(docRef, { content: containerContent });
-          alert("✅ Stand ERFOLGREICH LIVE für alle gespeichert!");
-        } catch (e) {
-          alert("❌ Fehler beim Speichern!");
-        }
-      });
-
-      async function sendChatMessage() {
-        const input = document.getElementById("chatMsgInput");
-        const text = input.value.trim();
-        if (!text || !isLoggedIn) return;
-
-        const now = new Date();
-        const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-        const newMsg = { user: currentUser, text: text, time: timeStr };
-
-        try {
-            await setDoc(chatRef, { messages: arrayUnion(newMsg) }, { merge: true });
-            input.value = "";
-        } catch(e) {
-            alert("Fehler beim Senden!");
-        }
-      }
-
-      document.getElementById("btnSendChat").addEventListener("click", sendChatMessage);
-      document.getElementById("chatMsgInput").addEventListener("keypress", (e) => {
-        if (e.key === "Enter") sendChatMessage();
-      });
-
-      function renderChat(messages) {
-        const chatBox = document.getElementById("chatBox");
-        chatBox.innerHTML = "";
-        messages.forEach(m => {
-            const div = document.createElement("div");
-            div.className = "chat-msg";
-            div.innerHTML = `<span class="time">${m.time}</span><span class="author">${m.user}:</span> ${m.text}`;
-            chatBox.appendChild(div);
-        });
-        chatBox.scrollTop = chatBox.scrollHeight;
-      }
-
-      async function sendSuggestion() {
-        const input = document.getElementById("suggestionInput");
-        const text = input.value.trim();
-        if (!text || !isLoggedIn) return;
-
-        const now = new Date();
-        const dateStr = now.toLocaleDateString('de-DE') + ' ' + now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-        const newSug = { user: currentUser, text: text, date: dateStr };
-
-        try {
-            await setDoc(suggestionsRef, { list: arrayUnion(newSug) }, { merge: true });
-            input.value = "";
-            alert("✅ Vorschlag eingereicht!");
-        } catch(e) {
-            alert("Fehler beim Speichern!");
-        }
-      }
-
-      document.getElementById("btnSendSuggestion").addEventListener("click", sendSuggestion);
-      document.getElementById("suggestionInput").addEventListener("keypress", (e) => {
-        if (e.key === "Enter") sendSuggestion();
-      });
-
-      function renderSuggestions(list) {
-        const listDiv = document.getElementById("suggestionList");
-        listDiv.innerHTML = "";
-        list.slice().reverse().forEach(s => {
-            const item = document.createElement("div");
-            item.className = "suggestion-item";
-            item.innerHTML = `<strong>${s.user}</strong> <span style="color:var(--text-muted); font-size:0.8rem;">(${s.date})</span>: ${s.text}`;
-            listDiv.appendChild(item);
-        });
-      }
-
-      document.getElementById("btnAdd").addEventListener("click", () => {
-        if (!isLoggedIn || !canEditDashboard) return;
-        const container = document.getElementById("mainContainer");
-        const newCard = document.createElement("div");
-        newCard.className = "card";
-        newCard.innerHTML = `
-            <div class="card-header">
-                <div class="role-badge" contenteditable="true">📌 Neue Rolle / Abteilung</div>
-                <span class="tag tag-support" contenteditable="true">Status</span>
-            </div>
-            <div class="member-name" contenteditable="true">GC|Name — Rolle</div>
-            <ul class="tasks-list" contenteditable="true">
-                <li>Erste Aufgabe / Zuständigkeit</li>
-            </ul>
-            <div class="note-box" contenteditable="true">
-                <strong>Hinweis:</strong> Beschreibung...
-            </div>
-        `;
-        container.appendChild(newCard);
-      });
-
-      document.getElementById("btnExport").addEventListener("click", () => {
-        const pageHtml = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-        const blob = new Blob([pageHtml], { type: "text/html" });
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = "Teamstruktur_FiveM.html";
-        a.click();
-      });
-    </script>
-</body>
-</html>
