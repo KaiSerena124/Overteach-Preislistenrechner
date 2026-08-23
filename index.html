@@ -189,10 +189,6 @@
         .flow-step { background: rgba(0,0,0,0.2); border: 1px solid var(--card-border); padding: 12px 18px; border-radius: 10px; text-align: center; flex: 1; font-weight: 600; }
         .flow-arrow { color: var(--text-muted); font-size: 1.2rem; }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--card-border); }
-        th { background: rgba(0, 0, 0, 0.2); color: var(--text-muted); }
-
         .chat-box {
             height: 250px;
             overflow-y: auto;
@@ -255,15 +251,19 @@
 </head>
 <body>
 
+    <!-- TOP CONTROL BAR WITH LIVE CLOCK & MENU -->
     <div class="top-bar">
+        <!-- LIVE CLOCK -->
         <div class="live-clock-container">
             <div>
                 <div class="clock-time" id="clockTime">00:00:00</div>
-                <div class="clock-date" id="clockDate">Montag, 01. Jan</div>
+                <div class="clock-date" id="clockDate">Lade Datum...</div>
             </div>
         </div>
 
+        <!-- LOGIN / MENU AREA -->
         <div class="login-bar">
+            <!-- LOGIN FORM -->
             <div class="login-controls" id="loginForm">
                 <select id="userSelect">
                     <option value="">-- Name auswählen --</option>
@@ -282,12 +282,14 @@
                 <button class="btn btn-primary" id="btnLogin">Anmelden</button>
             </div>
 
+            <!-- LOGGED IN VIEW & DROPDOWN TRIGGER -->
             <div id="loggedInView" style="display: none; align-items: center; gap: 10px;">
                 <button class="user-menu-btn" id="btnToggleMenu">
                     👤 <span id="currentUsername">User</span> ⚙️
                 </button>
             </div>
 
+            <!-- DROPDOWN DASHBOARD -->
             <div class="dropdown-menu" id="dropdownMenu">
                 <div class="dropdown-section">
                     <div class="dropdown-title">Schnell-Navigation</div>
@@ -337,6 +339,7 @@
 
     <div class="container" id="mainContainer">
 
+        <!-- PROJEKTLEITUNG -->
         <div class="card" id="sec-leitung">
             <div class="card-header">
                 <div class="role-badge" contenteditable="false">👑 Projektleitung</div>
@@ -359,6 +362,7 @@
             </div>
         </div>
 
+        <!-- STELLV. PROJEKTLEITUNG -->
         <div class="card" id="sec-stellv">
             <div class="card-header">
                 <div class="role-badge" contenteditable="false">⭐ Stellv. Projektleitung</div>
@@ -379,6 +383,7 @@
             </div>
         </div>
 
+        <!-- TEAMLEITUNG & ADMIN -->
         <div class="card" id="sec-tl">
             <div class="card-header">
                 <div class="role-badge" contenteditable="false">🛡️ Teamleitung & Admin</div>
@@ -396,6 +401,7 @@
             </ul>
         </div>
 
+        <!-- ADMINISTRATION -->
         <div class="card" id="sec-admin">
             <div class="card-header">
                 <div class="role-badge" contenteditable="false">⚖️ Administration</div>
@@ -414,6 +420,7 @@
             </div>
         </div>
 
+        <!-- TECHNIK / SCRIPTS -->
         <div class="card" id="sec-tech">
             <div class="card-header">
                 <div class="role-badge" contenteditable="false">💻 Technischer Bereich</div>
@@ -421,3 +428,494 @@
             </div>
             <div class="member-name" contenteditable="false">GC|BOB — Script-Unterstützung</div>
             <ul class="tasks-list" contenteditable="false">
+                <li>Unterstützung bei Scriptarbeiten & Überarbeitung</li>
+                <li>Fehleranalyse und Bug-Reporting</li>
+                <li>Testen neuer Funktionen auf dem Testserver</li>
+                <li>Dokumentation von technischen Änderungen</li>
+            </ul>
+            <div class="note-box" contenteditable="false">
+                <strong>Wichtig:</strong> Scriptänderungen werden vor dem Live-Gang mit der zuständigen Leitung abgesprochen.
+            </div>
+        </div>
+
+        <!-- REGELWERK-MANAGEMENT -->
+        <div class="card" id="sec-rules">
+            <div class="card-header">
+                <div class="role-badge" contenteditable="false">📜 Regelwerk-Management</div>
+                <span class="tag tag-rules">Regelwerk</span>
+            </div>
+            <div class="member-name" contenteditable="false">GC|Vladimir Volkov — Management</div>
+            <ul class="tasks-list" contenteditable="false">
+                <li>Überprüfung und Aktualisierung des Regelwerks</li>
+                <li>Sammeln von Verbesserungsvorschlägen</li>
+                <li>Ausarbeitung neuer Regelungen</li>
+                <li>Einholen von Team-Feedback</li>
+            </ul>
+            <div class="note-box" contenteditable="false">
+                <strong>Wichtig:</strong> Regeländerungen werden im Highteam abgesprochen und freigegeben.
+            </div>
+        </div>
+
+        <!-- SUPPORT -->
+        <div class="card" id="sec-support">
+            <div class="card-header">
+                <div class="role-badge" contenteditable="false">🎧 Support</div>
+                <span class="tag tag-support">Support</span>
+            </div>
+            <div class="member-name" contenteditable="false">GC|Jan Schmahn — Support</div>
+            <ul class="tasks-list" contenteditable="false">
+                <li>Erster Ansprechpartner für die Community</li>
+                <li>Bearbeitung von Supporttickets & Spielerfragen</li>
+                <li>Hilfe bei technischen/Einreisen-Problemen</li>
+                <li>Aufnahme von Bugs & Weiterleitung an Admin</li>
+            </ul>
+            <div class="note-box" contenteditable="false">
+                <strong>Grenzen:</strong> Entscheidet nicht über Permaban, Teamangelegenheiten oder Regeländerungen.
+            </div>
+        </div>
+
+        <!-- PRAKTIKANTEN -->
+        <div class="card" id="sec-praktikant">
+            <div class="card-header">
+                <div class="role-badge" contenteditable="false">🎓 Praktikanten</div>
+                <span class="tag tag-support">Ausbildung</span>
+            </div>
+            <div class="member-name" contenteditable="false">GC|BOB, GC|Latrell, GC|Wolfi, GC|Tuncay</div>
+            <ul class="tasks-list" contenteditable="false">
+                <li>Einarbeitung & Lernen der Serverregeln</li>
+                <li>Teilnahme am Support & Begleitung erfahrener Supporter</li>
+                <li>Durchführung von Einreisen unter Anleitung</li>
+                <li>Aufnahme einfacher Fragen und Bugs</li>
+            </ul>
+            <div class="note-box" contenteditable="false">
+                <strong>Prinzip:</strong> Erst lernen → dann unter Anleitung durchführen → anschließend selbstständig arbeiten.
+            </div>
+        </div>
+
+        <!-- ESKALATIONSWEG -->
+        <div class="card full-width">
+            <div class="card-header">
+                <div class="role-badge" contenteditable="false">🔄 Eskalationsweg</div>
+            </div>
+            <div class="flow-chart">
+                <div class="flow-step" contenteditable="false">👤 Spieler</div>
+                <div class="flow-arrow">➔</div>
+                <div class="flow-step" contenteditable="false">🎓 Praktikant / Support</div>
+                <div class="flow-arrow">➔</div>
+                <div class="flow-step" contenteditable="false">⚖️ Administration</div>
+                <div class="flow-arrow">➔</div>
+                <div class="flow-step" contenteditable="false">🛡️ Teamleitung</div>
+                <div class="flow-arrow">➔</div>
+                <div class="flow-step" contenteditable="false">⭐ Stellv. Projektleitung</div>
+                <div class="flow-arrow">➔</div>
+                <div class="flow-step" contenteditable="false">👑 Projektleitung / Highteam</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- INTERAKTIVE BEREICHE IM ANGEMELDETEN ZUSTAND -->
+    <div class="container full-width" id="sec-chat" style="margin-top: 25px; display: none;">
+        
+        <!-- LIVE CHAT -->
+        <div class="card">
+            <div class="card-header">
+                <div class="role-badge">💬 Team-Chat (Live)</div>
+            </div>
+            <div class="chat-box" id="chatBox"></div>
+            <div class="chat-input-container">
+                <input type="text" id="chatMsgInput" class="custom-input" placeholder="Nachrichten schreiben...">
+                <button class="btn btn-primary" id="btnSendChat">Senden</button>
+            </div>
+        </div>
+
+        <!-- VORSCHLÄGE FIELD -->
+        <div class="card">
+            <div class="card-header">
+                <div class="role-badge">💡 Vorschläge & Anmerkungen einreichen</div>
+            </div>
+            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                <input type="text" id="suggestionInput" class="custom-input" style="flex: 1;" placeholder="Deinen Vorschlag eingeben...">
+                <button class="btn btn-primary" id="btnSendSuggestion">Absenden</button>
+            </div>
+            <div class="suggestion-list" id="suggestionList"></div>
+        </div>
+
+    </div>
+
+    <!-- NATIVE JS LOGIK FOR UI (UHR, THEME, DROPDOWN) -->
+    <script>
+      function updateClock() {
+        const now = new Date();
+        const time = now.toLocaleTimeString('de-DE');
+        const date = now.toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: 'short' });
+        const timeEl = document.getElementById("clockTime");
+        const dateEl = document.getElementById("clockDate");
+        if(timeEl) timeEl.textContent = time;
+        if(dateEl) dateEl.textContent = date;
+      }
+      setInterval(updateClock, 1000);
+      updateClock();
+
+      /* --- THEME CUSTOMIZER --- */
+      const pickerBg = document.getElementById("pickerBg");
+      const pickerCard = document.getElementById("pickerCard");
+      const pickerBorder = document.getElementById("pickerBorder");
+      const pickerAccent = document.getElementById("pickerAccent");
+
+      function applyCustomTheme(bg, card, border, accent) {
+        if(bg) document.documentElement.style.setProperty('--bg-color', bg);
+        if(card) document.documentElement.style.setProperty('--card-bg', card);
+        if(border) document.documentElement.style.setProperty('--card-border', border);
+        if(accent) document.documentElement.style.setProperty('--accent-purple', accent);
+      }
+
+      function loadTheme() {
+        const savedTheme = JSON.parse(localStorage.getItem("team_theme_colors") || "{}");
+        if (savedTheme.bg) {
+            applyCustomTheme(savedTheme.bg, savedTheme.card, savedTheme.border, savedTheme.accent);
+            if(pickerBg) pickerBg.value = savedTheme.bg;
+            if(pickerCard) pickerCard.value = savedTheme.card;
+            if(pickerBorder) pickerBorder.value = savedTheme.border;
+            if(pickerAccent) pickerAccent.value = savedTheme.accent;
+        }
+      }
+
+      function saveTheme() {
+        const theme = {
+            bg: pickerBg.value,
+            card: pickerCard.value,
+            border: pickerBorder.value,
+            accent: pickerAccent.value
+        };
+        localStorage.setItem("team_theme_colors", JSON.stringify(theme));
+        applyCustomTheme(theme.bg, theme.card, theme.border, theme.accent);
+      }
+
+      [pickerBg, pickerCard, pickerBorder, pickerAccent].forEach(p => {
+        if(p) p.addEventListener("input", saveTheme);
+      });
+
+      document.getElementById("btnResetTheme").addEventListener("click", () => {
+        localStorage.removeItem("team_theme_colors");
+        document.documentElement.style.removeProperty('--bg-color');
+        document.documentElement.style.removeProperty('--card-bg');
+        document.documentElement.style.removeProperty('--card-border');
+        document.documentElement.style.removeProperty('--accent-purple');
+        if(pickerBg) pickerBg.value = "#0f172a";
+        if(pickerCard) pickerCard.value = "#1e293b";
+        if(pickerBorder) pickerBorder.value = "#334155";
+        if(pickerAccent) pickerAccent.value = "#a855f7";
+      });
+
+      /* --- DROPDOWN & NAV --- */
+      const btnToggleMenu = document.getElementById("btnToggleMenu");
+      const dropdownMenu = document.getElementById("dropdownMenu");
+
+      if(btnToggleMenu) {
+        btnToggleMenu.addEventListener("click", (e) => {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle("show");
+        });
+      }
+
+      document.addEventListener("click", () => dropdownMenu.classList.remove("show"));
+      dropdownMenu.addEventListener("click", (e) => e.stopPropagation());
+
+      document.getElementById("quickNav").addEventListener("change", (e) => {
+        const targetId = e.target.value;
+        if(targetId) {
+            const el = document.getElementById(targetId);
+            if(el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+                dropdownMenu.classList.remove("show");
+            }
+        }
+      });
+
+      loadTheme();
+    </script>
+
+    <!-- FIREBASE SYNCHRONISATION & LOGIK -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+      import { getFirestore, doc, onSnapshot, setDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyAybMLYFKySc0j5QgQMXuwRWir5F2im0QY",
+        authDomain: "grande-city.firebaseapp.com",
+        projectId: "grande-city",
+        storageBucket: "grande-city.firebasestorage.app",
+        messagingSenderId: "1019115646964",
+        appId: "1:1019115646964:web:3a03427356238eadd013a1",
+        measurementId: "G-M5347F150B"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      
+      const docRef = doc(db, "teamstructure", "main");
+      const chatRef = doc(db, "teamstructure", "chat");
+      const suggestionsRef = doc(db, "teamstructure", "suggestions");
+
+      const editors = ["GC|unclJonny", "GC|Amy", "GC|Kleinchen", "GC|Russo"];
+
+      let isLoggedIn = false;
+      let currentUser = "";
+      let canEditDashboard = false;
+
+      let currentChatMessages = [];
+      let currentSuggestionsList = [];
+
+      function applyLoginState(user) {
+        isLoggedIn = true;
+        currentUser = user;
+        canEditDashboard = editors.includes(user);
+
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("loggedInView").style.display = "flex";
+        document.getElementById("sec-chat").style.display = "grid";
+        document.getElementById("currentUsername").textContent = user;
+
+        if (canEditDashboard) {
+            document.getElementById("editActions").style.display = "flex";
+            document.body.classList.add("edit-active");
+        }
+
+        updateEditableState();
+        renderChat(currentChatMessages);
+        renderSuggestions(currentSuggestionsList);
+      }
+
+      window.addEventListener("DOMContentLoaded", () => {
+        const savedUser = localStorage.getItem("team_session_user");
+        if (savedUser) applyLoginState(savedUser);
+      });
+
+      onSnapshot(docRef, (snapshot) => {
+        if (snapshot.exists() && snapshot.data() && snapshot.data().content) {
+          document.getElementById("mainContainer").innerHTML = snapshot.data().content;
+          updateEditableState();
+        }
+      });
+
+      onSnapshot(chatRef, (snapshot) => {
+        if (snapshot.exists() && snapshot.data() && snapshot.data().messages) {
+          currentChatMessages = snapshot.data().messages;
+          renderChat(currentChatMessages);
+        } else {
+          currentChatMessages = [];
+          renderChat([]);
+        }
+      });
+
+      onSnapshot(suggestionsRef, (snapshot) => {
+        if (snapshot.exists() && snapshot.data() && snapshot.data().list) {
+          currentSuggestionsList = snapshot.data().list;
+          renderSuggestions(currentSuggestionsList);
+        } else {
+          currentSuggestionsList = [];
+          renderSuggestions([]);
+        }
+      });
+
+      document.getElementById("btnLogin").addEventListener("click", () => {
+        const user = document.getElementById("userSelect").value;
+        const pass = document.getElementById("passwordInput").value;
+
+        if (!user) return alert("Bitte wähle deinen Namen aus!");
+        if (pass === "1234") {
+            localStorage.setItem("team_session_user", user);
+            applyLoginState(user);
+        } else {
+            alert("Falsches Passwort!");
+        }
+      });
+
+      document.getElementById("btnLogout").addEventListener("click", () => {
+        localStorage.removeItem("team_session_user");
+        location.reload();
+      });
+
+      function updateEditableState() {
+        const editables = document.querySelectorAll("#mainContainer [contenteditable], header [contenteditable]");
+        editables.forEach(el => {
+            el.setAttribute("contenteditable", (isLoggedIn && canEditDashboard) ? "true" : "false");
+        });
+      }
+
+      document.getElementById("btnSave").addEventListener("click", async () => {
+        if (!isLoggedIn || !canEditDashboard) return;
+        const containerContent = document.getElementById("mainContainer").innerHTML;
+        try {
+          await setDoc(docRef, { content: containerContent });
+          alert("✅ Stand ERFOLGREICH LIVE für alle gespeichert!");
+        } catch (e) {
+          alert("❌ Fehler beim Speichern!");
+        }
+      });
+
+      /* --- CHAT FUNKTIONEN --- */
+      async function sendChatMessage() {
+        const input = document.getElementById("chatMsgInput");
+        const text = input.value.trim();
+        if (!text || !isLoggedIn) return;
+
+        const now = new Date();
+        const timeStr = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+        const id = Date.now().toString() + Math.random().toString(36).substr(2, 5);
+        const newMsg = { id, user: currentUser, text: text, time: timeStr };
+
+        try {
+            await setDoc(chatRef, { messages: arrayUnion(newMsg) }, { merge: true });
+            input.value = "";
+        } catch(e) {
+            alert("Fehler beim Senden!");
+        }
+      }
+
+      async function deleteChatMessage(msgObj) {
+        if (!canEditDashboard && msgObj.user !== currentUser) {
+            return alert("Du kannst nur deine eigenen Nachrichten löschen!");
+        }
+
+        try {
+            await setDoc(chatRef, { messages: arrayRemove(msgObj) }, { merge: true });
+        } catch(e) {
+            alert("Fehler beim Löschen der Nachricht!");
+        }
+      }
+
+      document.getElementById("btnSendChat").addEventListener("click", sendChatMessage);
+      document.getElementById("chatMsgInput").addEventListener("keypress", (e) => {
+        if (e.key === "Enter") sendChatMessage();
+      });
+
+      function renderChat(messages) {
+        const chatBox = document.getElementById("chatBox");
+        chatBox.innerHTML = "";
+        messages.forEach(m => {
+            const div = document.createElement("div");
+            div.className = "chat-msg";
+            
+            const canDelete = isLoggedIn && (canEditDashboard || m.user === currentUser);
+            
+            div.innerHTML = `
+                <div class="chat-msg-content">
+                    <span class="author">${m.user}:</span> ${m.text}
+                    <span class="time">${m.time}</span>
+                </div>
+            `;
+            
+            if (canDelete) {
+                const delBtn = document.createElement("button");
+                delBtn.className = "btn-delete";
+                delBtn.title = "Nachricht löschen";
+                delBtn.textContent = "🗑️";
+                delBtn.onclick = () => deleteChatMessage(m);
+                div.appendChild(delBtn);
+            }
+
+            chatBox.appendChild(div);
+        });
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+
+      /* --- VORSCHLÄGE FUNKTIONEN --- */
+      async function sendSuggestion() {
+        const input = document.getElementById("suggestionInput");
+        const text = input.value.trim();
+        if (!text || !isLoggedIn) return;
+
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('de-DE') + ' ' + now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+        const id = Date.now().toString() + Math.random().toString(36).substr(2, 5);
+        const newSug = { id, user: currentUser, text: text, date: dateStr };
+
+        try {
+            await setDoc(suggestionsRef, { list: arrayUnion(newSug) }, { merge: true });
+            input.value = "";
+            alert("✅ Vorschlag eingereicht!");
+        } catch(e) {
+            alert("Fehler beim Speichern!");
+        }
+      }
+
+      async function deleteSuggestion(sugObj) {
+        if (!canEditDashboard && sugObj.user !== currentUser) {
+            return alert("Du kannst nur deine eigenen Vorschläge löschen!");
+        }
+
+        try {
+            await setDoc(suggestionsRef, { list: arrayRemove(sugObj) }, { merge: true });
+        } catch(e) {
+            alert("Fehler beim Löschen des Vorschlags!");
+        }
+      }
+
+      document.getElementById("btnSendSuggestion").addEventListener("click", sendSuggestion);
+      document.getElementById("suggestionInput").addEventListener("keypress", (e) => {
+        if (e.key === "Enter") sendSuggestion();
+      });
+
+      function renderSuggestions(list) {
+        const listDiv = document.getElementById("suggestionList");
+        listDiv.innerHTML = "";
+        list.slice().reverse().forEach(s => {
+            const item = document.createElement("div");
+            item.className = "suggestion-item";
+
+            const canDelete = isLoggedIn && (canEditDashboard || s.user === currentUser);
+
+            item.innerHTML = `
+                <div>
+                    <strong>${s.user}</strong> <span style="color:var(--text-muted); font-size:0.8rem;">(${s.date})</span>: ${s.text}
+                </div>
+            `;
+
+            if (canDelete) {
+                const delBtn = document.createElement("button");
+                delBtn.className = "btn-delete";
+                delBtn.title = "Vorschlag löschen";
+                delBtn.textContent = "🗑️";
+                delBtn.onclick = () => deleteSuggestion(s);
+                item.appendChild(delBtn);
+            }
+
+            listDiv.appendChild(item);
+        });
+      }
+
+      /* --- BEREICH HINZUFÜGEN & EXPORT --- */
+      document.getElementById("btnAdd").addEventListener("click", () => {
+        if (!isLoggedIn || !canEditDashboard) return;
+        const container = document.getElementById("mainContainer");
+        const newCard = document.createElement("div");
+        newCard.className = "card";
+        newCard.innerHTML = `
+            <div class="card-header">
+                <div class="role-badge" contenteditable="true">📌 Neue Rolle / Abteilung</div>
+                <span class="tag tag-support" contenteditable="true">Status</span>
+            </div>
+            <div class="member-name" contenteditable="true">GC|Name — Rolle</div>
+            <ul class="tasks-list" contenteditable="true">
+                <li>Erste Aufgabe / Zuständigkeit</li>
+            </ul>
+            <div class="note-box" contenteditable="true">
+                <strong>Hinweis:</strong> Beschreibung...
+            </div>
+        `;
+        container.appendChild(newCard);
+      });
+
+      document.getElementById("btnExport").addEventListener("click", () => {
+        const pageHtml = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+        const blob = new Blob([pageHtml], { type: "text/html" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "Teamstruktur_FiveM.html";
+        a.click();
+      });
+    </script>
+</body>
+</html>
