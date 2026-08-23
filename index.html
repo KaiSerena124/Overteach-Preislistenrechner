@@ -25,19 +25,17 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding: 20px; min-height: 100vh; transition: background 0.3s; }
 
-        /* TOP BAR & CLOCK */
         .top-bar { max-width: 1200px; margin: 0 auto 20px auto; display: flex; justify-content: space-between; align-items: center; gap: 15px; flex-wrap: wrap; }
         .live-clock-container { background: rgba(168, 85, 247, 0.1); border: 2px solid var(--color-tl); box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); padding: 8px 18px; border-radius: 10px; }
         .clock-time { font-family: monospace; font-size: 1.3rem; font-weight: 700; color: #fff; text-shadow: 0 0 8px var(--color-tl); }
         .clock-date { font-size: 0.75rem; color: var(--text-muted); }
 
-        /* LOGIN & DROPDOWN */
         .login-bar { background: var(--card-bg); border: 1px solid var(--card-border); padding: 10px 16px; border-radius: 10px; position: relative; }
         .login-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
         .login-controls select, .login-controls input, .custom-input { background: #0d1117; color: var(--text-main); border: 1px solid var(--card-border); padding: 6px 10px; border-radius: 6px; outline: none; }
         .user-menu-btn { background: var(--color-tl); color: #fff; padding: 8px 14px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; box-shadow: 0 0 12px rgba(168, 85, 247, 0.5); }
 
-        .dropdown-menu { position: absolute; top: 115%; right: 0; width: 340px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 15px; display: none; flex-direction: column; gap: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.8); z-index: 1000; max-height: 80vh; overflow-y: auto; }
+        .dropdown-menu { position: absolute; top: 115%; right: 0; width: 380px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 15px; display: none; flex-direction: column; gap: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.8); z-index: 1000; max-height: 80vh; overflow-y: auto; }
         .dropdown-menu.show { display: flex; }
         .dropdown-section { border-bottom: 1px solid var(--card-border); padding-bottom: 10px; margin-bottom: 5px; }
         .dropdown-section:last-child { border-bottom: none; padding-bottom: 0; }
@@ -50,7 +48,6 @@
         header { max-width: 1200px; margin: 0 auto 25px auto; text-align: center; padding: 25px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(13, 17, 23, 0.9) 100%); border: 2px solid var(--color-tl); border-radius: 12px; box-shadow: 0 0 25px rgba(168, 85, 247, 0.25); }
         h1 { font-size: 2.2rem; color: #fff; text-shadow: 0 0 10px var(--color-tl); }
 
-        /* GRID LAYOUT FOR CARDS */
         .container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
         .full-width { grid-column: 1 / -1; }
 
@@ -103,15 +100,6 @@
         .tasks-list { list-style: none; }
         .tasks-list li { position: relative; padding-left: 20px; margin-bottom: 6px; font-size: 0.95rem; }
         .tasks-list li::before { content: "•"; position: absolute; left: 0; font-size: 1.4rem; top: -3px; }
-        .note-box { margin-top: 15px; padding: 10px 12px; border-radius: 6px; font-size: 0.85rem; color: var(--text-muted); background: rgba(0,0,0,0.2); border-left: 3px solid var(--card-border); }
-
-        .flow-chart { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; margin-top: 10px; }
-        .flow-step { background: rgba(0,0,0,0.4); border: 1px solid var(--card-border); padding: 10px 14px; border-radius: 8px; text-align: center; flex: 1; font-weight: 600; font-size: 0.85rem; }
-        .flow-arrow { color: var(--color-tl); font-weight: bold; }
-
-        .custom-table { width: 100%; border-collapse: collapse; margin-top: 10px; text-align: left; }
-        .custom-table th, .custom-table td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); font-size: 0.9rem; }
-        .custom-table th { color: var(--color-tl); font-size: 0.8rem; text-transform: uppercase; }
 
         .chat-box { height: 220px; overflow-y: auto; background: rgba(0,0,0,0.3); border: 1px solid var(--card-border); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
         .chat-msg { background: var(--card-bg); padding: 8px 12px; border-radius: 6px; font-size: 0.88rem; border-left: 3px solid var(--color-stellv); display: flex; justify-content: space-between; align-items: center; }
@@ -125,6 +113,11 @@
         .btn:hover { filter: brightness(1.2); }
         .btn-primary { background: #6366f1; border-color: #6366f1; color: white; }
         .btn-danger { background: var(--color-admin); border-color: var(--color-admin); color: white; width: 100%; margin-top: 5px; }
+        .btn-edit { background: rgba(255,255,255,0.1); border: 1px solid var(--card-border); color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; }
+
+        .user-manage-item { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.82rem; }
+        .user-manage-actions { display: flex; gap: 4px; }
+        .action-icon-btn { background: transparent; border: none; cursor: pointer; font-size: 0.9rem; padding: 2px; }
     </style>
 </head>
 <body>
@@ -147,6 +140,7 @@
             </div>
 
             <div class="dropdown-menu" id="dropdownMenu">
+                <!-- USER ANLEGEN & VERWALTEN (NUR FÜR BENANNTE KÖPFE) -->
                 <div class="dropdown-section" id="adminUserManagement" style="display: none;">
                     <div class="dropdown-title">➕ Neuen User anlegen</div>
                     <input type="text" id="newUsername" class="custom-input" placeholder="Name (z.B. GC|Name)" style="width: 100%; margin-bottom: 5px;">
@@ -158,9 +152,13 @@
                         <option value="Support">Support</option>
                         <option value="Praktikant">Praktikant</option>
                     </select>
-                    <button class="btn btn-primary" id="btnCreateUser" style="width: 100%; font-size: 0.8rem;">User Speichern</button>
+                    <button class="btn btn-primary" id="btnCreateUser" style="width: 100%; font-size: 0.8rem; margin-bottom: 10px;">User Speichern</button>
+
+                    <div class="dropdown-title">👥 Teammitglieder & Berechtigungen</div>
+                    <div id="userManagementList"></div>
                 </div>
 
+                <!-- FARBANPASSUNG -->
                 <div class="dropdown-section">
                     <div class="dropdown-title">🎨 Design & Farben anpassen</div>
                     <div class="color-picker-grid">
@@ -190,13 +188,16 @@
 
     <div class="container" id="mainContainer">
         <!-- PROJEKTLEITUNG -->
-        <div class="card card-pl">
+        <div class="card card-pl" id="card-pl">
             <div class="card-header">
                 <div class="role-badge">👑 Projektleitung</div>
-                <span class="tag">Highteam</span>
+                <div>
+                    <span class="tag">Highteam</span>
+                    <button class="btn-edit edit-card-btn" style="display:none;" data-card="card-pl">✏️</button>
+                </div>
             </div>
-            <div class="member-name">GC|unclJonny — Projektleitung</div>
-            <ul class="tasks-list">
+            <div class="member-name" contenteditable="false">GC|unclJonny — Projektleitung</div>
+            <ul class="tasks-list" contenteditable="false">
                 <li>Gesamtleitung des Servers & Überwachung sämtlicher Teammitglieder</li>
                 <li>Koordination von Administration und Support</li>
                 <li>Entscheidungen bei größeren teaminternen Problemen</li>
@@ -209,13 +210,16 @@
         </div>
 
         <!-- STELLV. PROJEKTLEITUNG -->
-        <div class="card card-stellv">
+        <div class="card card-stellv" id="card-stellv">
             <div class="card-header">
                 <div class="role-badge">⭐ Stellv. Projektleitung</div>
-                <span class="tag">Highteam</span>
+                <div>
+                    <span class="tag">Highteam</span>
+                    <button class="btn-edit edit-card-btn" style="display:none;" data-card="card-stellv">✏️</button>
+                </div>
             </div>
-            <div class="member-name">GC|Amy — stellv. Projektleitung</div>
-            <ul class="tasks-list">
+            <div class="member-name" contenteditable="false">GC|Amy — stellv. Projektleitung</div>
+            <ul class="tasks-list" contenteditable="false">
                 <li>Unterstützung der Projektleitung im Tagesgeschäft</li>
                 <li>Überwachung der Administration</li>
                 <li>Unterstützung bei schwierigen Teamfällen</li>
@@ -227,13 +231,16 @@
         </div>
 
         <!-- ADMINISTRATION -->
-        <div class="card card-admin">
+        <div class="card card-admin" id="card-admin">
             <div class="card-header">
                 <div class="role-badge">⚖️ Administration</div>
-                <span class="tag">Highteam</span>
+                <div>
+                    <span class="tag">Highteam</span>
+                    <button class="btn-edit edit-card-btn" style="display:none;" data-card="card-admin">✏️</button>
+                </div>
             </div>
-            <div class="member-name">GC|Russo — Administration</div>
-            <ul class="tasks-list">
+            <div class="member-name" contenteditable="false">GC|Russo — Administration</div>
+            <ul class="tasks-list" contenteditable="false">
                 <li>Bearbeitung schwieriger Fälle & Beschwerden</li>
                 <li>Unterstützung des Support-Teams</li>
                 <li>Prüfung von Regelverstößen</li>
@@ -242,13 +249,16 @@
         </div>
 
         <!-- TEAMLEITUNG -->
-        <div class="card card-tl">
+        <div class="card card-tl" id="card-tl">
             <div class="card-header">
                 <div class="role-badge">🛡️ Teamleitung & Admin</div>
-                <span class="tag">Management</span>
+                <div>
+                    <span class="tag">Management</span>
+                    <button class="btn-edit edit-card-btn" style="display:none;" data-card="card-tl">✏️</button>
+                </div>
             </div>
-            <div class="member-name">GC|Kleinchen — Teamleitung & Admin</div>
-            <ul class="tasks-list">
+            <div class="member-name" contenteditable="false">GC|Kleinchen — Teamleitung & Admin</div>
+            <ul class="tasks-list" contenteditable="false">
                 <li>Überwachung des gesamten Teams & Aktivitätskontrolle</li>
                 <li>Einarbeitung & Überwachung von Praktikanten</li>
                 <li>Ansprechpartner für Supporter und Praktikanten</li>
@@ -257,52 +267,64 @@
         </div>
 
         <!-- TECHNIK -->
-        <div class="card card-tech">
+        <div class="card card-tech" id="card-tech">
             <div class="card-header">
                 <div class="role-badge">💻 Technischer Bereich</div>
-                <span class="tag">Development</span>
+                <div>
+                    <span class="tag">Development</span>
+                    <button class="btn-edit edit-card-btn" style="display:none;" data-card="card-tech">✏️</button>
+                </div>
             </div>
-            <div class="member-name">GC|BOB — Script-Unterstützung</div>
-            <ul class="tasks-list">
+            <div class="member-name" contenteditable="false">GC|BOB — Script-Unterstützung</div>
+            <ul class="tasks-list" contenteditable="false">
                 <li>Unterstützung bei Scriptarbeiten & Überarbeitung</li>
                 <li>Fehleranalyse und Bug-Reporting</li>
             </ul>
         </div>
 
         <!-- REGELWERK -->
-        <div class="card card-rules">
+        <div class="card card-rules" id="card-rules">
             <div class="card-header">
                 <div class="role-badge">📜 Regelwerk-Management</div>
-                <span class="tag">Regelwerk</span>
+                <div>
+                    <span class="tag">Regelwerk</span>
+                    <button class="btn-edit edit-card-btn" style="display:none;" data-card="card-rules">✏️</button>
+                </div>
             </div>
-            <div class="member-name">GC|Vladimir Volkov — Management</div>
-            <ul class="tasks-list">
+            <div class="member-name" contenteditable="false">GC|Vladimir Volkov — Management</div>
+            <ul class="tasks-list" contenteditable="false">
                 <li>Überprüfung und Aktualisierung des Regelwerks</li>
                 <li>Sammeln von Verbesserungsvorschlägen</li>
             </ul>
         </div>
 
         <!-- SUPPORT -->
-        <div class="card card-support">
+        <div class="card card-support" id="card-support">
             <div class="card-header">
                 <div class="role-badge">🎧 Support</div>
-                <span class="tag">Support</span>
+                <div>
+                    <span class="tag">Support</span>
+                    <button class="btn-edit edit-card-btn" style="display:none;" data-card="card-support">✏️</button>
+                </div>
             </div>
-            <div class="member-name">GC|Jan Schmahn — Support</div>
-            <ul class="tasks-list">
+            <div class="member-name" contenteditable="false">GC|Jan Schmahn — Support</div>
+            <ul class="tasks-list" contenteditable="false">
                 <li>Erster Ansprechpartner für die Community</li>
                 <li>Bearbeitung von Supporttickets & Spielerfragen</li>
             </ul>
         </div>
 
         <!-- PRAKTIKANTEN -->
-        <div class="card card-praktikant">
+        <div class="card card-praktikant" id="card-praktikant">
             <div class="card-header">
                 <div class="role-badge">🎓 Praktikanten</div>
-                <span class="tag">Ausbildung</span>
+                <div>
+                    <span class="tag">Ausbildung</span>
+                    <button class="btn-edit edit-card-btn" style="display:none;" data-card="card-praktikant">✏️</button>
+                </div>
             </div>
-            <div class="member-name">GC|BOB, GC|Latrell, GC|Wolfi, GC|Tuncay</div>
-            <ul class="tasks-list">
+            <div class="member-name" contenteditable="false">GC|BOB, GC|Latrell, GC|Wolfi, GC|Tuncay</div>
+            <ul class="tasks-list" contenteditable="false">
                 <li>Einarbeitung & Lernen der Serverregeln</li>
                 <li>Teilnahme am Support & Begleitung erfahrener Supporter</li>
             </ul>
@@ -406,59 +428,130 @@
         let registeredUsers = {};
         let currentUser = null;
 
-        /* ALLE DIESE BENUTZER WERDEN ERZWUNGEN NEU GESPEICHERT */
+        const primaryAdmins = ["GC|unclJonny", "GC|Amy", "GC|Russo", "GC|Kleinchen"];
+
         const defaultUsers = {
-            "GC|unclJonny": { pass: "1234", role: "Highteam" },
-            "GC|Amy": { pass: "1234", role: "Highteam" },
-            "GC|Russo": { pass: "1234", role: "Highteam" },
-            "GC|Kleinchen": { pass: "1234", role: "Teamleitung" },
-            "GC|BOB": { pass: "1234", role: "Praktikant" },
-            "GC|Vladimir Volkov": { pass: "1234", role: "Support" },
-            "GC|Jan Schmahn": { pass: "1234", role: "Support" },
-            "GC|Latrell": { pass: "1234", role: "Praktikant" },
-            "GC|Wolfi": { pass: "1234", role: "Praktikant" },
-            "GC|Tuncay": { pass: "1234", role: "Praktikant" }
+            "GC|unclJonny": { pass: "1234", role: "Highteam", canEdit: true, isBlocked: false },
+            "GC|Amy": { pass: "1234", role: "Highteam", canEdit: true, isBlocked: false },
+            "GC|Russo": { pass: "1234", role: "Highteam", canEdit: true, isBlocked: false },
+            "GC|Kleinchen": { pass: "1234", role: "Teamleitung", canEdit: true, isBlocked: false },
+            "GC|BOB": { pass: "1234", role: "Praktikant", canEdit: false, isBlocked: false },
+            "GC|Vladimir Volkov": { pass: "1234", role: "Support", canEdit: false, isBlocked: false },
+            "GC|Jan Schmahn": { pass: "1234", role: "Support", canEdit: false, isBlocked: false },
+            "GC|Latrell": { pass: "1234", role: "Praktikant", canEdit: false, isBlocked: false },
+            "GC|Wolfi": { pass: "1234", role: "Praktikant", canEdit: false, isBlocked: false },
+            "GC|Tuncay": { pass: "1234", role: "Praktikant", canEdit: false, isBlocked: false }
         };
 
         function populateUserDropdown() {
             const select = document.getElementById("userSelect");
             select.innerHTML = '<option value="">-- User auswählen --</option>';
             
-            // Sortierte Liste anzeigen
             Object.keys(registeredUsers).sort().forEach(u => {
-                const opt = document.createElement("option");
-                opt.value = u;
-                opt.textContent = `${u} (${registeredUsers[u].role})`;
-                select.appendChild(opt);
+                if(!registeredUsers[u].isBlocked) {
+                    const opt = document.createElement("option");
+                    opt.value = u;
+                    opt.textContent = `${u} (${registeredUsers[u].role})`;
+                    select.appendChild(opt);
+                }
+            });
+        }
+
+        function renderUserManagementList() {
+            const listDiv = document.getElementById("userManagementList");
+            listDiv.innerHTML = "";
+
+            Object.keys(registeredUsers).sort().forEach(u => {
+                const userObj = registeredUsers[u];
+                const item = document.createElement("div");
+                item.className = "user-manage-item";
+
+                const isMainAdmin = primaryAdmins.includes(u);
+
+                item.innerHTML = `
+                    <div>
+                        <strong>${u}</strong> <span style="font-size:0.7rem; color:var(--text-muted);">(${userObj.role})</span>
+                    </div>
+                    <div class="user-manage-actions">
+                        <button class="action-icon-btn toggle-edit-btn" title="Schreibberechtigung toggle" data-user="${u}">
+                            ${userObj.canEdit ? "✏️" : "🔒"}
+                        </button>
+                        ${!isMainAdmin ? `
+                        <button class="action-icon-btn toggle-block-btn" title="Sperren/Entsperren" data-user="${u}">
+                            ${userObj.isBlocked ? "🔴" : "🟢"}
+                        </button>
+                        <button class="action-icon-btn delete-user-btn" title="Löschen" data-user="${u}">
+                            🗑️
+                        </button>` : ''}
+                    </div>
+                `;
+                listDiv.appendChild(item);
+            });
+
+            // Action-Buttons binden
+            document.querySelectorAll(".toggle-edit-btn").forEach(btn => {
+                btn.addEventListener("click", async (e) => {
+                    const u = e.currentTarget.dataset.user;
+                    registeredUsers[u].canEdit = !registeredUsers[u].canEdit;
+                    await setDoc(usersRef, registeredUsers, { merge: true });
+                });
+            });
+
+            document.querySelectorAll(".toggle-block-btn").forEach(btn => {
+                btn.addEventListener("click", async (e) => {
+                    const u = e.currentTarget.dataset.user;
+                    registeredUsers[u].isBlocked = !registeredUsers[u].isBlocked;
+                    await setDoc(usersRef, registeredUsers, { merge: true });
+                });
+            });
+
+            document.querySelectorAll(".delete-user-btn").forEach(btn => {
+                btn.addEventListener("click", async (e) => {
+                    const u = e.currentTarget.dataset.user;
+                    if(confirm(`User ${u} wirklich löschen?`)) {
+                        delete registeredUsers[u];
+                        await setDoc(usersRef, registeredUsers);
+                    }
+                });
             });
         }
 
         function applyLoginState(user) {
             currentUser = user;
             const userObj = registeredUsers[user];
-            if (!userObj) return;
+            if (!userObj || userObj.isBlocked) {
+                alert("Dieser Account ist gesperrt!");
+                localStorage.removeItem("loggedInUser");
+                location.reload();
+                return;
+            }
 
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("loggedInView").style.display = "flex";
             document.getElementById("sec-chat").style.display = "grid";
             document.getElementById("currentUsername").textContent = `${user} (${userObj.role})`;
 
-            if (userObj.role === "Highteam" || userObj.role === "Teamleitung") {
+            const isCoreAdmin = primaryAdmins.includes(user);
+            if (isCoreAdmin || userObj.canEdit) {
                 document.getElementById("adminUserManagement").style.display = "block";
+                document.querySelectorAll(".edit-card-btn").forEach(b => b.style.display = "inline-block");
             } else {
                 document.getElementById("adminUserManagement").style.display = "none";
+                document.querySelectorAll(".edit-card-btn").forEach(b => b.style.display = "none");
             }
         }
 
         onSnapshot(usersRef, (snapshot) => {
             let existingUsers = snapshot.exists() ? snapshot.data() : {};
-            
-            // HIER DIE KORREKTUR: Fehlende Nutzer automatisch in Firebase hinzufügen!
             let needsUpdate = false;
+
             Object.keys(defaultUsers).forEach(username => {
                 if (!existingUsers[username]) {
                     existingUsers[username] = defaultUsers[username];
                     needsUpdate = true;
+                } else {
+                    if (existingUsers[username].canEdit === undefined) existingUsers[username].canEdit = defaultUsers[username].canEdit;
+                    if (existingUsers[username].isBlocked === undefined) existingUsers[username].isBlocked = false;
                 }
             });
 
@@ -468,11 +561,31 @@
 
             registeredUsers = existingUsers;
             populateUserDropdown();
+            renderUserManagementList();
 
             const savedUser = localStorage.getItem("loggedInUser");
             if (savedUser && registeredUsers[savedUser]) {
                 applyLoginState(savedUser);
             }
+        });
+
+        // Edit Card Functionality
+        document.querySelectorAll(".edit-card-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const cardId = e.currentTarget.dataset.card;
+                const card = document.getElementById(cardId);
+                const title = card.querySelector(".member-name");
+                const list = card.querySelector(".tasks-list");
+
+                const isEditing = title.isContentEditable;
+                title.contentEditable = !isEditing;
+                list.contentEditable = !isEditing;
+
+                e.currentTarget.textContent = !isEditing ? "💾 Speichern" : "✏️";
+                if(isEditing) {
+                    alert("Änderungen lokal übernommen.");
+                }
+            });
         });
 
         document.getElementById("btnCreateUser").addEventListener("click", async () => {
@@ -482,7 +595,7 @@
 
             if(!name || !pass) return alert("Bitte Name und Passwort eingeben!");
 
-            registeredUsers[name] = { pass: pass, role: role };
+            registeredUsers[name] = { pass: pass, role: role, canEdit: false, isBlocked: false };
             await setDoc(usersRef, registeredUsers, { merge: true });
             alert(`✅ User ${name} erfolgreich als ${role} erstellt!`);
             document.getElementById("newUsername").value = "";
@@ -516,7 +629,7 @@
             messages.forEach(m => {
                 const div = document.createElement("div");
                 div.className = "chat-msg";
-                const isManagement = currentUser && (registeredUsers[currentUser]?.role === "Highteam" || registeredUsers[currentUser]?.role === "Teamleitung");
+                const isManagement = currentUser && (primaryAdmins.includes(currentUser) || registeredUsers[currentUser]?.canEdit);
                 const isOwner = currentUser === m.user;
 
                 div.innerHTML = `<div><strong>${m.user}:</strong> ${m.text}</div>`;
@@ -552,7 +665,7 @@
             list.slice().reverse().forEach(s => {
                 const item = document.createElement("div");
                 item.className = "suggestion-item";
-                const isManagement = currentUser && (registeredUsers[currentUser]?.role === "Highteam" || registeredUsers[currentUser]?.role === "Teamleitung");
+                const isManagement = currentUser && (primaryAdmins.includes(currentUser) || registeredUsers[currentUser]?.canEdit);
                 const isOwner = currentUser === s.user;
 
                 item.innerHTML = `<div><strong>${s.user}:</strong> ${s.text}</div>`;
