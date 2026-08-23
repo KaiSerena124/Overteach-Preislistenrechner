@@ -37,7 +37,7 @@
         }
 
         .login-controls { display: flex; gap: 10px; align-items: center; }
-        .login-controls select, .login-controls input {
+        .login-controls select, .login-controls input, .custom-input {
             background: #0f172a;
             color: var(--text-main);
             border: 1px solid var(--card-border);
@@ -122,13 +122,54 @@
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--card-border); }
         th { background: rgba(0, 0, 0, 0.2); color: var(--text-muted); }
+
+        /* Chat & Vorschläge Style */
+        .chat-box {
+            height: 250px;
+            overflow-y: auto;
+            background: #0f172a;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .chat-msg {
+            background: #1e293b;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border-left: 3px solid var(--accent-blue);
+        }
+        .chat-msg .author { font-weight: 700; color: #a855f7; margin-right: 8px; font-size: 0.8rem; }
+        .chat-msg .time { color: var(--text-muted); font-size: 0.75rem; float: right; }
+        .chat-input-container { display: flex; gap: 8px; }
+        .chat-input-container input { flex: 1; }
+
+        .suggestion-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .suggestion-item {
+            background: #0f172a;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
 
     <!-- LOGIN AREA -->
     <div class="login-bar">
-        <div>🔒 <strong>Bearbeitungsmodus:</strong> <span id="lockStatus">Gesperrt (Nur Lesen)</span></div>
+        <div>🔒 <strong>Status:</strong> <span id="lockStatus">Nicht angemeldet</span></div>
         <div class="login-controls" id="loginForm">
             <select id="userSelect">
                 <option value="">-- Name auswählen --</option>
@@ -136,7 +177,7 @@
                 <option value="GC|Amy">GC|Amy (Stellv. Projektleitung)</option>
                 <option value="GC|Kleinchen">GC|Kleinchen (Teamleitung & Admin)</option>
                 <option value="GC|Russo">GC|Russo (Administration)</option>
-                <option value="GC|BOB">GC|BOB (Technischer Bereich)</option>
+                <option value="GC|BOB">GC|BOB (Scripting / Praktikant)</option>
                 <option value="GC|Vladimir Volkov">GC|Vladimir Volkov (Regelwerk)</option>
                 <option value="GC|Jan Schmahn">GC|Jan Schmahn (Support)</option>
                 <option value="GC|Latrell">GC|Latrell (Praktikant)</option>
@@ -365,10 +406,39 @@
 
     </div>
 
+    <!-- INTERAKTIVE BEREICHE IM ANGEMELDETEN ZUSTAND -->
+    <div class="container full-width" id="userFeatures" style="margin-top: 25px; display: none;">
+        
+        <!-- LIVE CHAT -->
+        <div class="card">
+            <div class="card-header">
+                <div class="role-badge">💬 Team-Chat (Live)</div>
+            </div>
+            <div class="chat-box" id="chatBox"></div>
+            <div class="chat-input-container">
+                <input type="text" id="chatMsgInput" class="custom-input" placeholder="Nachricht an das Team schreiben...">
+                <button class="btn btn-primary" id="btnSendChat">Senden</button>
+            </div>
+        </div>
+
+        <!-- VORSCHLÄGE FIELD -->
+        <div class="card">
+            <div class="card-header">
+                <div class="role-badge">💡 Vorschläge & Anmerkungen einreichen</div>
+            </div>
+            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                <input type="text" id="suggestionInput" class="custom-input" style="flex: 1;" placeholder="Deinen Vorschlag oder Änderungswunsch hier eingeben...">
+                <button class="btn btn-primary" id="btnSendSuggestion">Vorschlag Absenden</button>
+            </div>
+            <div class="suggestion-list" id="suggestionList"></div>
+        </div>
+
+    </div>
+
     <!-- FIREBASE SYNCHRONISATION & AUTH -->
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-      import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+      import { getFirestore, doc, onSnapshot, setDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
       const firebaseConfig = {
         apiKey: "AIzaSyAybMLYFKySc0j5QgQMXuwRWir5F2im0QY",
@@ -382,15 +452,37 @@
 
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
+      
       const docRef = doc(db, "teamstructure", "main");
+      const chatRef = doc(db, "teamstructure", "chat");
+      const suggestionsRef = doc(db, "teamstructure", "suggestions");
+
+      // Liste der Editoren mit vollen Rechten
+      const editors = ["GC|unclJonny", "GC|Amy", "GC|Kleinchen", "GC|Russo"];
 
       let isLoggedIn = false;
+      let currentUser = "";
+      let canEditDashboard = false;
 
-      // Live-Aktualisierung von Firebase empfangen
+      // Hauptstruktur synchen
       onSnapshot(docRef, (snapshot) => {
         if (snapshot.exists() && snapshot.data() && snapshot.data().content) {
           document.getElementById("mainContainer").innerHTML = snapshot.data().content;
           updateEditableState();
+        }
+      });
+
+      // Chat synchen
+      onSnapshot(chatRef, (snapshot) => {
+        if (snapshot.exists() && snapshot.data() && snapshot.data().messages) {
+          renderChat(snapshot.data().messages);
+        }
+      });
+
+      // Vorschläge synchen
+      onSnapshot(suggestionsRef, (snapshot) => {
+        if (snapshot.exists() && snapshot.data() && snapshot.data().list) {
+          renderSuggestions(snapshot.data().list);
         }
       });
 
@@ -400,21 +492,31 @@
         const pass = document.getElementById("passwordInput").value;
 
         if (!user) {
-            alert("Bitte wähle deinen Benutzernamen aus!");
+            alert("Bitte wähle deinen Namen aus!");
             return;
         }
 
         if (pass === "1234") {
             isLoggedIn = true;
+            currentUser = user;
+            canEditDashboard = editors.includes(user);
+
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("loggedInView").style.display = "flex";
+            document.getElementById("userFeatures").style.display = "grid";
             document.getElementById("currentUsername").textContent = user;
-            document.getElementById("lockStatus").textContent = "Freigeschaltet (Bearbeitung aktiv)";
-            document.getElementById("lockStatus").style.color = "#10b981";
-            document.getElementById("editActions").style.display = "flex";
-            document.body.classList.add("edit-active");
+            
+            if (canEditDashboard) {
+                document.getElementById("lockStatus").textContent = "Freigeschaltet (Vollzugriff: Bearbeitung aktiv)";
+                document.getElementById("lockStatus").style.color = "#10b981";
+                document.getElementById("editActions").style.display = "flex";
+                document.body.classList.add("edit-active");
+            } else {
+                document.getElementById("lockStatus").textContent = "Angemeldet (Teamzugriff: Chat & Vorschläge)";
+                document.getElementById("lockStatus").style.color = "#3b82f6";
+            }
+
             updateEditableState();
-            alert("Erfolgreich angemeldet als " + user);
         } else {
             alert("Falsches Passwort!");
         }
@@ -423,10 +525,14 @@
       // Logout Logik
       document.getElementById("btnLogout").addEventListener("click", () => {
         isLoggedIn = false;
+        currentUser = "";
+        canEditDashboard = false;
+
         document.getElementById("loginForm").style.display = "flex";
         document.getElementById("loggedInView").style.display = "none";
+        document.getElementById("userFeatures").style.display = "none";
         document.getElementById("passwordInput").value = "";
-        document.getElementById("lockStatus").textContent = "Gesperrt (Nur Lesen)";
+        document.getElementById("lockStatus").textContent = "Nicht angemeldet";
         document.getElementById("lockStatus").style.color = "#94a3b8";
         document.getElementById("editActions").style.display = "none";
         document.body.classList.remove("edit-active");
@@ -436,13 +542,13 @@
       function updateEditableState() {
         const editables = document.querySelectorAll("#mainContainer [contenteditable], header [contenteditable]");
         editables.forEach(el => {
-            el.setAttribute("contenteditable", isLoggedIn ? "true" : "false");
+            el.setAttribute("contenteditable", (isLoggedIn && canEditDashboard) ? "true" : "false");
         });
       }
 
-      // Speichern in Firebase
+      // Live Speichern (Nur Leitung/Admin)
       document.getElementById("btnSave").addEventListener("click", async () => {
-        if (!isLoggedIn) return;
+        if (!isLoggedIn || !canEditDashboard) return;
         const containerContent = document.getElementById("mainContainer").innerHTML;
         try {
           await setDoc(docRef, { content: containerContent });
@@ -453,9 +559,65 @@
         }
       });
 
-      // Neuen Bereich hinzufügen
+      // Chat Nachricht senden
+      document.getElementById("btnSendChat").addEventListener("click", async () => {
+        const text = document.getElementById("chatMsgInput").value.trim();
+        if (!text || !isLoggedIn) return;
+
+        const time = new Date().toLocaleTimeString([], { hour: '2-2:2', minute: '2-2' });
+        const newMsg = { user: currentUser, text: text, time: time };
+
+        try {
+            await setDoc(chatRef, { messages: arrayUnion(newMsg) }, { merge: true });
+            document.getElementById("chatMsgInput").value = "";
+        } catch(e) {
+            console.error("Chat-Fehler:", e);
+        }
+      });
+
+      function renderChat(messages) {
+        const chatBox = document.getElementById("chatBox");
+        chatBox.innerHTML = "";
+        messages.forEach(m => {
+            const div = document.createElement("div");
+            div.className = "chat-msg";
+            div.innerHTML = `<span class="time">${m.time}</span><span class="author">${m.user}:</span> ${m.text}`;
+            chatBox.appendChild(div);
+        });
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+
+      // Vorschlag absenden
+      document.getElementById("btnSendSuggestion").addEventListener("click", async () => {
+        const text = document.getElementById("suggestionInput").value.trim();
+        if (!text || !isLoggedIn) return;
+
+        const date = new Date().toLocaleDateString([], { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+        const newSug = { user: currentUser, text: text, date: date };
+
+        try {
+            await setDoc(suggestionsRef, { list: arrayUnion(newSug) }, { merge: true });
+            document.getElementById("suggestionInput").value = "";
+            alert("✅ Vorschlag eingereicht!");
+        } catch(e) {
+            console.error("Vorschlags-Fehler:", e);
+        }
+      });
+
+      function renderSuggestions(list) {
+        const listDiv = document.getElementById("suggestionList");
+        listDiv.innerHTML = "";
+        list.slice().reverse().forEach(s => {
+            const item = document.createElement("div");
+            item.className = "suggestion-item";
+            item.innerHTML = `<strong>${s.user}</strong> <span style="color:var(--text-muted); font-size:0.8rem;">(${s.date})</span>: ${s.text}`;
+            listDiv.appendChild(item);
+        });
+      }
+
+      // Bereich hinzufügen
       document.getElementById("btnAdd").addEventListener("click", () => {
-        if (!isLoggedIn) return;
+        if (!isLoggedIn || !canEditDashboard) return;
         const container = document.getElementById("mainContainer");
         const newCard = document.createElement("div");
         newCard.className = "card";
