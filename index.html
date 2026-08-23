@@ -1,3 +1,12 @@
+Hier ist der vollständige Code, der wirklich **alle** Inhalte aus deinem ursprünglichen Dokument kombiniert:
+
+* **Alle 8 Abteilungs-Karten** (Projektleitung, Stellv. Projektleitung, Teamleitung, Administration, Technischer Bereich, Regelwerk, Support, Praktikanten) inklusive aller Stichpunkte und Notizboxen.
+* **Jonny, Amy und Russo** jeweils mit dem roten **Highteam**-Tag versehen.
+* **Eskalationsweg** und **Interne Zuständigkeiten** (Tabelle) als vollbreite Abschnitte.
+* **Dropdown-Menü**: User-Erstellung (Name, Passwort, Rolle) für Highteam & direkte Rollenanzeige.
+* **Chat & Vorschläge**: Live-Chat und Vorschlagswesen, bei dem Nachrichten nur vom Verfasser oder dem Highteam gelöscht werden können.
+
+```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -15,6 +24,7 @@
             --accent-blue: #3b82f6;
             --accent-red: #ef4444;
             --accent-green: #10b981;
+            --accent-amber: #f59e0b;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; }
@@ -53,12 +63,15 @@
         .tag { font-size: 0.7rem; padding: 4px 8px; border-radius: 6px; font-weight: 700; text-transform: uppercase; }
         .tag-highteam { background: rgba(239, 68, 68, 0.25); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.5); }
         .tag-admin { background: rgba(168, 85, 247, 0.2); color: #d8b4fe; }
+        .tag-tech { background: rgba(6, 182, 212, 0.2); color: #67e8f9; }
+        .tag-rules { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
         .tag-support { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
 
         .member-name { font-size: 1rem; font-weight: 600; color: #e2e8f0; margin-bottom: 10px; }
         .tasks-list { list-style: none; }
         .tasks-list li { position: relative; padding-left: 18px; margin-bottom: 6px; font-size: 0.95rem; }
         .tasks-list li::before { content: "•"; position: absolute; left: 0; color: var(--accent-purple); font-size: 1.2rem; }
+        .note-box { margin-top: 15px; padding: 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.03); border-left: 3px solid var(--accent-purple); font-size: 0.85rem; color: var(--text-muted); }
 
         /* ESKALATIONSWEG & TABELLE */
         .flow-chart { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; margin-top: 10px; }
@@ -69,11 +82,14 @@
         .custom-table th, .custom-table td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); font-size: 0.9rem; }
         .custom-table th { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; }
 
-        /* CHAT & DELETE */
+        /* CHAT & SUGGESTIONS */
         .chat-box { height: 220px; overflow-y: auto; background: rgba(0,0,0,0.2); border: 1px solid var(--card-border); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
         .chat-msg { background: var(--card-bg); padding: 8px 12px; border-radius: 6px; font-size: 0.88rem; border-left: 3px solid var(--accent-blue); display: flex; justify-content: space-between; align-items: center; }
         .btn-delete { background: transparent; border: none; color: var(--accent-red); cursor: pointer; font-size: 0.85rem; opacity: 0.6; padding: 2px 5px; }
         .btn-delete:hover { opacity: 1; }
+
+        .suggestion-list { max-height: 180px; overflow-y: auto; margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+        .suggestion-item { background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 6px; border: 1px solid var(--card-border); font-size: 0.88rem; display: flex; justify-content: space-between; align-items: center; }
 
         .btn { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--card-border); padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: 600; }
         .btn-primary { background: #6366f1; border-color: #6366f1; color: white; }
@@ -100,7 +116,6 @@
             </div>
 
             <div class="dropdown-menu" id="dropdownMenu">
-                <!-- ROLLEN- & NEUER USER BEREICH (NUR IM HIGHTEAM) -->
                 <div class="dropdown-section" id="adminUserManagement" style="display: none;">
                     <div class="dropdown-title">➕ Neuen User anlegen</div>
                     <input type="text" id="newUsername" class="custom-input" placeholder="Name (z.B. GC|Name)" style="width: 100%; margin-bottom: 5px;">
@@ -129,7 +144,6 @@
 
     <div class="container" id="mainContainer">
 
-        <!-- PROJEKTLEITUNG -->
         <div class="card">
             <div class="card-header">
                 <div class="role-badge">👑 Projektleitung</div>
@@ -137,14 +151,20 @@
             </div>
             <div class="member-name">GC|unclJonny — Projektleitung</div>
             <ul class="tasks-list">
-                <li>Gesamtleitung des Servers & Überwachung des Teams</li>
+                <li>Gesamtleitung des Servers & Überwachung sämtlicher Teammitglieder</li>
                 <li>Koordination von Administration und Support</li>
                 <li>Entscheidungen bei größeren teaminternen Problemen</li>
-                <li>Kontrolle der Serverentwicklung & Freigabe von Änderungen</li>
+                <li>Bearbeitung und Klärung schwieriger/eskalierter Supportfälle</li>
+                <li>Kontrolle der Serverentwicklung & Script/Fahrzeug-Änderungen</li>
+                <li>Planung und Koordination neuer Projekte</li>
+                <li>Entscheidung über Beförderungen und Degradierungen</li>
+                <li>Freigabe größerer Änderungen am Server</li>
             </ul>
+            <div class="note-box">
+                <strong>Grundsatz:</strong> Hat den Überblick über sämtliche Bereiche und greift ein, wenn Entscheidungen mehrere Abteilungen betreffen.
+            </div>
         </div>
 
-        <!-- STELLV. PROJEKTLEITUNG -->
         <div class="card">
             <div class="card-header">
                 <div class="role-badge">⭐ Stellv. Projektleitung</div>
@@ -153,12 +173,18 @@
             <div class="member-name">GC|Amy — stellv. Projektleitung</div>
             <ul class="tasks-list">
                 <li>Unterstützung der Projektleitung im Tagesgeschäft</li>
-                <li>Überwachung der Administration & Supportqualität</li>
+                <li>Überwachung der Administration</li>
+                <li>Unterstützung bei schwierigen Teamfällen</li>
+                <li>Kontrolle der Supportqualität & Ticketbearbeitung</li>
                 <li>Vermittlung bei teaminternen Konflikten</li>
+                <li>Vertretung der Projektleitung bei Abwesenheit</li>
+                <li>Ansprechpartner für Administration und Support</li>
             </ul>
+            <div class="note-box">
+                <strong>Wichtig:</strong> Arbeitet eng mit Jonny zusammen und stimmt größere Entscheidungen ab.
+            </div>
         </div>
 
-        <!-- ADMINISTRATION (MIT RUSSO ALS HIGHTEAM) -->
         <div class="card">
             <div class="card-header">
                 <div class="role-badge">⚖️ Administration</div>
@@ -167,25 +193,101 @@
             <div class="member-name">GC|Russo — Administration</div>
             <ul class="tasks-list">
                 <li>Bearbeitung schwieriger Fälle & Beschwerden</li>
-                <li>Unterstützung des Support-Teams & Sanktionen</li>
-                <li>Prüfung von schweren Regelverstößen</li>
+                <li>Unterstützung des Support-Teams</li>
+                <li>Prüfung von Regelverstößen</li>
+                <li>Administrative Maßnahmen & Einreiseprobleme</li>
+                <li>Weitergabe größerer Fälle an die Teamleitung/PL</li>
             </ul>
+            <div class="note-box">
+                <strong>Wichtig:</strong> Support versucht Probleme zuerst selbstständig zu lösen, bevor die Administration übernimmt.
+            </div>
         </div>
 
-        <!-- TEAMLEITUNG & ADMIN -->
         <div class="card">
             <div class="card-header">
-                <div class="role-badge">🛡️ Teamleitung</div>
+                <div class="role-badge">🛡️ Teamleitung & Admin</div>
                 <span class="tag tag-admin">Management</span>
             </div>
             <div class="member-name">GC|Kleinchen — Teamleitung & Admin</div>
             <ul class="tasks-list">
-                <li>Überwachung des Teams & Einarbeitung von Praktikanten</li>
-                <li>Durchführung von Teamgesprächen & Ticketbearbeitung</li>
+                <li>Überwachung des gesamten Teams & Aktivitätskontrolle</li>
+                <li>Einarbeitung & Überwachung von Praktikanten</li>
+                <li>Ansprechpartner für Supporter und Praktikanten</li>
+                <li>Durchführung/Unterstützung bei Teamgesprächen</li>
+                <li>Bearbeitung schwieriger Tickets & Beschwerden</li>
+                <li>Sanktionen bei Regelverstößen</li>
+                <li>Eskalierte Supportfälle übernehmen</li>
             </ul>
         </div>
 
-        <!-- ESKALATIONSWEG (ÜBERSICHTLICH AUFGEZEICHNET) -->
+        <div class="card">
+            <div class="card-header">
+                <div class="role-badge">💻 Technischer Bereich</div>
+                <span class="tag tag-tech">Development</span>
+            </div>
+            <div class="member-name">GC|BOB — Script-Unterstützung</div>
+            <ul class="tasks-list">
+                <li>Unterstützung bei Scriptarbeiten & Überarbeitung</li>
+                <li>Fehleranalyse und Bug-Reporting</li>
+                <li>Testen neuer Funktionen auf dem Testserver</li>
+                <li>Dokumentation von technischen Änderungen</li>
+            </ul>
+            <div class="note-box">
+                <strong>Wichtig:</strong> Scriptänderungen werden vor dem Live-Gang mit der zuständigen Leitung abgesprochen.
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="role-badge">📜 Regelwerk-Management</div>
+                <span class="tag tag-rules">Regelwerk</span>
+            </div>
+            <div class="member-name">GC|Vladimir Volkov — Management</div>
+            <ul class="tasks-list">
+                <li>Überprüfung und Aktualisierung des Regelwerks</li>
+                <li>Sammeln von Verbesserungsvorschlägen</li>
+                <li>Ausarbeitung neuer Regelungen</li>
+                <li>Einholen von Team-Feedback</li>
+            </ul>
+            <div class="note-box">
+                <strong>Wichtig:</strong> Regeländerungen werden im Highteam abgesprochen und freigegeben.
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="role-badge">🎧 Support</div>
+                <span class="tag tag-support">Support</span>
+            </div>
+            <div class="member-name">GC|Jan Schmahn — Support</div>
+            <ul class="tasks-list">
+                <li>Erster Ansprechpartner für die Community</li>
+                <li>Bearbeitung von Supporttickets & Spielerfragen</li>
+                <li>Hilfe bei technischen/Einreisen-Problemen</li>
+                <li>Aufnahme von Bugs & Weiterleitung an Admin</li>
+            </ul>
+            <div class="note-box">
+                <strong>Grenzen:</strong> Entscheidet nicht über Permaban, Teamangelegenheiten oder Regeländerungen.
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="role-badge">🎓 Praktikanten</div>
+                <span class="tag tag-support">Ausbildung</span>
+            </div>
+            <div class="member-name">GC|BOB, GC|Latrell, GC|Wolfi, GC|Tuncay</div>
+            <ul class="tasks-list">
+                <li>Einarbeitung & Lernen der Serverregeln</li>
+                <li>Teilnahme am Support & Begleitung erfahrener Supporter</li>
+                <li>Durchführung von Einreisen unter Anleitung</li>
+                <li>Aufnahme einfacher Fragen und Bugs</li>
+            </ul>
+            <div class="note-box">
+                <strong>Prinzip:</strong> Erst lernen → dann unter Anleitung durchführen → anschließend selbstständig arbeiten.
+            </div>
+        </div>
+
         <div class="card full-width">
             <div class="card-header">
                 <div class="role-badge">🔄 Eskalationsweg</div>
@@ -205,7 +307,6 @@
             </div>
         </div>
 
-        <!-- INTERNE ZUSTÄNDIGKEITEN TABELLE -->
         <div class="card full-width">
             <div class="card-header">
                 <div class="role-badge">🧩 Interne Zuständigkeiten</div>
@@ -218,23 +319,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>Projektleitung</td><td>Jonny</td></tr>
-                    <tr><td>Stellv. Projektleitung</td><td>Amy</td></tr>
-                    <tr><td>Administration</td><td>Russo & Kleinchen</td></tr>
-                    <tr><td>Teamleitung</td><td>Kleinchen</td></tr>
-                    <tr><td>Support</td><td>Jan Schmahn, Latrell, Vladimir Volkov</td></tr>
-                    <tr><td>Regelwerk-Management</td><td>Vladimir Volkov</td></tr>
-                    <tr><td>Script-Unterstützung</td><td>BOB</td></tr>
-                    <tr><td>Praktikanten</td><td>BOB, Wolfi, Tuncay</td></tr>
+                    <tr><td>Projektleitung</td><td>GC|unclJonny</td></tr>
+                    <tr><td>Stellv. Projektleitung</td><td>GC|Amy</td></tr>
+                    <tr><td>Administration</td><td>GC|Russo & GC|Kleinchen</td></tr>
+                    <tr><td>Teamleitung</td><td>GC|Kleinchen</td></tr>
+                    <tr><td>Support</td><td>GC|Jan Schmahn, GC|Latrell, GC|Vladimir Volkov</td></tr>
+                    <tr><td>Regelwerk-Management</td><td>GC|Vladimir Volkov</td></tr>
+                    <tr><td>Script-Unterstützung</td><td>GC|BOB</td></tr>
+                    <tr><td>Praktikanten</td><td>GC|BOB, GC|Wolfi, GC|Tuncay</td></tr>
                 </tbody>
             </table>
         </div>
 
     </div>
 
-    <!-- LIVE CHAT SECTION -->
     <div class="container full-width" id="sec-chat" style="margin-top: 25px; display: none;">
-        <div class="card full-width">
+        <div class="card">
             <div class="card-header">
                 <div class="role-badge">💬 Live Team-Chat</div>
             </div>
@@ -243,6 +343,17 @@
                 <input type="text" id="chatMsgInput" class="custom-input" style="flex: 1;" placeholder="Nachricht schreiben...">
                 <button class="btn btn-primary" id="btnSendChat">Senden</button>
             </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="role-badge">💡 Vorschläge & Anmerkungen</div>
+            </div>
+            <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+                <input type="text" id="suggestionInput" class="custom-input" style="flex: 1;" placeholder="Vorschlag eingeben...">
+                <button class="btn btn-primary" id="btnSendSuggestion">Absenden</button>
+            </div>
+            <div class="suggestion-list" id="suggestionList"></div>
         </div>
     </div>
 
@@ -285,19 +396,24 @@
 
         const usersRef = doc(db, "teamstructure", "users");
         const chatRef = doc(db, "teamstructure", "chat");
+        const suggestionsRef = doc(db, "teamstructure", "suggestions");
 
         let registeredUsers = {};
         let currentUser = null;
 
-        // Default Accounts (Falls DB leer ist)
         const defaultUsers = {
             "GC|unclJonny": { pass: "1234", role: "Highteam" },
             "GC|Amy": { pass: "1234", role: "Highteam" },
             "GC|Russo": { pass: "1234", role: "Highteam" },
-            "GC|Kleinchen": { pass: "1234", role: "Teamleitung" }
+            "GC|Kleinchen": { pass: "1234", role: "Teamleitung" },
+            "GC|BOB": { pass: "1234", role: "Praktikant" },
+            "GC|Vladimir Volkov": { pass: "1234", role: "Support" },
+            "GC|Jan Schmahn": { pass: "1234", role: "Support" },
+            "GC|Latrell": { pass: "1234", role: "Praktikant" },
+            "GC|Wolfi": { pass: "1234", role: "Praktikant" },
+            "GC|Tuncay": { pass: "1234", role: "Praktikant" }
         };
 
-        // User aus Firebase laden
         onSnapshot(usersRef, (snapshot) => {
             if (snapshot.exists() && snapshot.data()) {
                 registeredUsers = snapshot.data();
@@ -319,7 +435,6 @@
             });
         }
 
-        // User Anlegen (Nur vom Highteam)
         document.getElementById("btnCreateUser").addEventListener("click", async () => {
             const name = document.getElementById("newUsername").value.trim();
             const pass = document.getElementById("newUserPass").value.trim();
@@ -334,7 +449,6 @@
             document.getElementById("newUserPass").value = "";
         });
 
-        // Login Logik
         document.getElementById("btnLogin").addEventListener("click", () => {
             const user = document.getElementById("userSelect").value;
             const pass = document.getElementById("passwordInput").value;
@@ -350,7 +464,6 @@
                 document.getElementById("sec-chat").style.display = "grid";
                 document.getElementById("currentUsername").textContent = `${user} (${userObj.role})`;
 
-                // Highteam Privilegien anzeigen
                 if (userObj.role === "Highteam") {
                     document.getElementById("adminUserManagement").style.display = "block";
                 }
@@ -362,7 +475,7 @@
 
         document.getElementById("btnLogout").addEventListener("click", () => location.reload());
 
-        // Chat Synchronisation & Löschen (Nur Highteam darf fremde Nachrichten löschen)
+        /* CHAT */
         onSnapshot(chatRef, (snapshot) => {
             const chatBox = document.getElementById("chatBox");
             chatBox.innerHTML = "";
@@ -397,6 +510,44 @@
             await setDoc(chatRef, { messages: arrayUnion(msg) }, { merge: true });
             input.value = "";
         });
+
+        /* VORSCHLÄGE */
+        onSnapshot(suggestionsRef, (snapshot) => {
+            const listDiv = document.getElementById("suggestionList");
+            listDiv.innerHTML = "";
+            const list = snapshot.exists() ? (snapshot.data().list || []) : [];
+
+            list.slice().reverse().forEach(s => {
+                const item = document.createElement("div");
+                item.className = "suggestion-item";
+                const isHighteam = currentUser && registeredUsers[currentUser]?.role === "Highteam";
+                const isOwner = currentUser === s.user;
+
+                item.innerHTML = `<div><strong>${s.user}:</strong> ${s.text}</div>`;
+
+                if (isHighteam || isOwner) {
+                    const delBtn = document.createElement("button");
+                    delBtn.className = "btn-delete";
+                    delBtn.textContent = "🗑️";
+                    delBtn.onclick = async () => {
+                        await setDoc(suggestionsRef, { list: arrayRemove(s) }, { merge: true });
+                    };
+                    item.appendChild(delBtn);
+                }
+                listDiv.appendChild(item);
+            });
+        });
+
+        document.getElementById("btnSendSuggestion").addEventListener("click", async () => {
+            const input = document.getElementById("suggestionInput");
+            if (!input.value.trim() || !currentUser) return;
+            const sug = { id: Date.now(), user: currentUser, text: input.value.trim() };
+            await setDoc(suggestionsRef, { list: arrayUnion(sug) }, { merge: true });
+            input.value = "";
+            alert("✅ Vorschlag eingereicht!");
+        });
     </script>
 </body>
 </html>
+
+```
