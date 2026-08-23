@@ -16,23 +16,37 @@
             --accent-green: #10b981;
             --accent-amber: #f59e0b;
             --accent-red: #ef4444;
-            --accent-cyan: #06b6d4;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding: 20px; min-height: 100vh; }
+
+        /* Login Banner */
+        .login-bar {
+            max-width: 1200px;
+            margin: 0 auto 20px auto;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 15px 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        body {
-            background-color: var(--bg-color);
+        .login-controls { display: flex; gap: 10px; align-items: center; }
+        .login-controls select, .login-controls input {
+            background: #0f172a;
             color: var(--text-main);
-            line-height: 1.6;
-            padding: 20px;
-            min-height: 100vh;
+            border: 1px solid var(--card-border);
+            padding: 8px 12px;
+            border-radius: 6px;
+            outline: none;
         }
+
+        .user-status { font-weight: 600; color: #10b981; display: none; align-items: center; gap: 10px; }
 
         header {
             max-width: 1200px;
@@ -42,32 +56,10 @@
             background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
             border: 1px solid var(--card-border);
             border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
         }
 
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 8px;
-            background: linear-gradient(90deg, #a855f7, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
-
-        .edit-notice {
-            display: inline-block;
-            margin-top: 15px;
-            background: rgba(168, 85, 247, 0.15);
-            color: #c084fc;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            border: 1px solid rgba(168, 85, 247, 0.3);
-        }
+        h1 { font-size: 2.2rem; background: linear-gradient(90deg, #a855f7, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: var(--text-muted); font-size: 1rem; }
 
         .action-bar {
             max-width: 1200px;
@@ -86,25 +78,11 @@
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            transition: all 0.2s;
         }
-
-        .btn:hover {
-            background: #334155;
-            border-color: #475569;
-        }
-
-        .btn-primary {
-            background: #6366f1;
-            border-color: #6366f1;
-        }
-        .btn-primary:hover {
-            background: #4f46e5;
-        }
+        .btn:hover { background: #334155; }
+        .btn-primary { background: #6366f1; border-color: #6366f1; }
+        .btn-primary:hover { background: #4f46e5; }
 
         .container {
             max-width: 1200px;
@@ -114,176 +92,75 @@
             gap: 20px;
         }
 
-        .full-width {
-            grid-column: 1 / -1;
-        }
+        .full-width { grid-column: 1 / -1; }
+        .card { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 24px; }
+        .card-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 12px; margin-bottom: 16px; }
+        .role-badge { font-size: 1.25rem; font-weight: 700; }
+        .tag { font-size: 0.75rem; padding: 4px 10px; border-radius: 12px; font-weight: 600; text-transform: uppercase; }
+        .tag-leitung { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+        .tag-stellv { background: rgba(245, 158, 11, 0.2); color: #fde047; }
+        .tag-admin { background: rgba(168, 85, 247, 0.2); color: #d8b4fe; }
+        .tag-tech { background: rgba(6, 182, 212, 0.2); color: #67e8f9; }
+        .tag-rules { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
+        .tag-support { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
 
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-            position: relative;
-        }
+        .member-name { font-size: 1.1rem; font-weight: 600; color: #e2e8f0; margin-bottom: 12px; }
+        .tasks-list { list-style: none; }
+        .tasks-list li { position: relative; padding-left: 20px; margin-bottom: 8px; color: #cbd5e1; }
+        .tasks-list li::before { content: "•"; position: absolute; left: 4px; color: var(--accent-purple); font-size: 1.2rem; }
+        .note-box { margin-top: 15px; padding: 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border-left: 3px solid var(--accent-purple); font-size: 0.88rem; color: #94a3b8; }
 
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--card-border);
-            padding-bottom: 12px;
-            margin-bottom: 16px;
-        }
+        /* Schreibschutz Standard */
+        [contenteditable="true"], [contenteditable="false"] { outline: none; }
+        .edit-active [contenteditable="true"]:hover { background: rgba(255, 255, 255, 0.05); cursor: pointer; }
+        .edit-active [contenteditable="true"]:focus { background: rgba(255, 255, 255, 0.1); box-shadow: 0 0 0 2px var(--accent-purple); }
 
-        .role-badge {
-            font-size: 1.25rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .flow-chart { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-top: 20px; }
+        .flow-step { background: #0f172a; border: 1px solid var(--card-border); padding: 12px 18px; border-radius: 10px; text-align: center; flex: 1; font-weight: 600; }
+        .flow-arrow { color: var(--text-muted); font-size: 1.2rem; }
 
-        .tag {
-            font-size: 0.75rem;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .tag-leitung { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.4); }
-        .tag-stellv { background: rgba(245, 158, 11, 0.2); color: #fde047; border: 1px solid rgba(245, 158, 11, 0.4); }
-        .tag-admin { background: rgba(168, 85, 247, 0.2); color: #d8b4fe; border: 1px solid rgba(168, 85, 247, 0.4); }
-        .tag-tech { background: rgba(6, 182, 212, 0.2); color: #67e8f9; border: 1px solid rgba(6, 182, 212, 0.4); }
-        .tag-rules { background: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.4); }
-        .tag-support { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.4); }
-
-        .member-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #e2e8f0;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .tasks-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .tasks-list li {
-            position: relative;
-            padding-left: 20px;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-            color: #cbd5e1;
-        }
-
-        .tasks-list li::before {
-            content: "•";
-            position: absolute;
-            left: 4px;
-            color: var(--accent-purple);
-            font-size: 1.2rem;
-            line-height: 1;
-        }
-
-        .note-box {
-            margin-top: 15px;
-            padding: 12px 16px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.03);
-            border-left: 3px solid var(--accent-purple);
-            font-size: 0.88rem;
-            color: #94a3b8;
-        }
-
-        [contenteditable="true"] {
-            outline: none;
-            transition: background 0.2s, padding 0.2s;
-            border-radius: 4px;
-        }
-
-        [contenteditable="true"]:hover {
-            background: rgba(255, 255, 255, 0.05);
-            cursor: pointer;
-        }
-
-        [contenteditable="true"]:focus {
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 0 2px var(--accent-purple);
-            padding: 2px 6px;
-        }
-
-        .flow-chart {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .flow-step {
-            background: #0f172a;
-            border: 1px solid var(--card-border);
-            padding: 12px 18px;
-            border-radius: 10px;
-            text-align: center;
-            flex: 1;
-            min-width: 140px;
-            font-weight: 600;
-        }
-
-        .flow-arrow {
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid var(--card-border);
-        }
-
-        th {
-            background: rgba(0, 0, 0, 0.2);
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        @media (max-width: 768px) {
-            .flow-chart {
-                flex-direction: column;
-            }
-            .flow-arrow {
-                transform: rotate(90deg);
-            }
-        }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--card-border); }
+        th { background: rgba(0, 0, 0, 0.2); color: var(--text-muted); }
     </style>
 </head>
 <body>
 
+    <!-- LOGIN AREA -->
+    <div class="login-bar">
+        <div>🔒 <strong>Bearbeitungsmodus:</strong> <span id="lockStatus">Gesperrt (Nur Lesen)</span></div>
+        <div class="login-controls" id="loginForm">
+            <select id="userSelect">
+                <option value="">-- Benutzer wählen --</option>
+                <option value="GC|unclJonny">GC|unclJonny</option>
+                <option value="GC|Amy">GC|Amy</option>
+                <option value="GC|Kleinchen">GC|Kleinchen</option>
+                <option value="GC|Russo">GC|Russo</option>
+                <option value="GC|BOB">GC|BOB</option>
+                <option value="GC|Vladimir Volkov">GC|Vladimir Volkov</option>
+                <option value="GC|Jan Schmahn">GC|Jan Schmahn</option>
+                <option value="GC|Latrell">GC|Latrell</option>
+                <option value="GC|Wolfi">GC|Wolfi</option>
+                <option value="GC|Tuncay">GC|Tuncay</option>
+            </select>
+            <input type="password" id="passwordInput" placeholder="Passwort (1234)">
+            <button class="btn btn-primary" id="btnLogin">Anmelden</button>
+        </div>
+        <div class="user-status" id="loggedInView">
+            <span>Angemeldet als: <strong id="currentUsername"></strong></span>
+            <button class="btn" id="btnLogout">Abmelden</button>
+        </div>
+    </div>
+
     <header>
-        <h1 contenteditable="true">📋 Teamstruktur & Aufgabenbereiche</h1>
-        <p class="subtitle" contenteditable="true">Interaktive Organisationsübersicht des Server-Teams</p>
-        <div class="edit-notice">💡 Tipp: Alle Texte können direkt durch Anklicken bearbeitet werden!</div>
+        <h1 contenteditable="false">📋 Teamstruktur & Aufgabenbereiche</h1>
+        <p class="subtitle" contenteditable="false">Interaktive Organisationsübersicht des Server-Teams</p>
     </header>
 
-    <div class="action-bar">
-        <button class="btn" onclick="addNewSection()">➕ Neuen Bereich hinzufügen</button>
-        <button class="btn btn-primary" onclick="saveData()">💾 Stand Speichern (Live für alle)</button>
-        <button class="btn" onclick="exportHTML()">📥 Als Datei Herunterladen</button>
+    <div class="action-bar" id="editActions" style="display: none;">
+        <button class="btn" id="btnAdd">➕ Neuen Bereich hinzufügen</button>
+        <button class="btn btn-primary" id="btnSave">💾 Stand Speichern (Live für alle)</button>
+        <button class="btn" id="btnExport">📥 Als Datei Herunterladen</button>
     </div>
 
     <div class="container" id="mainContainer">
@@ -291,11 +168,11 @@
         <!-- PROJEKTLEITUNG -->
         <div class="card">
             <div class="card-header">
-                <div class="role-badge" contenteditable="true">👑 Projektleitung</div>
+                <div class="role-badge" contenteditable="false">👑 Projektleitung</div>
                 <span class="tag tag-leitung">Leitung</span>
             </div>
-            <div class="member-name" contenteditable="true">GC | unclJonny — Projektleitung</div>
-            <ul class="tasks-list" contenteditable="true">
+            <div class="member-name" contenteditable="false">GC|unclJonny — Projektleitung</div>
+            <ul class="tasks-list" contenteditable="false">
                 <li>Gesamtleitung des Servers</li>
                 <li>Überwachung sämtlicher Teammitglieder</li>
                 <li>Koordination von Administration und Support</li>
@@ -306,7 +183,7 @@
                 <li>Entscheidung über Beförderungen und Degradierungen</li>
                 <li>Freigabe größerer Änderungen am Server</li>
             </ul>
-            <div class="note-box" contenteditable="true">
+            <div class="note-box" contenteditable="false">
                 <strong>Grundsatz:</strong> Hat den Überblick über sämtliche Bereiche und greift ein, wenn Entscheidungen mehrere Abteilungen betreffen.
             </div>
         </div>
@@ -314,11 +191,11 @@
         <!-- STELLV. PROJEKTLEITUNG -->
         <div class="card">
             <div class="card-header">
-                <div class="role-badge" contenteditable="true">⭐ Stellv. Projektleitung</div>
+                <div class="role-badge" contenteditable="false">⭐ Stellv. Projektleitung</div>
                 <span class="tag tag-stellv">Stellvertretung</span>
             </div>
-            <div class="member-name" contenteditable="true">GC | Amy — stellv. Projektleitung</div>
-            <ul class="tasks-list" contenteditable="true">
+            <div class="member-name" contenteditable="false">GC|Amy — stellv. Projektleitung</div>
+            <ul class="tasks-list" contenteditable="false">
                 <li>Unterstützung der Projektleitung im Tagesgeschäft</li>
                 <li>Überwachung der Administration</li>
                 <li>Unterstützung bei schwierigen Teamfällen</li>
@@ -327,7 +204,7 @@
                 <li>Vertretung der Projektleitung bei Abwesenheit</li>
                 <li>Ansprechpartner für Administration und Support</li>
             </ul>
-            <div class="note-box" contenteditable="true">
+            <div class="note-box" contenteditable="false">
                 <strong>Wichtig:</strong> Arbeitet eng mit Jonny zusammen und stimmt größere Entscheidungen ab.
             </div>
         </div>
@@ -335,11 +212,11 @@
         <!-- TEAMLEITUNG & ADMIN -->
         <div class="card">
             <div class="card-header">
-                <div class="role-badge" contenteditable="true">🛡️ Teamleitung & Admin</div>
+                <div class="role-badge" contenteditable="false">🛡️ Teamleitung & Admin</div>
                 <span class="tag tag-admin">Management</span>
             </div>
-            <div class="member-name" contenteditable="true">GC | Kleinchen — Teamleitung & Admin</div>
-            <ul class="tasks-list" contenteditable="true">
+            <div class="member-name" contenteditable="false">GC|Kleinchen — Teamleitung & Admin</div>
+            <ul class="tasks-list" contenteditable="false">
                 <li>Überwachung des gesamten Teams & Aktivitätskontrolle</li>
                 <li>Einarbeitung & Überwachung von Praktikanten</li>
                 <li>Ansprechpartner für Supporter und Praktikanten</li>
@@ -353,18 +230,18 @@
         <!-- ADMINISTRATION -->
         <div class="card">
             <div class="card-header">
-                <div class="role-badge" contenteditable="true">⚖️ Administration</div>
+                <div class="role-badge" contenteditable="false">⚖️ Administration</div>
                 <span class="tag tag-admin">Admin</span>
             </div>
-            <div class="member-name" contenteditable="true">GC | Russo — Administration</div>
-            <ul class="tasks-list" contenteditable="true">
+            <div class="member-name" contenteditable="false">GC|Russo — Administration</div>
+            <ul class="tasks-list" contenteditable="false">
                 <li>Bearbeitung schwieriger Fälle & Beschwerden</li>
                 <li>Unterstützung des Support-Teams</li>
                 <li>Prüfung von Regelverstößen</li>
                 <li>Administrative Maßnahmen & Einreiseprobleme</li>
                 <li>Weitergabe größerer Fälle an die Teamleitung/PL</li>
             </ul>
-            <div class="note-box" contenteditable="true">
+            <div class="note-box" contenteditable="false">
                 <strong>Wichtig:</strong> Support versucht Probleme zuerst selbstständig zu lösen, bevor die Administration übernimmt.
             </div>
         </div>
@@ -372,17 +249,17 @@
         <!-- TECHNIK / SCRIPTS -->
         <div class="card">
             <div class="card-header">
-                <div class="role-badge" contenteditable="true">💻 Technischer Bereich</div>
+                <div class="role-badge" contenteditable="false">💻 Technischer Bereich</div>
                 <span class="tag tag-tech">Development</span>
             </div>
-            <div class="member-name" contenteditable="true">GC | BOB — Script-Unterstützung</div>
-            <ul class="tasks-list" contenteditable="true">
+            <div class="member-name" contenteditable="false">GC|BOB — Script-Unterstützung</div>
+            <ul class="tasks-list" contenteditable="false">
                 <li>Unterstützung bei Scriptarbeiten & Überarbeitung</li>
                 <li>Fehleranalyse und Bug-Reporting</li>
                 <li>Testen neuer Funktionen auf dem Testserver</li>
                 <li>Dokumentation von technischen Änderungen</li>
             </ul>
-            <div class="note-box" contenteditable="true">
+            <div class="note-box" contenteditable="false">
                 <strong>Wichtig:</strong> Scriptänderungen werden vor dem Live-Gang mit der zuständigen Leitung abgesprochen.
             </div>
         </div>
@@ -390,17 +267,17 @@
         <!-- REGELWERK-MANAGEMENT -->
         <div class="card">
             <div class="card-header">
-                <div class="role-badge" contenteditable="true">📜 Regelwerk-Management</div>
+                <div class="role-badge" contenteditable="false">📜 Regelwerk-Management</div>
                 <span class="tag tag-rules">Regelwerk</span>
             </div>
-            <div class="member-name" contenteditable="true">GC | Vladimir Volkov — Management</div>
-            <ul class="tasks-list" contenteditable="true">
+            <div class="member-name" contenteditable="false">GC|Vladimir Volkov — Management</div>
+            <ul class="tasks-list" contenteditable="false">
                 <li>Überprüfung und Aktualisierung des Regelwerks</li>
                 <li>Sammeln von Verbesserungsvorschlägen</li>
                 <li>Ausarbeitung neuer Regelungen</li>
                 <li>Einholen von Team-Feedback</li>
             </ul>
-            <div class="note-box" contenteditable="true">
+            <div class="note-box" contenteditable="false">
                 <strong>Wichtig:</strong> Regeländerungen werden im Highteam abgesprochen und freigegeben.
             </div>
         </div>
@@ -408,17 +285,17 @@
         <!-- SUPPORT -->
         <div class="card">
             <div class="card-header">
-                <div class="role-badge" contenteditable="true">🎧 Support</div>
+                <div class="role-badge" contenteditable="false">🎧 Support</div>
                 <span class="tag tag-support">Support</span>
             </div>
-            <div class="member-name" contenteditable="true">GC | Jan Schmahn — Support</div>
-            <ul class="tasks-list" contenteditable="true">
+            <div class="member-name" contenteditable="false">GC|Jan Schmahn — Support</div>
+            <ul class="tasks-list" contenteditable="false">
                 <li>Erster Ansprechpartner für die Community</li>
                 <li>Bearbeitung von Supporttickets & Spielerfragen</li>
                 <li>Hilfe bei technischen/Einreisen-Problemen</li>
                 <li>Aufnahme von Bugs & Weiterleitung an Admin</li>
             </ul>
-            <div class="note-box" contenteditable="true">
+            <div class="note-box" contenteditable="false">
                 <strong>Grenzen:</strong> Entscheidet nicht über Permaban, Teamangelegenheiten oder Regeländerungen.
             </div>
         </div>
@@ -426,17 +303,17 @@
         <!-- PRAKTIKANTEN -->
         <div class="card">
             <div class="card-header">
-                <div class="role-badge" contenteditable="true">🎓 Praktikanten</div>
+                <div class="role-badge" contenteditable="false">🎓 Praktikanten</div>
                 <span class="tag tag-support">Ausbildung</span>
             </div>
-            <div class="member-name" contenteditable="true">BOB, Latrell, Wolfi, Tuncay</div>
-            <ul class="tasks-list" contenteditable="true">
+            <div class="member-name" contenteditable="false">GC|BOB, GC|Latrell, GC|Wolfi, GC|Tuncay</div>
+            <ul class="tasks-list" contenteditable="false">
                 <li>Einarbeitung & Lernen der Serverregeln</li>
                 <li>Teilnahme am Support & Begleitung erfahrener Supporter</li>
                 <li>Durchführung von Einreisen unter Anleitung</li>
                 <li>Aufnahme einfacher Fragen und Bugs</li>
             </ul>
-            <div class="note-box" contenteditable="true">
+            <div class="note-box" contenteditable="false">
                 <strong>Prinzip:</strong> Erst lernen → dann unter Anleitung durchführen → anschließend selbstständig arbeiten.
             </div>
         </div>
@@ -444,51 +321,51 @@
         <!-- ESKALATIONSWEG -->
         <div class="card full-width">
             <div class="card-header">
-                <div class="role-badge" contenteditable="true">🔄 Eskalationsweg</div>
+                <div class="role-badge" contenteditable="false">🔄 Eskalationsweg</div>
             </div>
             <div class="flow-chart">
-                <div class="flow-step" contenteditable="true">👤 Spieler</div>
+                <div class="flow-step" contenteditable="false">👤 Spieler</div>
                 <div class="flow-arrow">➔</div>
-                <div class="flow-step" contenteditable="true">🎓 Praktikant / Support</div>
+                <div class="flow-step" contenteditable="false">🎓 Praktikant / Support</div>
                 <div class="flow-arrow">➔</div>
-                <div class="flow-step" contenteditable="true">⚖️ Administration</div>
+                <div class="flow-step" contenteditable="false">⚖️ Administration</div>
                 <div class="flow-arrow">➔</div>
-                <div class="flow-step" contenteditable="true">🛡️ Teamleitung</div>
+                <div class="flow-step" contenteditable="false">🛡️ Teamleitung</div>
                 <div class="flow-arrow">➔</div>
-                <div class="flow-step" contenteditable="true">⭐ Stellv. Projektleitung</div>
+                <div class="flow-step" contenteditable="false">⭐ Stellv. Projektleitung</div>
                 <div class="flow-arrow">➔</div>
-                <div class="flow-step" contenteditable="true">👑 Projektleitung / Highteam</div>
+                <div class="flow-step" contenteditable="false">👑 Projektleitung / Highteam</div>
             </div>
         </div>
 
         <!-- ZUSAMMENARBEIT MATRIX -->
         <div class="card full-width">
             <div class="card-header">
-                <div class="role-badge" contenteditable="true">🧩 Interne Zuständigkeiten</div>
+                <div class="role-badge" contenteditable="false">🧩 Interne Zuständigkeiten</div>
             </div>
             <table>
                 <thead>
                     <tr>
-                        <th contenteditable="true">Bereich</th>
-                        <th contenteditable="true">Hauptverantwortung</th>
+                        <th contenteditable="false">Bereich</th>
+                        <th contenteditable="false">Hauptverantwortung</th>
                     </tr>
                 </thead>
-                <tbody contenteditable="true">
-                    <tr><td>Projektleitung</td><td>Jonny</td></tr>
-                    <tr><td>Stellv. Projektleitung</td><td>Amy</td></tr>
-                    <tr><td>Teamleitung</td><td>Kleinchen</td></tr>
-                    <tr><td>Administration</td><td>Kleinchen & Russo</td></tr>
-                    <tr><td>Support</td><td>Jan Schmahn</td></tr>
-                    <tr><td>Regelwerk-Management</td><td>Vladimir Volkov</td></tr>
-                    <tr><td>Script-Unterstützung</td><td>BOB</td></tr>
-                    <tr><td>Praktikanten</td><td>BOB, Latrell, Wolfi, Tuncay</td></tr>
+                <tbody contenteditable="false">
+                    <tr><td>Projektleitung</td><td>GC|unclJonny</td></tr>
+                    <tr><td>Stellv. Projektleitung</td><td>GC|Amy</td></tr>
+                    <tr><td>Teamleitung</td><td>GC|Kleinchen</td></tr>
+                    <tr><td>Administration</td><td>GC|Kleinchen & GC|Russo</td></tr>
+                    <tr><td>Support</td><td>GC|Jan Schmahn</td></tr>
+                    <tr><td>Regelwerk-Management</td><td>GC|Vladimir Volkov</td></tr>
+                    <tr><td>Script-Unterstützung</td><td>GC|BOB</td></tr>
+                    <tr><td>Praktikanten</td><td>GC|BOB, GC|Latrell, GC|Wolfi, GC|Tuncay</td></tr>
                 </tbody>
             </table>
         </div>
 
     </div>
 
-    <!-- FIREBASE SYNCHRONISATION -->
+    <!-- FIREBASE SYNCHRONISATION & AUTH -->
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
       import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -507,27 +384,78 @@
       const db = getFirestore(app);
       const docRef = doc(db, "teamstructure", "main");
 
-      // 1. Live-Aktualisierung für ALLE Besucher empfangen
+      let isLoggedIn = false;
+
+      // Live-Aktualisierung von Firebase empfangen
       onSnapshot(docRef, (snapshot) => {
-        if (snapshot.exists() && snapshot.data().content) {
+        if (snapshot.exists() && snapshot.data() && snapshot.data().content) {
           document.getElementById("mainContainer").innerHTML = snapshot.data().content;
+          updateEditableState();
         }
       });
 
-      // 2. Stand für ALLE speichern
-      window.saveData = async function() {
+      // Login Logik
+      document.getElementById("btnLogin").addEventListener("click", () => {
+        const user = document.getElementById("userSelect").value;
+        const pass = document.getElementById("passwordInput").value;
+
+        if (!user) {
+            alert("Bitte wähle deinen Benutzernamen aus!");
+            return;
+        }
+
+        if (pass === "1234") {
+            isLoggedIn = true;
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("loggedInView").style.display = "flex";
+            document.getElementById("currentUsername").textContent = user;
+            document.getElementById("lockStatus").textContent = "Freigeschaltet (Bearbeitung aktiv)";
+            document.getElementById("lockStatus").style.color = "#10b981";
+            document.getElementById("editActions").style.display = "flex";
+            document.body.classList.add("edit-active");
+            updateEditableState();
+            alert("Erfolgreich angemeldet als " + user);
+        } else {
+            alert("Falsches Passwort!");
+        }
+      });
+
+      // Logout Logik
+      document.getElementById("btnLogout").addEventListener("click", () => {
+        isLoggedIn = false;
+        document.getElementById("loginForm").style.display = "flex";
+        document.getElementById("loggedInView").style.display = "none";
+        document.getElementById("passwordInput").value = "";
+        document.getElementById("lockStatus").textContent = "Gesperrt (Nur Lesen)";
+        document.getElementById("lockStatus").style.color = "#94a3b8";
+        document.getElementById("editActions").style.display = "none";
+        document.body.classList.remove("edit-active");
+        updateEditableState();
+      });
+
+      function updateEditableState() {
+        const editables = document.querySelectorAll("#mainContainer [contenteditable], header [contenteditable]");
+        editables.forEach(el => {
+            el.setAttribute("contenteditable", isLoggedIn ? "true" : "false");
+        });
+      }
+
+      // Speichern in Firebase
+      document.getElementById("btnSave").addEventListener("click", async () => {
+        if (!isLoggedIn) return;
         const containerContent = document.getElementById("mainContainer").innerHTML;
         try {
           await setDoc(docRef, { content: containerContent });
           alert("✅ Stand ERFOLGREICH LIVE für alle Nutzer gespeichert!");
         } catch (e) {
-          console.error("Fehler beim Speichern: ", e);
+          console.error("Fehler beim Speichern:", e);
           alert("❌ Fehler beim Speichern!");
         }
-      };
+      });
 
-      // 3. Neuen Bereich hinzufügen
-      window.addNewSection = function() {
+      // Neuen Bereich hinzufügen
+      document.getElementById("btnAdd").addEventListener("click", () => {
+        if (!isLoggedIn) return;
         const container = document.getElementById("mainContainer");
         const newCard = document.createElement("div");
         newCard.className = "card";
@@ -536,7 +464,7 @@
                 <div class="role-badge" contenteditable="true">📌 Neue Rolle / Abteilung</div>
                 <span class="tag tag-support" contenteditable="true">Status</span>
             </div>
-            <div class="member-name" contenteditable="true">Name / Zuständige Personen</div>
+            <div class="member-name" contenteditable="true">GC|Name — Rolle</div>
             <ul class="tasks-list" contenteditable="true">
                 <li>Erste Aufgabe / Zuständigkeit</li>
             </ul>
@@ -545,17 +473,17 @@
             </div>
         `;
         container.appendChild(newCard);
-      };
+      });
 
-      // 4. Als HTML-Datei herunterladen
-      window.exportHTML = function() {
+      // Export
+      document.getElementById("btnExport").addEventListener("click", () => {
         const pageHtml = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
         const blob = new Blob([pageHtml], { type: "text/html" });
         const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
         a.download = "Teamstruktur_FiveM.html";
         a.click();
-      };
+      });
     </script>
 </body>
 </html>
