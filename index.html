@@ -16,6 +16,7 @@
             --accent-red: #ef4444;
             --accent-green: #10b981;
             --accent-amber: #f59e0b;
+            --accent-cyan: #06b6d4;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; }
@@ -30,8 +31,8 @@
         /* LOGIN & DROPDOWN */
         .login-bar { background: var(--card-bg); border: 1px solid var(--card-border); padding: 10px 16px; border-radius: 10px; position: relative; }
         .login-controls { display: flex; gap: 8px; align-items: center; }
-        .login-controls select, .login-controls input, .custom-input { background: rgba(0,0,0,0.3); color: var(--text-main); border: 1px solid var(--card-border); padding: 6px 10px; border-radius: 6px; outline: none; }
-        .user-menu-btn { background: var(--accent-purple); color: #fff; padding: 8px 14px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
+        .login-controls select, .login-controls input, .custom-input { background: rgba(0,0,0,0.4); color: var(--text-main); border: 1px solid var(--card-border); padding: 6px 10px; border-radius: 6px; outline: none; }
+        .user-menu-btn { background: var(--accent-purple); color: #fff; padding: 8px 14px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; box-shadow: 0 0 10px rgba(168, 85, 247, 0.4); }
 
         .dropdown-menu { position: absolute; top: 115%; right: 0; width: 320px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 15px; display: none; flex-direction: column; gap: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 1000; }
         .dropdown-menu.show { display: flex; }
@@ -39,50 +40,92 @@
         .dropdown-section:last-child { border-bottom: none; padding-bottom: 0; }
         .dropdown-title { font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: 6px; }
 
-        header { max-width: 1200px; margin: 0 auto 25px auto; text-align: center; padding: 25px; background: linear-gradient(135deg, rgba(30, 27, 75, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%); border: 1px solid var(--card-border); border-radius: 12px; }
-        h1 { font-size: 2rem; background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        header { max-width: 1200px; margin: 0 auto 25px auto; text-align: center; padding: 25px; background: linear-gradient(135deg, rgba(30, 27, 75, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%); border: 1px solid var(--accent-purple); border-radius: 12px; box-shadow: 0 0 20px rgba(168, 85, 247, 0.15); }
+        h1 { font-size: 2rem; background: linear-gradient(90deg, #c084fc, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
         /* GRID LAYOUT FOR CARDS */
         .container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
         .full-width { grid-column: 1 / -1; }
 
-        .card { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 20px; }
+        .card { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 20px; position: relative; overflow: hidden; }
         .card-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 10px; margin-bottom: 15px; }
         .role-badge { font-size: 1.2rem; font-weight: 700; }
         
-        /* TAGS & HIGHTEAM MARKING */
-        .tag { font-size: 0.7rem; padding: 4px 8px; border-radius: 6px; font-weight: 700; text-transform: uppercase; }
-        .tag-highteam { background: rgba(239, 68, 68, 0.25); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.5); }
-        .tag-admin { background: rgba(168, 85, 247, 0.2); color: #d8b4fe; }
-        .tag-tech { background: rgba(6, 182, 212, 0.2); color: #67e8f9; }
-        .tag-rules { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
-        .tag-support { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
+        /* INDIVIDUELLE KARTEN-FARBEN & AKZENTE */
+        .card-pl { border-color: rgba(245, 158, 11, 0.5); box-shadow: 0 0 15px rgba(245, 158, 11, 0.1); }
+        .card-pl .role-badge { color: #fbbf24; }
 
-        .member-name { font-size: 1rem; font-weight: 600; color: #e2e8f0; margin-bottom: 10px; }
+        .card-stellv { border-color: rgba(59, 130, 246, 0.5); box-shadow: 0 0 15px rgba(59, 130, 246, 0.1); }
+        .card-stellv .role-badge { color: #60a5fa; }
+
+        .card-admin { border-color: rgba(239, 68, 68, 0.5); box-shadow: 0 0 15px rgba(239, 68, 68, 0.1); }
+        .card-admin .role-badge { color: #f87171; }
+
+        .card-tl { border-color: rgba(168, 85, 247, 0.5); box-shadow: 0 0 15px rgba(168, 85, 247, 0.1); }
+        .card-tl .role-badge { color: #c084fc; }
+
+        .card-tech { border-color: rgba(6, 182, 212, 0.5); box-shadow: 0 0 15px rgba(6, 182, 212, 0.1); }
+        .card-tech .role-badge { color: #22d3ee; }
+
+        .card-rules { border-color: rgba(234, 179, 8, 0.5); box-shadow: 0 0 15px rgba(234, 179, 8, 0.1); }
+        .card-rules .role-badge { color: #facc15; }
+
+        .card-support { border-color: rgba(16, 185, 129, 0.5); box-shadow: 0 0 15px rgba(16, 185, 129, 0.1); }
+        .card-support .role-badge { color: #34d399; }
+
+        .card-praktikant { border-color: rgba(249, 115, 22, 0.5); box-shadow: 0 0 15px rgba(249, 115, 22, 0.1); }
+        .card-praktikant .role-badge { color: #fb923c; }
+
+        /* TAGS */
+        .tag { font-size: 0.7rem; padding: 4px 8px; border-radius: 6px; font-weight: 700; text-transform: uppercase; }
+        .tag-highteam { background: rgba(239, 68, 68, 0.25); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.6); box-shadow: 0 0 8px rgba(239, 68, 68, 0.3); }
+        .tag-admin { background: rgba(168, 85, 247, 0.25); color: #e9d5ff; border: 1px solid rgba(168, 85, 247, 0.4); }
+        .tag-tech { background: rgba(6, 182, 212, 0.25); color: #a5f3fc; border: 1px solid rgba(6, 182, 212, 0.4); }
+        .tag-rules { background: rgba(234, 179, 8, 0.25); color: #fef08a; border: 1px solid rgba(234, 179, 8, 0.4); }
+        .tag-support { background: rgba(16, 185, 129, 0.25); color: #a7f3d0; border: 1px solid rgba(16, 185, 129, 0.4); }
+
+        .member-name { font-size: 1.05rem; font-weight: 600; color: #f1f5f9; margin-bottom: 10px; background: rgba(0,0,0,0.2); padding: 6px 10px; border-radius: 6px; }
         .tasks-list { list-style: none; }
         .tasks-list li { position: relative; padding-left: 18px; margin-bottom: 6px; font-size: 0.95rem; }
         .tasks-list li::before { content: "•"; position: absolute; left: 0; color: var(--accent-purple); font-size: 1.2rem; }
-        .note-box { margin-top: 15px; padding: 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.03); border-left: 3px solid var(--accent-purple); font-size: 0.85rem; color: var(--text-muted); }
+
+        .card-pl .tasks-list li::before { color: #fbbf24; }
+        .card-stellv .tasks-list li::before { color: #60a5fa; }
+        .card-admin .tasks-list li::before { color: #f87171; }
+        .card-tech .tasks-list li::before { color: #22d3ee; }
+        .card-rules .tasks-list li::before { color: #facc15; }
+        .card-support .tasks-list li::before { color: #34d399; }
+        .card-praktikant .tasks-list li::before { color: #fb923c; }
+
+        .note-box { margin-top: 15px; padding: 10px; border-radius: 6px; background: rgba(0, 0, 0, 0.25); border-left: 3px solid var(--accent-purple); font-size: 0.85rem; color: var(--text-muted); }
+        .card-pl .note-box { border-left-color: #fbbf24; }
+        .card-stellv .note-box { border-left-color: #60a5fa; }
+        .card-admin .note-box { border-left-color: #f87171; }
+        .card-tech .note-box { border-left-color: #22d3ee; }
+        .card-rules .note-box { border-left-color: #facc15; }
+        .card-support .note-box { border-left-color: #34d399; }
+        .card-praktikant .note-box { border-left-color: #fb923c; }
 
         /* ESKALATIONSWEG & TABELLE */
         .flow-chart { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; margin-top: 10px; }
-        .flow-step { background: rgba(0,0,0,0.3); border: 1px solid var(--card-border); padding: 10px 14px; border-radius: 8px; text-align: center; flex: 1; font-weight: 600; font-size: 0.85rem; }
-        .flow-arrow { color: var(--text-muted); }
+        .flow-step { background: rgba(0,0,0,0.4); border: 1px solid var(--card-border); padding: 10px 14px; border-radius: 8px; text-align: center; flex: 1; font-weight: 600; font-size: 0.85rem; }
+        .flow-arrow { color: var(--accent-purple); font-weight: bold; }
 
         .custom-table { width: 100%; border-collapse: collapse; margin-top: 10px; text-align: left; }
         .custom-table th, .custom-table td { padding: 10px 14px; border-bottom: 1px solid var(--card-border); font-size: 0.9rem; }
-        .custom-table th { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; }
+        .custom-table th { color: var(--accent-purple); font-size: 0.8rem; text-transform: uppercase; }
 
         /* CHAT & SUGGESTIONS */
-        .chat-box { height: 220px; overflow-y: auto; background: rgba(0,0,0,0.2); border: 1px solid var(--card-border); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+        .chat-box { height: 220px; overflow-y: auto; background: rgba(0,0,0,0.3); border: 1px solid var(--card-border); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
         .chat-msg { background: var(--card-bg); padding: 8px 12px; border-radius: 6px; font-size: 0.88rem; border-left: 3px solid var(--accent-blue); display: flex; justify-content: space-between; align-items: center; }
-        .btn-delete { background: transparent; border: none; color: var(--accent-red); cursor: pointer; font-size: 0.85rem; opacity: 0.6; padding: 2px 5px; }
+        .btn-delete { background: transparent; border: none; color: var(--accent-red); cursor: pointer; font-size: 0.85rem; opacity: 0.7; padding: 2px 5px; }
         .btn-delete:hover { opacity: 1; }
 
         .suggestion-list { max-height: 180px; overflow-y: auto; margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
-        .suggestion-item { background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 6px; border: 1px solid var(--card-border); font-size: 0.88rem; display: flex; justify-content: space-between; align-items: center; }
+        .suggestion-item { background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 6px; border: 1px solid var(--card-border); font-size: 0.88rem; display: flex; justify-content: space-between; align-items: center; }
 
-        .btn { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--card-border); padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .btn { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--card-border); padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+        .btn:hover { filter: brightness(1.2); }
         .btn-primary { background: #6366f1; border-color: #6366f1; color: white; }
         .btn-danger { background: var(--accent-red); border-color: var(--accent-red); color: white; width: 100%; margin-top: 5px; }
     </style>
@@ -135,7 +178,8 @@
 
     <div class="container" id="mainContainer">
 
-        <div class="card">
+        <!-- PROJEKTLEITUNG -->
+        <div class="card card-pl">
             <div class="card-header">
                 <div class="role-badge">👑 Projektleitung</div>
                 <span class="tag tag-highteam">Highteam</span>
@@ -156,7 +200,8 @@
             </div>
         </div>
 
-        <div class="card">
+        <!-- STELLV. PROJEKTLEITUNG -->
+        <div class="card card-stellv">
             <div class="card-header">
                 <div class="role-badge">⭐ Stellv. Projektleitung</div>
                 <span class="tag tag-highteam">Highteam</span>
@@ -176,7 +221,8 @@
             </div>
         </div>
 
-        <div class="card">
+        <!-- ADMINISTRATION (RUSSO) -->
+        <div class="card card-admin">
             <div class="card-header">
                 <div class="role-badge">⚖️ Administration</div>
                 <span class="tag tag-highteam">Highteam</span>
@@ -194,7 +240,8 @@
             </div>
         </div>
 
-        <div class="card">
+        <!-- TEAMLEITUNG & ADMIN -->
+        <div class="card card-tl">
             <div class="card-header">
                 <div class="role-badge">🛡️ Teamleitung & Admin</div>
                 <span class="tag tag-admin">Management</span>
@@ -211,7 +258,8 @@
             </ul>
         </div>
 
-        <div class="card">
+        <!-- TECHNISCHER BEREICH -->
+        <div class="card card-tech">
             <div class="card-header">
                 <div class="role-badge">💻 Technischer Bereich</div>
                 <span class="tag tag-tech">Development</span>
@@ -228,7 +276,8 @@
             </div>
         </div>
 
-        <div class="card">
+        <!-- REGELWERK-MANAGEMENT -->
+        <div class="card card-rules">
             <div class="card-header">
                 <div class="role-badge">📜 Regelwerk-Management</div>
                 <span class="tag tag-rules">Regelwerk</span>
@@ -245,7 +294,8 @@
             </div>
         </div>
 
-        <div class="card">
+        <!-- SUPPORT -->
+        <div class="card card-support">
             <div class="card-header">
                 <div class="role-badge">🎧 Support</div>
                 <span class="tag tag-support">Support</span>
@@ -262,7 +312,8 @@
             </div>
         </div>
 
-        <div class="card">
+        <!-- PRAKTIKANTEN -->
+        <div class="card card-praktikant">
             <div class="card-header">
                 <div class="role-badge">🎓 Praktikanten</div>
                 <span class="tag tag-support">Ausbildung</span>
@@ -279,9 +330,10 @@
             </div>
         </div>
 
-        <div class="card full-width">
+        <!-- ESKALATIONSWEG -->
+        <div class="card full-width" style="border-color: var(--accent-purple);">
             <div class="card-header">
-                <div class="role-badge">🔄 Eskalationsweg</div>
+                <div class="role-badge" style="color: var(--accent-purple);">🔄 Eskalationsweg</div>
             </div>
             <div class="flow-chart">
                 <div class="flow-step">👤 Spieler</div>
@@ -298,9 +350,10 @@
             </div>
         </div>
 
-        <div class="card full-width">
+        <!-- INTERNE ZUSTÄNDIGKEITEN TABELLE -->
+        <div class="card full-width" style="border-color: var(--accent-blue);">
             <div class="card-header">
-                <div class="role-badge">🧩 Interne Zuständigkeiten</div>
+                <div class="role-badge" style="color: var(--accent-blue);">🧩 Interne Zuständigkeiten</div>
             </div>
             <table class="custom-table">
                 <thead>
@@ -324,6 +377,7 @@
 
     </div>
 
+    <!-- LIVE CHAT & VORSCHLÄGE SECTION -->
     <div class="container full-width" id="sec-chat" style="margin-top: 25px; display: none;">
         <div class="card">
             <div class="card-header">
@@ -405,16 +459,6 @@
             "GC|Tuncay": { pass: "1234", role: "Praktikant" }
         };
 
-        onSnapshot(usersRef, (snapshot) => {
-            if (snapshot.exists() && snapshot.data()) {
-                registeredUsers = snapshot.data();
-            } else {
-                registeredUsers = defaultUsers;
-                setDoc(usersRef, defaultUsers);
-            }
-            populateUserDropdown();
-        });
-
         function populateUserDropdown() {
             const select = document.getElementById("userSelect");
             select.innerHTML = '<option value="">-- User auswählen --</option>';
@@ -426,6 +470,16 @@
             });
         }
 
+        onSnapshot(usersRef, (snapshot) => {
+            if (snapshot.exists() && snapshot.data()) {
+                registeredUsers = snapshot.data();
+            } else {
+                registeredUsers = defaultUsers;
+                setDoc(usersRef, defaultUsers);
+            }
+            populateUserDropdown();
+        });
+
         document.getElementById("btnCreateUser").addEventListener("click", async () => {
             const name = document.getElementById("newUsername").value.trim();
             const pass = document.getElementById("newUserPass").value.trim();
@@ -435,7 +489,7 @@
 
             registeredUsers[name] = { pass: pass, role: role };
             await setDoc(usersRef, registeredUsers);
-            alert(`✅ User ${name} erfoglreich als ${role} erstellt!`);
+            alert(`✅ User ${name} erfolgreich als ${role} erstellt!`);
             document.getElementById("newUsername").value = "";
             document.getElementById("newUserPass").value = "";
         });
@@ -540,5 +594,3 @@
     </script>
 </body>
 </html>
-
-```
