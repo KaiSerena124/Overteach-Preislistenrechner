@@ -201,7 +201,6 @@
             color: #94a3b8;
         }
 
-        /* Editable visual style */
         [contenteditable="true"] {
             outline: none;
             transition: background 0.2s, padding 0.2s;
@@ -219,7 +218,6 @@
             padding: 2px 6px;
         }
 
-        /* Interactive Escalation Flow */
         .flow-chart {
             display: flex;
             flex-wrap: wrap;
@@ -246,7 +244,6 @@
             font-weight: bold;
         }
 
-        /* Table Styling */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -263,23 +260,6 @@
             background: rgba(0, 0, 0, 0.2);
             color: var(--text-muted);
             font-weight: 600;
-        }
-
-        .add-btn {
-            background: transparent;
-            border: 1px dashed var(--card-border);
-            color: var(--text-muted);
-            width: 100%;
-            padding: 8px;
-            border-radius: 6px;
-            margin-top: 10px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .add-btn:hover {
-            border-color: var(--accent-purple);
-            color: var(--text-main);
         }
 
         @media (max-width: 768px) {
@@ -302,7 +282,7 @@
 
     <div class="action-bar">
         <button class="btn" onclick="addNewSection()">➕ Neuen Bereich hinzufügen</button>
-        <button class="btn btn-primary" onclick="saveData()">💾 Stand Speichern (Browser)</button>
+        <button class="btn btn-primary" onclick="saveData()">💾 Stand Speichern (Live für alle)</button>
         <button class="btn" onclick="exportHTML()">📥 Als Datei Herunterladen</button>
     </div>
 
@@ -508,51 +488,74 @@
 
     </div>
 
-    <script>
-        // Auto-Save feature using LocalStorage
-        document.addEventListener("DOMContentLoaded", () => {
-            const savedData = localStorage.getItem("teamStructureData");
-            if (savedData) {
-                document.getElementById("mainContainer").innerHTML = savedData;
-            }
-        });
+    <!-- FIREBASE SYNCHRONISATION -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+      import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        function saveData() {
-            const containerContent = document.getElementById("mainContainer").innerHTML;
-            localStorage.setItem("teamStructureData", containerContent);
-            alert("✅ Änderungen erfolgreich im Browser gespeichert!");
-        }
+      const firebaseConfig = {
+        apiKey: "AIzaSyAybMLYFKySc0j5QgQMXuwRWir5F2im0QY",
+        authDomain: "grande-city.firebaseapp.com",
+        projectId: "grande-city",
+        storageBucket: "grande-city.firebasestorage.app",
+        messagingSenderId: "1019115646964",
+        appId: "1:1019115646964:web:3a03427356238eadd013a1",
+        measurementId: "G-M5347F150B"
+      };
 
-        function addNewSection() {
-            const container = document.getElementById("mainContainer");
-            const newCard = document.createElement("div");
-            newCard.className = "card";
-            newCard.innerHTML = `
-                <div class="card-header">
-                    <div class="role-badge" contenteditable="true">📌 Neue Rolle / Abteilung</div>
-                    <span class="tag tag-support" contenteditable="true">Status</span>
-                </div>
-                <div class="member-name" contenteditable="true">Name / Zuständige Personen</div>
-                <ul class="tasks-list" contenteditable="true">
-                    <li>Erste Aufgabe / Zuständigkeit</li>
-                    <li>Zweite Aufgabe</li>
-                </ul>
-                <div class="note-box" contenteditable="true">
-                    <strong>Hinweis:</strong> Beschreibung oder Wichtiger Grundsatz...
-                </div>
-            `;
-            container.appendChild(newCard);
-        }
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const docRef = doc(db, "teamstructure", "main");
 
-        function exportHTML() {
-            // Clones the document structure to clean up scripts/buttons for standard saving if needed
-            const pageHtml = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-            const blob = new Blob([pageHtml], { type: "text/html" });
-            const a = document.createElement("a");
-            a.href = URL.createObjectURL(blob);
-            a.download = "Teamstruktur_FiveM.html";
-            a.click();
+      // 1. Live-Aktualisierung für ALLE Besucher empfangen
+      onSnapshot(docRef, (snapshot) => {
+        if (snapshot.exists() && snapshot.data().content) {
+          document.getElementById("mainContainer").innerHTML = snapshot.data().content;
         }
+      });
+
+      // 2. Stand für ALLE speichern
+      window.saveData = async function() {
+        const containerContent = document.getElementById("mainContainer").innerHTML;
+        try {
+          await setDoc(docRef, { content: containerContent });
+          alert("✅ Stand ERFOLGREICH LIVE für alle Nutzer gespeichert!");
+        } catch (e) {
+          console.error("Fehler beim Speichern: ", e);
+          alert("❌ Fehler beim Speichern!");
+        }
+      };
+
+      // 3. Neuen Bereich hinzufügen
+      window.addNewSection = function() {
+        const container = document.getElementById("mainContainer");
+        const newCard = document.createElement("div");
+        newCard.className = "card";
+        newCard.innerHTML = `
+            <div class="card-header">
+                <div class="role-badge" contenteditable="true">📌 Neue Rolle / Abteilung</div>
+                <span class="tag tag-support" contenteditable="true">Status</span>
+            </div>
+            <div class="member-name" contenteditable="true">Name / Zuständige Personen</div>
+            <ul class="tasks-list" contenteditable="true">
+                <li>Erste Aufgabe / Zuständigkeit</li>
+            </ul>
+            <div class="note-box" contenteditable="true">
+                <strong>Hinweis:</strong> Beschreibung...
+            </div>
+        `;
+        container.appendChild(newCard);
+      };
+
+      // 4. Als HTML-Datei herunterladen
+      window.exportHTML = function() {
+        const pageHtml = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+        const blob = new Blob([pageHtml], { type: "text/html" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "Teamstruktur_FiveM.html";
+        a.click();
+      };
     </script>
 </body>
 </html>
