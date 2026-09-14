@@ -3,723 +3,605 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teamstruktur & Aufgabenbereiche - Grand Roleplay / FiveM</title>
+    <title>OVERTECH - Katalog & Rechnung</title>
     <style>
         :root {
-            --bg-color: #0d1117;
-            --card-bg: #161b22;
-            --card-border: #30363d;
-            --text-main: #f0f6fc;
-            --text-muted: #8b949e;
-            
-            --color-pl: #ffb703;
-            --color-stellv: #2196f3;
-            --color-admin: #ff4d4d;
-            --color-tl: #a855f7;
-            --color-tech: #00f5d4;
-            --color-rules: #ffd166;
-            --color-support: #06d6a0;
-            --color-praktikant: #ff9f1c;
+            --bg-dark: #080b11;
+            --panel-bg: #0f1522;
+            --accent-blue: #00a8ff;
+            --accent-cyan: #00d2d3;
+            --text-main: #f5f6fa;
+            --text-muted: #8c9baf;
+            --border-color: #1b263b;
+            --highlight-bg: rgba(0, 168, 255, 0.15);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding: 20px; min-height: 100vh; transition: background 0.3s; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
 
-        .top-bar { max-width: 1200px; margin: 0 auto 20px auto; display: flex; justify-content: space-between; align-items: center; gap: 15px; flex-wrap: wrap; }
-        .live-clock-container { background: rgba(168, 85, 247, 0.1); border: 2px solid var(--color-tl); box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); padding: 8px 18px; border-radius: 10px; }
-        .clock-time { font-family: monospace; font-size: 1.3rem; font-weight: 700; color: #fff; text-shadow: 0 0 8px var(--color-tl); }
-        .clock-date { font-size: 0.75rem; color: var(--text-muted); }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            padding: 20px;
+            padding-bottom: 120px;
+        }
 
-        .login-bar { background: var(--card-bg); border: 1px solid var(--card-border); padding: 10px 16px; border-radius: 10px; position: relative; }
-        .login-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-        .login-controls select, .login-controls input, .custom-input { background: #0d1117; color: var(--text-main); border: 1px solid var(--card-border); padding: 6px 10px; border-radius: 6px; outline: none; }
-        .user-menu-btn { background: var(--color-tl); color: #fff; padding: 8px 14px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; box-shadow: 0 0 12px rgba(168, 85, 247, 0.5); }
+        .header {
+            text-align: center;
+            padding: 35px 20px;
+            background: linear-gradient(135deg, #031428 0%, #080b11 100%);
+            border: 1px solid var(--accent-blue);
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 25px rgba(0, 168, 255, 0.25);
+        }
 
-        .dropdown-menu { position: absolute; top: 115%; right: 0; width: 380px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 15px; display: none; flex-direction: column; gap: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.8); z-index: 1000; max-height: 80vh; overflow-y: auto; }
-        .dropdown-menu.show { display: flex; }
-        .dropdown-section { border-bottom: 1px solid var(--card-border); padding-bottom: 10px; margin-bottom: 5px; }
-        .dropdown-section:last-child { border-bottom: none; padding-bottom: 0; }
-        .dropdown-title { font-size: 0.8rem; text-transform: uppercase; color: var(--color-tl); font-weight: 700; margin-bottom: 8px; }
+        .header h1 {
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(0, 168, 255, 0.8);
+        }
 
-        .color-picker-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.8rem; }
-        .color-picker-item { display: flex; align-items: center; justify-content: space-between; gap: 5px; }
-        .color-picker-item input[type="color"] { border: none; width: 28px; height: 28px; cursor: pointer; background: transparent; }
+        .header p {
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+            margin-top: 8px;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
 
-        header { max-width: 1200px; margin: 0 auto 25px auto; text-align: center; padding: 25px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(13, 17, 23, 0.9) 100%); border: 2px solid var(--color-tl); border-radius: 12px; box-shadow: 0 0 25px rgba(168, 85, 247, 0.25); }
-        h1 { font-size: 2.2rem; color: #fff; text-shadow: 0 0 10px var(--color-tl); }
+        .class-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            background: var(--panel-bg);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
 
-        .container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
-        .full-width { grid-column: 1 / -1; }
+        .class-btn {
+            background: #141c2e;
+            color: var(--text-muted);
+            border: 2px solid var(--border-color);
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
 
-        .card { background-color: var(--card-bg); border: 2px solid var(--card-border); border-radius: 12px; padding: 20px; position: relative; }
-        .card-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 10px; margin-bottom: 15px; }
-        .role-badge { font-size: 1.25rem; font-weight: 700; }
-        
-        .card-pl { border-color: var(--color-pl); box-shadow: 0 0 15px rgba(255, 183, 3, 0.15); }
-        .card-pl .role-badge, .card-pl .member-name { color: var(--color-pl); }
-        .card-pl .tag { background: rgba(255, 183, 3, 0.15); color: var(--color-pl); border: 1px solid var(--color-pl); }
-        .card-pl .tasks-list li::before { color: var(--color-pl); }
+        .class-btn:hover {
+            border-color: var(--accent-blue);
+            color: #fff;
+        }
 
-        .card-stellv { border-color: var(--color-stellv); box-shadow: 0 0 15px rgba(33, 150, 243, 0.15); }
-        .card-stellv .role-badge, .card-stellv .member-name { color: var(--color-stellv); }
-        .card-stellv .tag { background: rgba(33, 150, 243, 0.15); color: var(--color-stellv); border: 1px solid var(--color-stellv); }
-        .card-stellv .tasks-list li::before { color: var(--color-stellv); }
+        .class-btn.active {
+            background: var(--accent-blue);
+            color: #fff;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 15px rgba(0, 168, 255, 0.5);
+        }
 
-        .card-admin { border-color: var(--color-admin); box-shadow: 0 0 15px rgba(255, 77, 77, 0.15); }
-        .card-admin .role-badge, .card-admin .member-name { color: var(--color-admin); }
-        .card-admin .tag { background: rgba(255, 77, 77, 0.15); color: var(--color-admin); border: 1px solid var(--color-admin); }
-        .card-admin .tasks-list li::before { color: var(--color-admin); }
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
 
-        .card-tl { border-color: var(--color-tl); box-shadow: 0 0 15px rgba(168, 85, 247, 0.15); }
-        .card-tl .role-badge, .card-tl .member-name { color: var(--color-tl); }
-        .card-tl .tag { background: rgba(168, 85, 247, 0.15); color: var(--color-tl); border: 1px solid var(--color-tl); }
-        .card-tl .tasks-list li::before { color: var(--color-tl); }
+        @media (max-width: 900px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
 
-        .card-tech { border-color: var(--color-tech); box-shadow: 0 0 15px rgba(0, 245, 212, 0.15); }
-        .card-tech .role-badge, .card-tech .member-name { color: var(--color-tech); }
-        .card-tech .tag { background: rgba(0, 245, 212, 0.15); color: var(--color-tech); border: 1px solid var(--color-tech); }
-        .card-tech .tasks-list li::before { color: var(--color-tech); }
+        .category-card {
+            background: var(--panel-bg);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
 
-        .card-rules { border-color: var(--color-rules); box-shadow: 0 0 15px rgba(255, 209, 102, 0.15); }
-        .card-rules .role-badge, .card-rules .member-name { color: var(--color-rules); }
-        .card-rules .tag { background: rgba(255, 209, 102, 0.15); color: var(--color-rules); border: 1px solid var(--color-rules); }
-        .card-rules .tasks-list li::before { color: var(--color-rules); }
+        .category-title {
+            background: linear-gradient(90deg, var(--accent-blue) 0%, #004e92 100%);
+            color: white;
+            padding: 12px 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-        .card-support { border-color: var(--color-support); box-shadow: 0 0 15px rgba(6, 214, 160, 0.15); }
-        .card-support .role-badge, .card-support .member-name { color: var(--color-support); }
-        .card-support .tag { background: rgba(6, 214, 160, 0.15); color: var(--color-support); border: 1px solid var(--color-support); }
-        .card-support .tasks-list li::before { color: var(--color-support); }
+        .table-header {
+            display: grid;
+            grid-template-columns: 40px 1fr 120px 120px;
+            padding: 10px 15px;
+            background: #0b101a;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-color);
+        }
 
-        .card-praktikant { border-color: var(--color-praktikant); box-shadow: 0 0 15px rgba(255, 159, 28, 0.15); }
-        .card-praktikant .role-badge, .card-praktikant .member-name { color: var(--color-praktikant); }
-        .card-praktikant .tag { background: rgba(255, 159, 28, 0.15); color: var(--color-praktikant); border: 1px solid var(--color-praktikant); }
-        .card-praktikant .tasks-list li::before { color: var(--color-praktikant); }
+        .item-row {
+            display: grid;
+            grid-template-columns: 40px 1fr 120px 120px;
+            padding: 12px 15px;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+        }
 
-        .tag { font-size: 0.75rem; padding: 4px 10px; border-radius: 6px; font-weight: 700; text-transform: uppercase; }
-        .member-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 6px; outline: none; }
-        .tasks-list { list-style: none; outline: none; }
-        .tasks-list li { position: relative; padding-left: 20px; margin-bottom: 6px; font-size: 0.95rem; }
-        .tasks-list li::before { content: "•"; position: absolute; left: 0; font-size: 1.4rem; top: -3px; }
+        .item-row.selected {
+            background: var(--highlight-bg);
+        }
 
-        .chat-box { height: 220px; overflow-y: auto; background: rgba(0,0,0,0.3); border: 1px solid var(--card-border); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
-        .chat-msg { background: var(--card-bg); padding: 8px 12px; border-radius: 6px; font-size: 0.88rem; border-left: 3px solid var(--color-stellv); display: flex; justify-content: space-between; align-items: center; }
-        .btn-delete { background: transparent; border: none; color: var(--color-admin); cursor: pointer; font-size: 0.9rem; opacity: 0.8; padding: 2px 5px; }
-        .btn-delete:hover { opacity: 1; }
+        .item-row input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-blue);
+            cursor: pointer;
+        }
 
-        .suggestion-list { max-height: 180px; overflow-y: auto; margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
-        .suggestion-item { background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 6px; border: 1px solid var(--card-border); font-size: 0.88rem; display: flex; justify-content: space-between; align-items: center; }
+        .price-col {
+            text-align: right;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
 
-        .btn { background: var(--card-bg); color: var(--text-main); border: 1px solid var(--card-border); padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.2s; }
-        .btn:hover { filter: brightness(1.2); }
-        .btn-primary { background: #6366f1; border-color: #6366f1; color: white; }
-        .btn-danger { background: var(--color-admin); border-color: var(--color-admin); color: white; width: 100%; margin-top: 5px; }
-        .btn-edit { background: rgba(255,255,255,0.1); border: 1px solid var(--card-border); color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; }
+        .price-col.active-price {
+            color: #00d2d3;
+        }
 
-        .user-manage-item { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.82rem; }
-        .user-manage-actions { display: flex; gap: 4px; }
-        .action-icon-btn { background: transparent; border: none; cursor: pointer; font-size: 0.9rem; padding: 2px; }
+        .price-col.inactive-price {
+            color: #526173;
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+
+        .summary-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #090e17;
+            border-top: 2px solid var(--accent-blue);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .summary-info {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .discount-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #141c2e;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .discount-selector span {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: bold;
+        }
+
+        .btn-discount {
+            background: #0b101a;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-discount:hover {
+            color: #fff;
+            border-color: var(--accent-cyan);
+        }
+
+        .btn-discount.active {
+            background: var(--accent-cyan);
+            color: #000;
+            border-color: var(--accent-cyan);
+        }
+
+        .summary-total {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .summary-total span {
+            color: var(--accent-cyan);
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .discount-info {
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            display: block;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-action {
+            background: #1b263b;
+            color: #fff;
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .btn-action:hover {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        .btn-print {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        @media print {
+            body {
+                background: #fff !important;
+                color: #000 !important;
+                padding: 0;
+            }
+
+            .header {
+                background: none !important;
+                border: none !important;
+                border-bottom: 2px solid #000 !important;
+                color: #000 !important;
+                box-shadow: none !important;
+            }
+
+            .header h1 {
+                color: #000 !important;
+                text-shadow: none !important;
+            }
+
+            .header p {
+                color: #555 !important;
+            }
+
+            .class-selector, .summary-bar, .category-card:has(input:not(:checked)) {
+                display: none !important;
+            }
+
+            .grid-container {
+                display: block;
+            }
+
+            .category-card {
+                border: 1px solid #ccc !important;
+                margin-bottom: 20px;
+            }
+
+            .category-title {
+                background: #eee !important;
+                color: #000 !important;
+            }
+
+            .table-header {
+                background: #fafafa !important;
+                color: #333 !important;
+                grid-template-columns: 1fr 120px;
+            }
+
+            .table-header div:nth-child(1), .table-header div:nth-child(4) {
+                display: none;
+            }
+
+            .item-row {
+                display: none;
+                grid-template-columns: 1fr 120px;
+                color: #000 !important;
+            }
+
+            .item-row.selected {
+                display: grid !important;
+                background: transparent !important;
+            }
+
+            .item-row div:nth-child(1), .item-row div:nth-child(4) {
+                display: none;
+            }
+
+            .price-col.active-price {
+                color: #000 !important;
+            }
+
+            #print-summary {
+                display: block !important;
+                margin-top: 30px;
+                text-align: right;
+                font-size: 1.4rem;
+                font-weight: bold;
+                border-top: 2px solid #000;
+                padding-top: 10px;
+            }
+        }
+
+        #print-summary {
+            display: none;
+        }
     </style>
 </head>
 <body>
 
-    <div class="top-bar">
-        <div class="live-clock-container">
-            <div class="clock-time" id="clockTime">00:00:00</div>
-            <div class="clock-date" id="clockDate">Lade...</div>
+    <div class="header">
+        <h1>OVERTECH</h1>
+        <p>TUNING • PERFORMANCE • WERKSTATT</p>
+    </div>
+
+    <div class="class-selector">
+        <button class="class-btn active" id="btn-mittel" onclick="setClass('mittel')">Mittelklasse</button>
+        <button class="class-btn" id="btn-import" onclick="setClass('import')">Import + 500K+</button>
+    </div>
+
+    <div class="grid-container">
+        <div class="category-card">
+            <div class="category-title">
+                <span>Lackierungen & Performance</span>
+            </div>
+            <div class="table-header">
+                <div></div>
+                <div>Teil / Leistung</div>
+                <div style="text-align: right;">Mittelklasse</div>
+                <div style="text-align: right;">Import+500K+</div>
+            </div>
+            <div id="table-lackierungen"></div>
         </div>
 
-        <div class="login-bar">
-            <div class="login-controls" id="loginForm">
-                <select id="userSelect"><option value="">-- Lädt User... --</option></select>
-                <input type="password" id="passwordInput" placeholder="Passwort">
-                <button class="btn btn-primary" id="btnLogin">Anmelden</button>
+        <div class="category-card">
+            <div class="category-title">
+                <span>Anbauteile & Optik</span>
             </div>
-
-            <div id="loggedInView" style="display: none; align-items: center;">
-                <button class="user-menu-btn" id="btnToggleMenu">👤 <span id="currentUsername">User</span> ⚙️</button>
+            <div class="table-header">
+                <div></div>
+                <div>Teil / Leistung</div>
+                <div style="text-align: right;">Mittelklasse</div>
+                <div style="text-align: right;">Import+500K+</div>
             </div>
-
-            <div class="dropdown-menu" id="dropdownMenu">
-                <div class="dropdown-section" id="adminUserManagement" style="display: none;">
-                    <div class="dropdown-title">➕ Neuen User anlegen</div>
-                    <input type="text" id="newUsername" class="custom-input" placeholder="Name (z.B. GC|Name)" style="width: 100%; margin-bottom: 5px;">
-                    <input type="password" id="newUserPass" class="custom-input" placeholder="Passwort" style="width: 100%; margin-bottom: 5px;">
-                    <select id="newUserRole" class="custom-input" style="width: 100%; margin-bottom: 5px;">
-                        <option value="Highteam">Highteam</option>
-                        <option value="Teamleitung">Teamleitung</option>
-                        <option value="Admin">Admin</option>
-                        <option value="Support">Support</option>
-                        <option value="Praktikant">Praktikant</option>
-                    </select>
-                    <button class="btn btn-primary" id="btnCreateUser" style="width: 100%; font-size: 0.8rem; margin-bottom: 10px;">User Speichern</button>
-
-                    <div class="dropdown-title">👥 Teammitglieder & Berechtigungen</div>
-                    <div id="userManagementList"></div>
-                </div>
-
-                <div class="dropdown-section">
-                    <div class="dropdown-title">🎨 Design & Farben anpassen</div>
-                    <div class="color-picker-grid">
-                        <div class="color-picker-item"><span>Projektleitung:</span> <input type="color" id="pick-pl" value="#ffb703"></div>
-                        <div class="color-picker-item"><span>Stellv. PL:</span> <input type="color" id="pick-stellv" value="#2196f3"></div>
-                        <div class="color-picker-item"><span>Admin:</span> <input type="color" id="pick-admin" value="#ff4d4d"></div>
-                        <div class="color-picker-item"><span>Teamleitung:</span> <input type="color" id="pick-tl" value="#a855f7"></div>
-                        <div class="color-picker-item"><span>Technik:</span> <input type="color" id="pick-tech" value="#00f5d4"></div>
-                        <div class="color-picker-item"><span>Regelwerk:</span> <input type="color" id="pick-rules" value="#ffd166"></div>
-                        <div class="color-picker-item"><span>Support:</span> <input type="color" id="pick-support" value="#06d6a0"></div>
-                        <div class="color-picker-item"><span>Praktikant:</span> <input type="color" id="pick-praktikant" value="#ff9f1c"></div>
-                        <div class="color-picker-item" style="grid-column: 1 / -1;"><span>Hintergrund:</span> <input type="color" id="pick-bg" value="#0d1117"></div>
-                    </div>
-                </div>
-
-                <div class="dropdown-section">
-                    <button class="btn btn-danger" id="btnLogout">Abmelden</button>
-                </div>
-            </div>
+            <div id="table-anbauteile"></div>
         </div>
     </div>
 
-    <header>
-        <h1>📋 Teamstruktur & Aufgabenbereiche</h1>
-        <p style="color: var(--text-muted);">Interaktive Organisationsübersicht des Server-Teams</p>
-    </header>
-
-    <div class="container" id="mainContainer">
-        <!-- PROJEKTLEITUNG -->
-        <div class="card card-pl" id="card-pl">
-            <div class="card-header">
-                <div class="role-badge">👑 Projektleitung</div>
-                <div>
-                    <span class="tag">Highteam</span>
-                    <button class="btn-edit edit-card-btn" style="display:none;" data-card="card-pl">✏️</button>
-                </div>
-            </div>
-            <div class="member-name" contenteditable="false">GC|unclJonny — Projektleitung</div>
-            <ul class="tasks-list" contenteditable="false">
-                <li>Gesamtleitung des Servers & Überwachung sämtlicher Teammitglieder</li>
-                <li>Koordination von Administration und Support</li>
-                <li>Entscheidungen bei größeren teaminternen Problemen</li>
-                <li>Bearbeitung und Klärung schwieriger/eskalierter Supportfälle</li>
-                <li>Kontrolle der Serverentwicklung & Script/Fahrzeug-Änderungen</li>
-                <li>Planung und Koordination neuer Projekte</li>
-                <li>Entscheidung über Beförderungen und Degradierungen</li>
-                <li>Freigabe größerer Änderungen am Server</li>
-            </ul>
-        </div>
-
-        <!-- STELLV. PROJEKTLEITUNG -->
-        <div class="card card-stellv" id="card-stellv">
-            <div class="card-header">
-                <div class="role-badge">⭐ Stellv. Projektleitung</div>
-                <div>
-                    <span class="tag">Highteam</span>
-                    <button class="btn-edit edit-card-btn" style="display:none;" data-card="card-stellv">✏️</button>
-                </div>
-            </div>
-            <div class="member-name" contenteditable="false">GC|Amy — stellv. Projektleitung</div>
-            <ul class="tasks-list" contenteditable="false">
-                <li>Unterstützung der Projektleitung im Tagesgeschäft</li>
-                <li>Überwachung der Administration</li>
-                <li>Unterstützung bei schwierigen Teamfällen</li>
-                <li>Kontrolle der Supportqualität & Ticketbearbeitung</li>
-                <li>Vermittlung bei teaminternen Konflikten</li>
-                <li>Vertretung der Projektleitung bei Abwesenheit</li>
-                <li>Ansprechpartner für Administration und Support</li>
-            </ul>
-        </div>
-
-        <!-- ADMINISTRATION -->
-        <div class="card card-admin" id="card-admin">
-            <div class="card-header">
-                <div class="role-badge">⚖️ Administration</div>
-                <div>
-                    <span class="tag">Highteam</span>
-                    <button class="btn-edit edit-card-btn" style="display:none;" data-card="card-admin">✏️</button>
-                </div>
-            </div>
-            <div class="member-name" contenteditable="false">GC|Russo — Administration</div>
-            <ul class="tasks-list" contenteditable="false">
-                <li>Bearbeitung schwieriger Fälle & Beschwerden</li>
-                <li>Unterstützung des Support-Teams</li>
-                <li>Prüfung von Regelverstößen</li>
-                <li>Administrative Maßnahmen & Einreiseprobleme</li>
-            </ul>
-        </div>
-
-        <!-- TEAMLEITUNG -->
-        <div class="card card-tl" id="card-tl">
-            <div class="card-header">
-                <div class="role-badge">🛡️ Teamleitung & Admin</div>
-                <div>
-                    <span class="tag">Management</span>
-                    <button class="btn-edit edit-card-btn" style="display:none;" data-card="card-tl">✏️</button>
-                </div>
-            </div>
-            <div class="member-name" contenteditable="false">GC|Kleinchen — Teamleitung & Admin</div>
-            <ul class="tasks-list" contenteditable="false">
-                <li>Überwachung des gesamten Teams & Aktivitätskontrolle</li>
-                <li>Einarbeitung & Überwachung von Praktikanten</li>
-                <li>Ansprechpartner für Supporter und Praktikanten</li>
-                <li>Durchführung/Unterstützung bei Teamgesprächen</li>
-            </ul>
-        </div>
-
-        <!-- TECHNIK -->
-        <div class="card card-tech" id="card-tech">
-            <div class="card-header">
-                <div class="role-badge">💻 Technischer Bereich</div>
-                <div>
-                    <span class="tag">Development</span>
-                    <button class="btn-edit edit-card-btn" style="display:none;" data-card="card-tech">✏️</button>
-                </div>
-            </div>
-            <div class="member-name" contenteditable="false">GC|BOB — Script-Unterstützung</div>
-            <ul class="tasks-list" contenteditable="false">
-                <li>Unterstützung bei Scriptarbeiten & Überarbeitung</li>
-                <li>Fehleranalyse und Bug-Reporting</li>
-            </ul>
-        </div>
-
-        <!-- REGELWERK -->
-        <div class="card card-rules" id="card-rules">
-            <div class="card-header">
-                <div class="role-badge">📜 Regelwerk-Management</div>
-                <div>
-                    <span class="tag">Regelwerk</span>
-                    <button class="btn-edit edit-card-btn" style="display:none;" data-card="card-rules">✏️</button>
-                </div>
-            </div>
-            <div class="member-name" contenteditable="false">GC|Vladimir Volkov — Management</div>
-            <ul class="tasks-list" contenteditable="false">
-                <li>Überprüfung und Aktualisierung des Regelwerks</li>
-                <li>Sammeln von Verbesserungsvorschlägen</li>
-            </ul>
-        </div>
-
-        <!-- SUPPORT -->
-        <div class="card card-support" id="card-support">
-            <div class="card-header">
-                <div class="role-badge">🎧 Support</div>
-                <div>
-                    <span class="tag">Support</span>
-                    <button class="btn-edit edit-card-btn" style="display:none;" data-card="card-support">✏️</button>
-                </div>
-            </div>
-            <div class="member-name" contenteditable="false">GC|Jan Schmahn — Support</div>
-            <ul class="tasks-list" contenteditable="false">
-                <li>Erster Ansprechpartner für die Community</li>
-                <li>Bearbeitung von Supporttickets & Spielerfragen</li>
-            </ul>
-        </div>
-
-        <!-- PRAKTIKANTEN -->
-        <div class="card card-praktikant" id="card-praktikant">
-            <div class="card-header">
-                <div class="role-badge">🎓 Praktikanten</div>
-                <div>
-                    <span class="tag">Ausbildung</span>
-                    <button class="btn-edit edit-card-btn" style="display:none;" data-card="card-praktikant">✏️</button>
-                </div>
-            </div>
-            <div class="member-name" contenteditable="false">GC|BOB, GC|Latrell, GC|Wolfi, GC|Tuncay</div>
-            <ul class="tasks-list" contenteditable="false">
-                <li>Einarbeitung & Lernen der Serverregeln</li>
-                <li>Teilnahme am Support & Begleitung erfahrener Supporter</li>
-            </ul>
-        </div>
+    <div id="print-summary">
+        <div>Gesamtsumme: <span id="print-total">0,00 €</span></div>
+        <div id="print-discount-line" style="font-size: 1rem; color: #555;"></div>
     </div>
 
-    <!-- LIVE CHAT & VORSCHLÄGE SECTION -->
-    <div class="container full-width" id="sec-chat" style="margin-top: 25px; display: none;">
-        <div class="card" style="border-color: var(--color-stellv);">
-            <div class="card-header">
-                <div class="role-badge" style="color: var(--color-stellv);">💬 Live Team-Chat</div>
+    <div class="summary-bar">
+        <div class="summary-info">
+            <div class="summary-count"><span id="selected-count">0</span> Teile ausgewählt</div>
+            
+            <div class="discount-selector">
+                <span>Rabatt:</span>
+                <button class="btn-discount active" id="disc-0" onclick="setDiscount(0)">0%</button>
+                <button class="btn-discount" id="disc-10" onclick="setDiscount(10)">10%</button>
+                <button class="btn-discount" id="disc-30" onclick="setDiscount(30)">30%</button>
             </div>
-            <div class="chat-box" id="chatBox"></div>
-            <div style="display: flex; gap: 8px;">
-                <input type="text" id="chatMsgInput" class="custom-input" style="flex: 1;" placeholder="Nachricht schreiben...">
-                <button class="btn btn-primary" id="btnSendChat">Senden</button>
+
+            <div class="summary-total">
+                Endsumme: <span id="total-price">0,00 €</span>
+                <small class="discount-info" id="discount-saved-info"></small>
             </div>
         </div>
 
-        <div class="card" style="border-color: var(--color-rules);">
-            <div class="card-header">
-                <div class="role-badge" style="color: var(--color-rules);">💡 Vorschläge & Anmerkungen</div>
-            </div>
-            <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-                <input type="text" id="suggestionInput" class="custom-input" style="flex: 1;" placeholder="Vorschlag eingeben...">
-                <button class="btn btn-primary" id="btnSendSuggestion">Absenden</button>
-            </div>
-            <div class="suggestion-list" id="suggestionList"></div>
+        <div class="action-btns">
+            <button class="btn-action" onclick="resetAll()">Zurücksetzen</button>
+            <button class="btn-action btn-print" onclick="window.print()">Rechnung drucken / PDF</button>
         </div>
     </div>
 
     <script>
-        function updateClock() {
-            const now = new Date();
-            document.getElementById("clockTime").textContent = now.toLocaleTimeString('de-DE');
-            document.getElementById("clockDate").textContent = now.toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: 'short' });
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
+        const dataLackierungen = [
+            { name: "Primärfarbe", priceM: 800, priceI: 1000 },
+            { name: "Sekundärfarbe", priceM: 300, priceI: 500 },
+            { name: "Perlmuttfarbe", priceM: 300, priceI: 500 },
+            { name: "Innenraumfarbe", priceM: 100, priceI: 300 },
+            { name: "Armaturenfarbe", priceM: 100, priceI: 300 },
+            { name: "Folierungen", priceM: 800, priceI: 1000 },
+            { name: "Motor I", priceM: 1000, priceI: 1000 },
+            { name: "Motor II", priceM: 1500, priceI: 2000 },
+            { name: "Motor III", priceM: 2500, priceI: 3000 },
+            { name: "Motor IV", priceM: 3500, priceI: 4000 },
+            { name: "Bremsen I", priceM: 200, priceI: 500 },
+            { name: "Bremsen II", priceM: 500, priceI: 1000 },
+            { name: "Bremsen III", priceM: 1000, priceI: 1500 },
+            { name: "Panzerung 20%", priceM: 300, priceI: 1000 },
+            { name: "Panzerung 40%", priceM: 800, priceI: 1400 },
+            { name: "Panzerung 60%", priceM: 1100, priceI: 1600 },
+            { name: "Panzerung 80%", priceM: 1500, priceI: 2200 },
+            { name: "Panzerung 100%", priceM: 1800, priceI: 2500 },
+            { name: "Getriebe I", priceM: 500, priceI: 900 },
+            { name: "Getriebe II", priceM: 800, priceI: 1300 },
+            { name: "Getriebe III", priceM: 1000, priceI: 1500 },
+            { name: "Fahrwerk I", priceM: 100, priceI: 200 },
+            { name: "Fahrwerk II", priceM: 200, priceI: 400 },
+            { name: "Fahrwerk III", priceM: 400, priceI: 800 },
+            { name: "Fahrwerk IV", priceM: 700, priceI: 1000 },
+            { name: "Turbo", priceM: 2500, priceI: 3000 }
+        ];
 
-        const btnToggleMenu = document.getElementById("btnToggleMenu");
-        const dropdownMenu = document.getElementById("dropdownMenu");
-        if(btnToggleMenu) {
-            btnToggleMenu.addEventListener("click", (e) => {
-                e.stopPropagation();
-                dropdownMenu.classList.toggle("show");
-            });
-        }
-        document.addEventListener("click", () => dropdownMenu.classList.remove("show"));
-        dropdownMenu.addEventListener("click", (e) => e.stopPropagation());
+        const dataAnbauteile = [
+            { name: "Scheibentönung 10%", priceM: 50, priceI: 100 },
+            { name: "Scheibentönung 50%", priceM: 100, priceI: 200 },
+            { name: "Scheibentönung 60%", priceM: 200, priceI: 300 },
+            { name: "Scheibentönung 80%", priceM: 300, priceI: 400 },
+            { name: "Scheibentönung 100%", priceM: 400, priceI: 500 },
+            { name: "Xenon Lichter", priceM: 500, priceI: 1000 },
+            { name: "Xenon Farbe", priceM: 100, priceI: 500 },
+            { name: "Hupe", priceM: 1000, priceI: 1500 },
+            { name: "Neon-Seite", priceM: 100, priceI: 200 },
+            { name: "Neon-Heck", priceM: 100, priceI: 200 },
+            { name: "Neon-Front", priceM: 100, priceI: 200 },
+            { name: "Neon-Front-Heck", priceM: 200, priceI: 400 },
+            { name: "Neon-Front-Seiten", priceM: 200, priceI: 400 },
+            { name: "Neon-Seiten-Heck", priceM: 200, priceI: 400 },
+            { name: "Alle 4 Neons", priceM: 1000, priceI: 1400 },
+            { name: "Neon-Farbe", priceM: 300, priceI: 500 },
+            { name: "Felgentyp", priceM: 1000, priceI: 1200 },
+            { name: "Felgenfarbe", priceM: 300, priceI: 500 },
+            { name: "Reifendesign", priceM: 300, priceI: 500 },
+            { name: "Reifen Verbesserung", priceM: 800, priceI: 1000 },
+            { name: "Reifenrauch", priceM: 800, priceI: 1000 },
+            { name: "Sturz", priceM: 300, priceI: 500 },
+            { name: "Spurverbreiterung", priceM: 300, priceI: 500 },
+            { name: "Fulltuning Motor", priceM: 10500, priceI: 13500 }
+        ];
 
-        const colorPickers = {
-            '--color-pl': 'pick-pl',
-            '--color-stellv': 'pick-stellv',
-            '--color-admin': 'pick-admin',
-            '--color-tl': 'pick-tl',
-            '--color-tech': 'pick-tech',
-            '--color-rules': 'pick-rules',
-            '--color-support': 'pick-support',
-            '--color-praktikant': 'pick-praktikant',
-            '--bg-color': 'pick-bg'
-        };
+        let currentClass = 'mittel';
+        let currentDiscount = 0;
 
-        Object.keys(colorPickers).forEach(varName => {
-            const picker = document.getElementById(colorPickers[varName]);
-            if(picker) {
-                const savedColor = localStorage.getItem(varName);
-                if(savedColor) {
-                    document.documentElement.style.setProperty(varName, savedColor);
-                    picker.value = savedColor;
-                }
-                picker.addEventListener('input', (e) => {
-                    const colorVal = e.target.value;
-                    document.documentElement.style.setProperty(varName, colorVal);
-                    localStorage.setItem(varName, colorVal);
-                });
-            }
-        });
-    </script>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, onSnapshot, setDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyAybMLYFKySc0j5QgQMXuwRWir5F2im0QY",
-            authDomain: "grande-city.firebaseapp.com",
-            projectId: "grande-city",
-            storageBucket: "grande-city.firebasestorage.app",
-            messagingSenderId: "1019115646964",
-            appId: "1:1019115646964:web:3a03427356238eadd013a1"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        const usersRef = doc(db, "teamstructure", "users");
-        const cardsRef = doc(db, "teamstructure", "cards");
-        const chatRef = doc(db, "teamstructure", "chat");
-        const suggestionsRef = doc(db, "teamstructure", "suggestions");
-
-        let registeredUsers = {};
-        let currentUser = null;
-
-        const primaryAdmins = ["GC|unclJonny", "GC|Amy", "GC|Russo", "GC|Kleinchen"];
-
-        const defaultUsers = {
-            "GC|unclJonny": { pass: "1234", role: "Highteam", canEdit: true, isBlocked: false },
-            "GC|Amy": { pass: "1234", role: "Highteam", canEdit: true, isBlocked: false },
-            "GC|Russo": { pass: "1234", role: "Highteam", canEdit: true, isBlocked: false },
-            "GC|Kleinchen": { pass: "1234", role: "Teamleitung", canEdit: true, isBlocked: false },
-            "GC|BOB": { pass: "1234", role: "Praktikant", canEdit: false, isBlocked: false },
-            "GC|Vladimir Volkov": { pass: "1234", role: "Support", canEdit: false, isBlocked: false },
-            "GC|Jan Schmahn": { pass: "1234", role: "Support", canEdit: false, isBlocked: false },
-            "GC|Latrell": { pass: "1234", role: "Praktikant", canEdit: false, isBlocked: false },
-            "GC|Wolfi": { pass: "1234", role: "Praktikant", canEdit: false, isBlocked: false },
-            
-        };
-
-        /* LIVE SYNC DER KARTEN-INHALTE FÜR ALLE USER (AUCH UNANGEMELDETE) */
-        onSnapshot(cardsRef, (snapshot) => {
-            if (snapshot.exists()) {
-                const cardsData = snapshot.data();
-                Object.keys(cardsData).forEach(cardId => {
-                    const card = document.getElementById(cardId);
-                    if (card) {
-                        const nameEl = card.querySelector(".member-name");
-                        const listEl = card.querySelector(".tasks-list");
-                        if (nameEl && cardsData[cardId].name && !nameEl.isContentEditable) {
-                            nameEl.innerHTML = cardsData[cardId].name;
-                        }
-                        if (listEl && cardsData[cardId].tasks && !listEl.isContentEditable) {
-                            listEl.innerHTML = cardsData[cardId].tasks;
-                        }
-                    }
-                });
-            }
-        });
-
-        /* EDIT CARD & SAVE TO FIREBASE */
-        document.querySelectorAll(".edit-card-btn").forEach(btn => {
-            btn.addEventListener("click", async (e) => {
-                const cardId = e.currentTarget.dataset.card;
-                const card = document.getElementById(cardId);
-                const title = card.querySelector(".member-name");
-                const list = card.querySelector(".tasks-list");
-
-                const isEditing = title.isContentEditable;
-                title.contentEditable = !isEditing;
-                list.contentEditable = !isEditing;
-
-                if (!isEditing) {
-                    e.currentTarget.textContent = "💾 Speichern";
-                    title.focus();
-                } else {
-                    e.currentTarget.textContent = "✏️";
-                    // In Firebase speichern für alle!
-                    await setDoc(cardsRef, {
-                        [cardId]: {
-                            name: title.innerHTML,
-                            tasks: list.innerHTML
-                        }
-                    }, { merge: true });
-                    alert("✅ Änderungen für alle Besucher erfolgreich gespeichert!");
-                }
-            });
-        });
-
-        function populateUserDropdown() {
-            const select = document.getElementById("userSelect");
-            select.innerHTML = '<option value="">-- User auswählen --</option>';
-            
-            Object.keys(registeredUsers).sort().forEach(u => {
-                if(!registeredUsers[u].isBlocked) {
-                    const opt = document.createElement("option");
-                    opt.value = u;
-                    opt.textContent = `${u} (${registeredUsers[u].role})`;
-                    select.appendChild(opt);
-                }
-            });
+        function formatCurrency(val) {
+            return val.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
         }
 
-        function renderUserManagementList() {
-            const listDiv = document.getElementById("userManagementList");
-            listDiv.innerHTML = "";
+        function setClass(cls) {
+            currentClass = cls;
+            document.getElementById('btn-mittel').classList.toggle('active', cls === 'mittel');
+            document.getElementById('btn-import').classList.toggle('active', cls === 'import');
+            renderTables();
+            calculateTotal();
+        }
 
-            Object.keys(registeredUsers).sort().forEach(u => {
-                const userObj = registeredUsers[u];
-                const item = document.createElement("div");
-                item.className = "user-manage-item";
+        function setDiscount(percent) {
+            currentDiscount = percent;
+            document.getElementById('disc-0').classList.toggle('active', percent === 0);
+            document.getElementById('disc-10').classList.toggle('active', percent === 10);
+            document.getElementById('disc-30').classList.toggle('active', percent === 30);
+            calculateTotal();
+        }
 
-                const isMainAdmin = primaryAdmins.includes(u);
-
-                item.innerHTML = `
+        function createRow(item, index, prefix) {
+            const rowId = `${prefix}-${index}`;
+            return `
+                <div class="item-row" id="row-${rowId}" onclick="toggleRow('${rowId}')">
                     <div>
-                        <strong>${u}</strong> <span style="font-size:0.7rem; color:var(--text-muted);">(${userObj.role})</span>
+                        <input type="checkbox" id="chk-${rowId}" onchange="calculateTotal()" onclick="event.stopPropagation()">
                     </div>
-                    <div class="user-manage-actions">
-                        <button class="action-icon-btn toggle-edit-btn" title="Schreibberechtigung toggle" data-user="${u}">
-                            ${userObj.canEdit ? "✏️" : "🔒"}
-                        </button>
-                        ${!isMainAdmin ? `
-                        <button class="action-icon-btn toggle-block-btn" title="Sperren/Entsperren" data-user="${u}">
-                            ${userObj.isBlocked ? "🔴" : "🟢"}
-                        </button>
-                        <button class="action-icon-btn delete-user-btn" title="Löschen" data-user="${u}">
-                            🗑️
-                        </button>` : ''}
-                    </div>
-                `;
-                listDiv.appendChild(item);
+                    <div class="item-name">${item.name}</div>
+                    <div class="price-col ${currentClass === 'mittel' ? 'active-price' : 'inactive-price'}">${formatCurrency(item.priceM)}</div>
+                    <div class="price-col ${currentClass === 'import' ? 'active-price' : 'inactive-price'}">${formatCurrency(item.priceI)}</div>
+                </div>
+            `;
+        }
+
+        function renderTables() {
+            const checkedStates = {};
+            document.querySelectorAll('input[type="checkbox"]').forEach(chk => {
+                checkedStates[chk.id] = chk.checked;
             });
 
-            document.querySelectorAll(".toggle-edit-btn").forEach(btn => {
-                btn.addEventListener("click", async (e) => {
-                    const u = e.currentTarget.dataset.user;
-                    registeredUsers[u].canEdit = !registeredUsers[u].canEdit;
-                    await setDoc(usersRef, registeredUsers, { merge: true });
-                });
-            });
+            document.getElementById('table-lackierungen').innerHTML = dataLackierungen.map((item, idx) => createRow(item, idx, 'lack')).join('');
+            document.getElementById('table-anbauteile').innerHTML = dataAnbauteile.map((item, idx) => createRow(item, idx, 'anbau')).join('');
 
-            document.querySelectorAll(".toggle-block-btn").forEach(btn => {
-                btn.addEventListener("click", async (e) => {
-                    const u = e.currentTarget.dataset.user;
-                    registeredUsers[u].isBlocked = !registeredUsers[u].isBlocked;
-                    await setDoc(usersRef, registeredUsers, { merge: true });
-                });
+            Object.keys(checkedStates).forEach(id => {
+                const chk = document.getElementById(id);
+                if (chk) {
+                    chk.checked = checkedStates[id];
+                    const rowId = id.replace('chk-', '');
+                    const row = document.getElementById(`row-${rowId}`);
+                    if (row) row.classList.toggle('selected', chk.checked);
+                }
             });
+        }
 
-            document.querySelectorAll(".delete-user-btn").forEach(btn => {
-                btn.addEventListener("click", async (e) => {
-                    const u = e.currentTarget.dataset.user;
-                    if(confirm(`User ${u} wirklich löschen?`)) {
-                        delete registeredUsers[u];
-                        await setDoc(usersRef, registeredUsers);
+        function toggleRow(rowId) {
+            const chk = document.getElementById(`chk-${rowId}`);
+            chk.checked = !chk.checked;
+            const row = document.getElementById(`row-${rowId}`);
+            if (row) row.classList.toggle('selected', chk.checked);
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            let baseTotal = 0;
+            let count = 0;
+
+            const processList = (data, prefix) => {
+                data.forEach((item, idx) => {
+                    const chk = document.getElementById(`chk-${prefix}-${idx}`);
+                    const row = document.getElementById(`row-${prefix}-${idx}`);
+                    if (chk && chk.checked) {
+                        count++;
+                        baseTotal += currentClass === 'mittel' ? item.priceM : item.priceI;
+                        if (row) row.classList.add('selected');
+                    } else if (row) {
+                        row.classList.remove('selected');
                     }
                 });
-            });
-        }
+            };
 
-        function applyLoginState(user) {
-            currentUser = user;
-            const userObj = registeredUsers[user];
-            if (!userObj || userObj.isBlocked) {
-                alert("Dieser Account ist gesperrt!");
-                localStorage.removeItem("loggedInUser");
-                location.reload();
-                return;
-            }
+            processList(dataLackierungen, 'lack');
+            processList(dataAnbauteile, 'anbau');
 
-            document.getElementById("loginForm").style.display = "none";
-            document.getElementById("loggedInView").style.display = "flex";
-            document.getElementById("sec-chat").style.display = "grid";
-            document.getElementById("currentUsername").textContent = `${user} (${userObj.role})`;
+            const savedAmount = baseTotal * (currentDiscount / 100);
+            const finalTotal = baseTotal - savedAmount;
 
-            const isCoreAdmin = primaryAdmins.includes(user);
-            if (isCoreAdmin || userObj.canEdit) {
-                document.getElementById("adminUserManagement").style.display = "block";
-                document.querySelectorAll(".edit-card-btn").forEach(b => b.style.display = "inline-block");
+            const formattedFinal = formatCurrency(finalTotal);
+            document.getElementById('total-price').innerText = formattedFinal;
+            document.getElementById('print-total').innerText = formattedFinal;
+            document.getElementById('selected-count').innerText = count;
+
+            const discountInfoEl = document.getElementById('discount-saved-info');
+            const printDiscountEl = document.getElementById('print-discount-line');
+
+            if (currentDiscount > 0 && baseTotal > 0) {
+                discountInfoEl.innerText = `(${currentDiscount}% Rabatt gewährt - Ersparnis: ${formatCurrency(savedAmount)})`;
+                printDiscountEl.innerText = `Inkl. ${currentDiscount}% Rabatt (Ersparnis: ${formatCurrency(savedAmount)})`;
             } else {
-                document.getElementById("adminUserManagement").style.display = "none";
-                document.querySelectorAll(".edit-card-btn").forEach(b => b.style.display = "none");
+                discountInfoEl.innerText = '';
+                printDiscountEl.innerText = '';
             }
         }
 
-        onSnapshot(usersRef, (snapshot) => {
-            let existingUsers = snapshot.exists() ? snapshot.data() : {};
-            let needsUpdate = false;
+        function resetAll() {
+            document.querySelectorAll('input[type="checkbox"]').forEach(chk => chk.checked = false);
+            document.querySelectorAll('.item-row').forEach(row => row.classList.remove('selected'));
+            setDiscount(0);
+            calculateTotal();
+        }
 
-            Object.keys(defaultUsers).forEach(username => {
-                if (!existingUsers[username]) {
-                    existingUsers[username] = defaultUsers[username];
-                    needsUpdate = true;
-                } else {
-                    if (existingUsers[username].canEdit === undefined) existingUsers[username].canEdit = defaultUsers[username].canEdit;
-                    if (existingUsers[username].isBlocked === undefined) existingUsers[username].isBlocked = false;
-                }
-            });
-
-            if (needsUpdate || !snapshot.exists()) {
-                setDoc(usersRef, existingUsers, { merge: true });
-            }
-
-            registeredUsers = existingUsers;
-            populateUserDropdown();
-            renderUserManagementList();
-
-            const savedUser = localStorage.getItem("loggedInUser");
-            if (savedUser && registeredUsers[savedUser]) {
-                applyLoginState(savedUser);
-            }
-        });
-
-        document.getElementById("btnCreateUser").addEventListener("click", async () => {
-            const name = document.getElementById("newUsername").value.trim();
-            const pass = document.getElementById("newUserPass").value.trim();
-            const role = document.getElementById("newUserRole").value;
-
-            if(!name || !pass) return alert("Bitte Name und Passwort eingeben!");
-
-            registeredUsers[name] = { pass: pass, role: role, canEdit: false, isBlocked: false };
-            await setDoc(usersRef, registeredUsers, { merge: true });
-            alert(`✅ User ${name} erfolgreich als ${role} erstellt!`);
-            document.getElementById("newUsername").value = "";
-            document.getElementById("newUserPass").value = "";
-        });
-
-        document.getElementById("btnLogin").addEventListener("click", () => {
-            const user = document.getElementById("userSelect").value;
-            const pass = document.getElementById("passwordInput").value;
-
-            if (!user || !registeredUsers[user]) return alert("Bitte wähle deinen Namen aus!");
-
-            if (registeredUsers[user].pass === pass) {
-                localStorage.setItem("loggedInUser", user);
-                applyLoginState(user);
-            } else {
-                alert("Falsches Passwort!");
-            }
-        });
-
-        document.getElementById("btnLogout").addEventListener("click", () => {
-            localStorage.removeItem("loggedInUser");
-            location.reload();
-        });
-
-        onSnapshot(chatRef, (snapshot) => {
-            const chatBox = document.getElementById("chatBox");
-            chatBox.innerHTML = "";
-            const messages = snapshot.exists() ? (snapshot.data().messages || []) : [];
-
-            messages.forEach(m => {
-                const div = document.createElement("div");
-                div.className = "chat-msg";
-                const isManagement = currentUser && (primaryAdmins.includes(currentUser) || registeredUsers[currentUser]?.canEdit);
-                const isOwner = currentUser === m.user;
-
-                div.innerHTML = `<div><strong>${m.user}:</strong> ${m.text}</div>`;
-
-                if (isManagement || isOwner) {
-                    const delBtn = document.createElement("button");
-                    delBtn.className = "btn-delete";
-                    delBtn.textContent = "🗑️";
-                    delBtn.title = "Nachricht löschen";
-                    delBtn.onclick = async () => {
-                        await setDoc(chatRef, { messages: arrayRemove(m) }, { merge: true });
-                    };
-                    div.appendChild(delBtn);
-                }
-                chatBox.appendChild(div);
-            });
-            chatBox.scrollTop = chatBox.scrollHeight;
-        });
-
-        document.getElementById("btnSendChat").addEventListener("click", async () => {
-            const input = document.getElementById("chatMsgInput");
-            if (!input.value.trim() || !currentUser) return;
-            const msg = { id: Date.now(), user: currentUser, text: input.value.trim() };
-            await setDoc(chatRef, { messages: arrayUnion(msg) }, { merge: true });
-            input.value = "";
-        });
-
-        onSnapshot(suggestionsRef, (snapshot) => {
-            const listDiv = document.getElementById("suggestionList");
-            listDiv.innerHTML = "";
-            const list = snapshot.exists() ? (snapshot.data().list || []) : [];
-
-            list.slice().reverse().forEach(s => {
-                const item = document.createElement("div");
-                item.className = "suggestion-item";
-                const isManagement = currentUser && (primaryAdmins.includes(currentUser) || registeredUsers[currentUser]?.canEdit);
-                const isOwner = currentUser === s.user;
-
-                item.innerHTML = `<div><strong>${s.user}:</strong> ${s.text}</div>`;
-
-                if (isManagement || isOwner) {
-                    const delBtn = document.createElement("button");
-                    delBtn.className = "btn-delete";
-                    delBtn.textContent = "🗑️";
-                    delBtn.title = "Vorschlag löschen";
-                    delBtn.onclick = async () => {
-                        await setDoc(suggestionsRef, { list: arrayRemove(s) }, { merge: true });
-                    };
-                    item.appendChild(delBtn);
-                }
-                listDiv.appendChild(item);
-            });
-        });
-
-        document.getElementById("btnSendSuggestion").addEventListener("click", async () => {
-            const input = document.getElementById("suggestionInput");
-            if (!input.value.trim() || !currentUser) return;
-            const sug = { id: Date.now(), user: currentUser, text: input.value.trim() };
-            await setDoc(suggestionsRef, { list: arrayUnion(sug) }, { merge: true });
-            input.value = "";
-            alert("✅ Vorschlag eingereicht!");
-        });
+        renderTables();
     </script>
 </body>
 </html>
