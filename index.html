@@ -277,6 +277,11 @@
             border-color: var(--accent-blue);
         }
 
+        /* Druck-Layout */
+        #print-section {
+            display: none;
+        }
+
         @media print {
             body {
                 background: #fff !important;
@@ -284,83 +289,85 @@
                 padding: 0;
             }
 
-            .header {
-                background: none !important;
-                border: none !important;
-                border-bottom: 2px solid #000 !important;
-                color: #000 !important;
-                box-shadow: none !important;
-            }
-
-            .header h1 {
-                color: #000 !important;
-                text-shadow: none !important;
-            }
-
-            .header p {
-                color: #555 !important;
-            }
-
-            .class-selector, .summary-bar, .category-card:has(input:not(:checked)) {
+            .header, .class-selector, .grid-container, .summary-bar {
                 display: none !important;
             }
 
-            .grid-container {
-                display: block;
+            #print-section {
+                display: block !important;
+                padding: 20px;
             }
 
-            .category-card {
-                border: 1px solid #ccc !important;
+            .print-header {
+                text-align: center;
+                border-bottom: 2px solid #000;
+                padding-bottom: 15px;
                 margin-bottom: 20px;
             }
 
-            .category-title {
-                background: #eee !important;
-                color: #000 !important;
+            .print-header h1 {
+                font-size: 2.2rem;
+                text-transform: uppercase;
+                margin-bottom: 5px;
             }
 
-            .table-header {
-                background: #fafafa !important;
-                color: #333 !important;
-                grid-template-columns: 1fr 120px;
+            .print-header p {
+                font-size: 1rem;
+                color: #444;
             }
 
-            .table-header div:nth-child(1), .table-header div:nth-child(4) {
-                display: none;
+            .print-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 25px;
             }
 
-            .item-row {
-                display: none;
-                grid-template-columns: 1fr 120px;
-                color: #000 !important;
+            .print-table th, .print-table td {
+                border: 1px solid #ccc;
+                padding: 10px 12px;
+                text-align: left;
             }
 
-            .item-row.selected {
-                display: grid !important;
-                background: transparent !important;
+            .print-table th {
+                background-color: #f2f2f2;
+                font-size: 0.9rem;
+                text-transform: uppercase;
             }
 
-            .item-row div:nth-child(1), .item-row div:nth-child(4) {
-                display: none;
-            }
-
-            .price-col.active-price {
-                color: #000 !important;
-            }
-
-            #print-summary {
-                display: block !important;
-                margin-top: 30px;
+            .print-table td.price-cell {
                 text-align: right;
-                font-size: 1.4rem;
-                font-weight: bold;
+                font-family: 'Courier New', Courier, monospace;
+            }
+
+            .print-summary-box {
+                margin-top: 20px;
+                float: right;
+                width: 320px;
                 border-top: 2px solid #000;
                 padding-top: 10px;
             }
-        }
 
-        #print-summary {
-            display: none;
+            .print-summary-row {
+                display: flex;
+                justify-content: space-between;
+                padding: 4px 0;
+                font-size: 1rem;
+            }
+
+            .print-summary-row.total {
+                font-size: 1.3rem;
+                font-weight: bold;
+                border-top: 1px solid #000;
+                margin-top: 6px;
+                padding-top: 8px;
+            }
+
+            .no-items-notice {
+                text-align: center;
+                padding: 20px;
+                font-style: italic;
+                color: #666;
+            }
         }
     </style>
 </head>
@@ -404,9 +411,42 @@
         </div>
     </div>
 
-    <div id="print-summary">
-        <div>Gesamtsumme: <span id="print-total">0,00 €</span></div>
-        <div id="print-discount-line" style="font-size: 1rem; color: #555;"></div>
+    <!-- Rechnungsansicht beim Drucken / PDF Export -->
+    <div id="print-section">
+        <div class="print-header">
+            <h1>OVERTECH</h1>
+            <p>TUNING • PERFORMANCE • WERKSTATT</p>
+            <p style="margin-top: 10px; font-weight: bold;">WERKSTATTRECHNUNG / LEISTUNGSÜBERSICHT</p>
+        </div>
+
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th>Pos.</th>
+                    <th>Teil / Leistung</th>
+                    <th>Fahrzeugklasse</th>
+                    <th style="text-align: right;">Einzelpreis</th>
+                </tr>
+            </thead>
+            <tbody id="print-items-body">
+                <!-- Dynamische Einträge für den Druck -->
+            </tbody>
+        </table>
+
+        <div class="print-summary-box">
+            <div class="print-summary-row">
+                <span>Zwischensumme:</span>
+                <span id="print-base-total">0,00 €</span>
+            </div>
+            <div class="print-summary-row" id="print-discount-row" style="display: none; color: #c0392b;">
+                <span id="print-discount-label">Rabatt (0%):</span>
+                <span id="print-discount-amount">-0,00 €</span>
+            </div>
+            <div class="print-summary-row total">
+                <span>Gesamtsumme:</span>
+                <span id="print-final-total">0,00 €</span>
+            </div>
+        </div>
     </div>
 
     <div class="summary-bar">
@@ -438,7 +478,6 @@
     </div>
 
     <script>
-        // Preise wurden mit dem Faktor 1.5 multipliziert
         const dataLackierungen = [
             { name: "Primärfarbe", priceM: 1200, priceI: 1500 },
             { name: "Sekundärfarbe", priceM: 450, priceI: 750 },
@@ -565,6 +604,7 @@
         function calculateTotal() {
             let baseTotal = 0;
             let count = 0;
+            const selectedItems = [];
 
             const processList = (data, prefix) => {
                 data.forEach((item, idx) => {
@@ -572,7 +612,12 @@
                     const row = document.getElementById(`row-${prefix}-${idx}`);
                     if (chk && chk.checked) {
                         count++;
-                        baseTotal += currentClass === 'mittel' ? item.priceM : item.priceI;
+                        const price = currentClass === 'mittel' ? item.priceM : item.priceI;
+                        baseTotal += price;
+                        selectedItems.push({
+                            name: item.name,
+                            price: price
+                        });
                         if (row) row.classList.add('selected');
                     } else if (row) {
                         row.classList.remove('selected');
@@ -588,19 +633,49 @@
 
             const formattedFinal = formatCurrency(finalTotal);
             document.getElementById('total-price').innerText = formattedFinal;
-            document.getElementById('print-total').innerText = formattedFinal;
             document.getElementById('selected-count').innerText = count;
 
             const discountInfoEl = document.getElementById('discount-saved-info');
-            const printDiscountEl = document.getElementById('print-discount-line');
 
             if (currentDiscount > 0 && baseTotal > 0) {
                 discountInfoEl.innerText = `(${currentDiscount}% Rabatt gewährt - Ersparnis: ${formatCurrency(savedAmount)})`;
-                printDiscountEl.innerText = `Inkl. ${currentDiscount}% Rabatt (Ersparnis: ${formatCurrency(savedAmount)})`;
             } else {
                 discountInfoEl.innerText = '';
-                printDiscountEl.innerText = '';
             }
+
+            // Druckansicht / PDF Generierung aktualisieren
+            updatePrintView(selectedItems, baseTotal, savedAmount, finalTotal);
+        }
+
+        function updatePrintView(items, baseTotal, savedAmount, finalTotal) {
+            const tbody = document.getElementById('print-items-body');
+            const classLabel = currentClass === 'mittel' ? 'Mittelklasse' : 'Import + 500K+';
+
+            if (items.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="no-items-notice">Keine Teile ausgewählt</td></tr>`;
+            } else {
+                tbody.innerHTML = items.map((item, idx) => `
+                    <tr>
+                        <td>${idx + 1}</td>
+                        <td>${item.name}</td>
+                        <td>${classLabel}</td>
+                        <td class="price-cell">${formatCurrency(item.price)}</td>
+                    </tr>
+                `).join('');
+            }
+
+            document.getElementById('print-base-total').innerText = formatCurrency(baseTotal);
+            
+            const discountRow = document.getElementById('print-discount-row');
+            if (currentDiscount > 0 && baseTotal > 0) {
+                discountRow.style.display = 'flex';
+                document.getElementById('print-discount-label').innerText = `Rabatt (${currentDiscount}%):`;
+                document.getElementById('print-discount-amount').innerText = `- ${formatCurrency(savedAmount)}`;
+            } else {
+                discountRow.style.display = 'none';
+            }
+
+            document.getElementById('print-final-total').innerText = formatCurrency(finalTotal);
         }
 
         function resetAll() {
