@@ -197,11 +197,12 @@
         .discount-selector {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             background: #141c2e;
             padding: 6px 12px;
             border-radius: 8px;
             border: 1px solid var(--border-color);
+            flex-wrap: wrap;
         }
 
         .discount-selector span {
@@ -214,7 +215,7 @@
             background: #0b101a;
             color: var(--text-muted);
             border: 1px solid var(--border-color);
-            padding: 6px 12px;
+            padding: 6px 10px;
             font-size: 0.85rem;
             font-weight: bold;
             border-radius: 4px;
@@ -366,7 +367,7 @@
 <body>
 
     <div class="header">
-        <h1>OVERTEACH</h1>
+        <h1>OVERTECH</h1>
         <p>TUNING • PERFORMANCE • WERKSTATT</p>
     </div>
 
@@ -416,7 +417,12 @@
                 <span>Rabatt:</span>
                 <button class="btn-discount active" id="disc-0" onclick="setDiscount(0)">0%</button>
                 <button class="btn-discount" id="disc-10" onclick="setDiscount(10)">10%</button>
+                <button class="btn-discount" id="disc-15" onclick="setDiscount(15)">15%</button>
+                <button class="btn-discount" id="disc-20" onclick="setDiscount(20)">20%</button>
                 <button class="btn-discount" id="disc-30" onclick="setDiscount(30)">30%</button>
+                <button class="btn-discount" id="disc-45" onclick="setDiscount(45)">45%</button>
+                <button class="btn-discount" id="disc-50" onclick="setDiscount(50)">50%</button>
+                <button class="btn-discount" id="disc-70" onclick="setDiscount(70)">70%</button>
             </div>
 
             <div class="summary-total">
@@ -432,60 +438,61 @@
     </div>
 
     <script>
+        // Preise wurden mit dem Faktor 1.5 multipliziert
         const dataLackierungen = [
-            { name: "Primärfarbe", priceM: 800, priceI: 1000 },
-            { name: "Sekundärfarbe", priceM: 300, priceI: 500 },
-            { name: "Perlmuttfarbe", priceM: 300, priceI: 500 },
-            { name: "Innenraumfarbe", priceM: 100, priceI: 300 },
-            { name: "Armaturenfarbe", priceM: 100, priceI: 300 },
-            { name: "Folierungen", priceM: 800, priceI: 1000 },
-            { name: "Motor I", priceM: 1000, priceI: 1000 },
-            { name: "Motor II", priceM: 1500, priceI: 2000 },
-            { name: "Motor III", priceM: 2500, priceI: 3000 },
-            { name: "Motor IV", priceM: 3500, priceI: 4000 },
-            { name: "Bremsen I", priceM: 200, priceI: 500 },
-            { name: "Bremsen II", priceM: 500, priceI: 1000 },
-            { name: "Bremsen III", priceM: 1000, priceI: 1500 },
-            { name: "Panzerung 20%", priceM: 300, priceI: 1000 },
-            { name: "Panzerung 40%", priceM: 800, priceI: 1400 },
-            { name: "Panzerung 60%", priceM: 1100, priceI: 1600 },
-            { name: "Panzerung 80%", priceM: 1500, priceI: 2200 },
-            { name: "Panzerung 100%", priceM: 1800, priceI: 2500 },
-            { name: "Getriebe I", priceM: 500, priceI: 900 },
-            { name: "Getriebe II", priceM: 800, priceI: 1300 },
-            { name: "Getriebe III", priceM: 1000, priceI: 1500 },
-            { name: "Fahrwerk I", priceM: 100, priceI: 200 },
-            { name: "Fahrwerk II", priceM: 200, priceI: 400 },
-            { name: "Fahrwerk III", priceM: 400, priceI: 800 },
-            { name: "Fahrwerk IV", priceM: 700, priceI: 1000 },
-            { name: "Turbo", priceM: 2500, priceI: 3000 }
+            { name: "Primärfarbe", priceM: 1200, priceI: 1500 },
+            { name: "Sekundärfarbe", priceM: 450, priceI: 750 },
+            { name: "Perlmuttfarbe", priceM: 450, priceI: 750 },
+            { name: "Innenraumfarbe", priceM: 150, priceI: 450 },
+            { name: "Armaturenfarbe", priceM: 150, priceI: 450 },
+            { name: "Folierungen", priceM: 1200, priceI: 1500 },
+            { name: "Motor I", priceM: 1500, priceI: 1500 },
+            { name: "Motor II", priceM: 2250, priceI: 3000 },
+            { name: "Motor III", priceM: 3750, priceI: 4500 },
+            { name: "Motor IV", priceM: 5250, priceI: 6000 },
+            { name: "Bremsen I", priceM: 300, priceI: 750 },
+            { name: "Bremsen II", priceM: 750, priceI: 1500 },
+            { name: "Bremsen III", priceM: 1500, priceI: 2250 },
+            { name: "Panzerung 20%", priceM: 450, priceI: 1500 },
+            { name: "Panzerung 40%", priceM: 1200, priceI: 2100 },
+            { name: "Panzerung 60%", priceM: 1650, priceI: 2400 },
+            { name: "Panzerung 80%", priceM: 2250, priceI: 3300 },
+            { name: "Panzerung 100%", priceM: 2700, priceI: 3750 },
+            { name: "Getriebe I", priceM: 750, priceI: 1350 },
+            { name: "Getriebe II", priceM: 1200, priceI: 1950 },
+            { name: "Getriebe III", priceM: 1500, priceI: 2250 },
+            { name: "Fahrwerk I", priceM: 150, priceI: 300 },
+            { name: "Fahrwerk II", priceM: 300, priceI: 600 },
+            { name: "Fahrwerk III", priceM: 600, priceI: 1200 },
+            { name: "Fahrwerk IV", priceM: 1050, priceI: 1500 },
+            { name: "Turbo", priceM: 3750, priceI: 4500 }
         ];
 
         const dataAnbauteile = [
-            { name: "Scheibentönung 10%", priceM: 50, priceI: 100 },
-            { name: "Scheibentönung 50%", priceM: 100, priceI: 200 },
-            { name: "Scheibentönung 60%", priceM: 200, priceI: 300 },
-            { name: "Scheibentönung 80%", priceM: 300, priceI: 400 },
-            { name: "Scheibentönung 100%", priceM: 400, priceI: 500 },
-            { name: "Xenon Lichter", priceM: 500, priceI: 1000 },
-            { name: "Xenon Farbe", priceM: 100, priceI: 500 },
-            { name: "Hupe", priceM: 1000, priceI: 1500 },
-            { name: "Neon-Seite", priceM: 100, priceI: 200 },
-            { name: "Neon-Heck", priceM: 100, priceI: 200 },
-            { name: "Neon-Front", priceM: 100, priceI: 200 },
-            { name: "Neon-Front-Heck", priceM: 200, priceI: 400 },
-            { name: "Neon-Front-Seiten", priceM: 200, priceI: 400 },
-            { name: "Neon-Seiten-Heck", priceM: 200, priceI: 400 },
-            { name: "Alle 4 Neons", priceM: 1000, priceI: 1400 },
-            { name: "Neon-Farbe", priceM: 300, priceI: 500 },
-            { name: "Felgentyp", priceM: 1000, priceI: 1200 },
-            { name: "Felgenfarbe", priceM: 300, priceI: 500 },
-            { name: "Reifendesign", priceM: 300, priceI: 500 },
-            { name: "Reifen Verbesserung", priceM: 800, priceI: 1000 },
-            { name: "Reifenrauch", priceM: 800, priceI: 1000 },
-            { name: "Sturz", priceM: 300, priceI: 500 },
-            { name: "Spurverbreiterung", priceM: 300, priceI: 500 },
-            { name: "Fulltuning Motor", priceM: 10500, priceI: 13500 }
+            { name: "Scheibentönung 10%", priceM: 75, priceI: 150 },
+            { name: "Scheibentönung 50%", priceM: 150, priceI: 300 },
+            { name: "Scheibentönung 60%", priceM: 300, priceI: 450 },
+            { name: "Scheibentönung 80%", priceM: 450, priceI: 600 },
+            { name: "Scheibentönung 100%", priceM: 600, priceI: 750 },
+            { name: "Xenon Lichter", priceM: 750, priceI: 1500 },
+            { name: "Xenon Farbe", priceM: 150, priceI: 750 },
+            { name: "Hupe", priceM: 1500, priceI: 2250 },
+            { name: "Neon-Seite", priceM: 150, priceI: 300 },
+            { name: "Neon-Heck", priceM: 150, priceI: 300 },
+            { name: "Neon-Front", priceM: 150, priceI: 300 },
+            { name: "Neon-Front-Heck", priceM: 300, priceI: 600 },
+            { name: "Neon-Front-Seiten", priceM: 300, priceI: 600 },
+            { name: "Neon-Seiten-Heck", priceM: 300, priceI: 600 },
+            { name: "Alle 4 Neons", priceM: 1500, priceI: 2100 },
+            { name: "Neon-Farbe", priceM: 450, priceI: 750 },
+            { name: "Felgentyp", priceM: 1500, priceI: 1800 },
+            { name: "Felgenfarbe", priceM: 450, priceI: 750 },
+            { name: "Reifendesign", priceM: 450, priceI: 750 },
+            { name: "Reifen Verbesserung", priceM: 1200, priceI: 1500 },
+            { name: "Reifenrauch", priceM: 1200, priceI: 1500 },
+            { name: "Sturz", priceM: 450, priceI: 750 },
+            { name: "Spurverbreiterung", priceM: 450, priceI: 750 },
+            { name: "Fulltuning Motor", priceM: 15750, priceI: 20250 }
         ];
 
         let currentClass = 'mittel';
@@ -505,9 +512,11 @@
 
         function setDiscount(percent) {
             currentDiscount = percent;
-            document.getElementById('disc-0').classList.toggle('active', percent === 0);
-            document.getElementById('disc-10').classList.toggle('active', percent === 10);
-            document.getElementById('disc-30').classList.toggle('active', percent === 30);
+            const discountSteps = [0, 10, 15, 20, 30, 45, 50, 70];
+            discountSteps.forEach(p => {
+                const btn = document.getElementById(`disc-${p}`);
+                if (btn) btn.classList.toggle('active', percent === p);
+            });
             calculateTotal();
         }
 
